@@ -2,342 +2,79 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Recherche dans un tableau</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord - Ma Mini-Grammaire</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<h1>Rechercher un utilisateur</h1>
-<input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Rechercher par nom..">
-<!--
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">Ma Mini-Grammaire</div>
+        <a href="profile.html" style="text-decoration: none; color: inherit;">
+            <div class="user-profile">
+                <span>👤 Mon Profil</span>
+            </div>
+        </a>
+    </nav>
 
-S1
-S3
-S4
-S5
-S6
-S7
-S8
-S9
-S10
-S11
-S12
+    <div class="main-container">
 
+        <!-- Message de bienvenue -->
+        <header class="dashboard-header">
+            <h1>Bienvenue, Apprenant ! 👋</h1>
+            <p>Prêt à perfectionner votre français aujourd'hui ?</p>
+        </header>
 
-Phrase restrictive
-Phrase incomplète
-Emploi de la préposition
-Liaison d'éléments syntaxiques
-Reprise pronominale
-Correspondance des temps de verbes
-Sujet de la phrase principale
-Choix de l'auxiliaire
-Citation
-Choix du déterminant
-Déformation de la phrase
-Orthographe d'usage (U)
-U1
-U2
-U3
-Orthographe d'un mot
-Orthographe d'une locution (ou expression)
-Coquille
-V2
-V3
-V4
-V5
-V6
-Vocabulaire (V)
+        <!-- L'Astuce du jour (Mise en avant) -->
+        <section class="daily-tip-banner">
+            <div class="tip-content">
+                <h3>💡 Astuce du jour</h3>
+                <p id="tip-text">Chargement de l'astuce...</p>
+                <button onclick="newTip()" class="refresh-tip" title="Nouvelle astuce">🔄</button>
+            </div>
+        </section>
 
+        <!-- Grille de navigation (Dashboard) -->
+        <section class="dashboard-grid">
 
+            <!-- Accès Mini-Grammaire -->
+            <a href="table.html" class="dash-card blue">
+                <div class="icon">📖</div>
+                <h2>Mini-Grammaire</h2>
+                <p>Consultez les règles et les erreurs fréquentes.</p>
+            </a>
 
+            <!-- Accès Astuces -->
+            <a href="#astuces" class="dash-card green">
+                <div class="icon">✨</div>
+                <h2>Astuces</h2>
+                <p>Moyens mnémotechniques pour retenir facilement.</p>
+            </a>
 
+            <!-- Accès Quiz -->
+            <a href="#quiz" class="dash-card orange">
+                <div class="icon">📝</div>
+                <h2>Quiz & Exercices</h2>
+                <p>Testez vos connaissances et pratiquez.</p>
+            </a>
 
+            <!-- Accès Suivi Personnel -->
+            <a href="profile.html" class="dash-card purple">
+                <div class="icon">📊</div>
+                <h2>Mon Suivi</h2>
+                <p>Visualisez vos progrès et statistiques.</p>
+            </a>
 
+        </section>
 
--->
+    </div>
 
+    <footer>
+        <p>&copy; 2023 Ma Mini-Grammaire. Bonne étude !</p>
+    </footer>
 
-<table id="infoTable">
-    <thead>
-        <tr>
-            <th> (G)</th>
-            <th>Orthographe grammaticale (G)</th>
-            <th>(P)</th>
-            <th>Ponctuation et typographie (P)</th>
-            <th>(S)</th>
-            <th>Syntaxe (S)</th>
-            <th>(U)</th>
-            <th>Orthographe d'usage (U)</th>
-            <th>(V)</th>
-            <th>Vocabulaire (V)</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>G1</td>
-            <td>Accord dans le groupe nominal</td>
-            <td>P1</td>
-            <td> Virgule</td>
-            <td>S1</td>
-            <td> Phrase négative</td>
-            <td>U1</td>
-            <td>Orthographe d'un mot</td>
-            <td>V1</td>
-            <td>Impropriété lexicale</td>
-        </tr>
-        <tr>
-            <td>G2</td>
-            <td>Accord du pronom</td>
-            <td>P2</td>
-            <td> Ponctuation finale de la phrase</td>
-            <td>S2</td>
-            <td> Phrase restrictive</td>
-            <td>U2</td>
-            <td>Orthographe d'une locution (ou expression)</td>
-            <td>V2</td>
-            <td>Anglicisme</td>
-        </tr>
-        <tr>
-            <td>G3</td>
-            <td>Conjugaison du verbe</td>
-            <td>P3</td>
-            <td> Deux-points</td>
-            <td>S3</td>
-            <td> Phrase incomplète</td>
-            <td>U3</td>
-            <td>Coquille</td>
-            <td>V3</td>
-            <td>Pléonasme ou redondance lexicale</td>
-        </tr>
-        <tr>
-            <td>G4</td>
-            <td>Accord du participe passé</td>
-            <td>P4</td>
-            <td> Point-virgule</td>
-            <td>S4</td>
-            <td> Emploi de la préposition</td>
-            <td>--</td>
-            <td>----</td>
-            <td>V4</td>
-            <td>Vocabulaire répétitif</td>
-        </tr>
-        <tr>
-            <td>G5</td>
-            <td>Homophone</td>
-            <td>P5</td>
-            <td> Guillemets</td>
-            <td>S5</td>
-            <td> Liaison d'éléments syntaxiques</td>
-            <td>--</td>
-            <td>----</td>
-            <td>V5</td>
-            <td>Barbarisme</td>
-        </tr>
-        <tr>
-            <td>G6</td>
-            <td>Mot invariable</td>
-            <td>P6</td>
-            <td> Crochets</td>
-            <td>S6</td>
-            <td> Reprise pronominale</td>
-            <td>--</td>
-            <td>----</td>
-            <td>V6</td>
-            <td>Registre de langue</td>
-        </tr>
-        <tr>
-            <td>--</td>
-            <td>----</td>
-            <td>P7</td>
-            <td> Parenthèses</td>
-            <td>S7</td>
-            <td> Correspondance des temps de verbes</td>
-            <td>--</td>
-            <td>----</td>
-            <td>V7</td>
-            <td>Archaisme</td>
-        </tr>
-        <tr>
-            <td>--</td>
-            <td>----</td>
-            <td>P8</td>
-            <td> Tiret</td>
-            <td>S8</td>
-            <td> Sujet de la phrase principale</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>--</td>
-            <td>----</td>
-            <td>P9</td>
-            <td> Barre oblique</td>
-            <td>S9</td>
-            <td> Choix de l'auxiliaire</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>--</td>
-            <td>----</td>
-            <td>P10</td>
-            <td> Citation</td>
-            <td>S10</td>
-            <td> Citation</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>--</td>
-            <td>----</td>
-            <td>P11</td>
-            <td> Lettre majuscule ou minuscule</td>
-            <td>S11</td>
-            <td> Choix du déterminant</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>--</td>
-            <td>----</td>
-            <td>P12</td>
-            <td> Élision</td>
-            <td>S12</td>
-            <td> Déformation de la phrase</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>--</td>
-            <td>----</td>
-            <td>P13</td>
-            <td> Abréviation</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>--</td>
-            <td>----</td>
-            <td>P14</td>
-            <td> Titre d'ouvrage</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>--</td>
-            <td>----</td>
-            <td>P15</td>
-            <td> Signe en début ou en fin de ligne</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>--</td>
-            <td>----</td>
-            <td>P16</td>
-            <td> Coupure de mot</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>--</td>
-            <td>----</td>
-            <td>P17</td>
-            <td> Trait d'union</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>--</td>
-            <td>----</td>
-            <td>P18</td>
-            <td> Accent tréma ou cédille</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>--</td>
-            <td>----</td>
-            <td>P19</td>
-            <td> Autre erreur</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-            <td>--</td>
-            <td>----</td>
-        </tr>
-
-    </tbody>
-</table>
-<table id="infoTable">
-    <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Dupont</td>
-            <td>Jean</td>
-            <td>jean.dupontemailcom</td>
-        </tr>
-        <tr>
-            <td>Durand</td>
-            <td>Marie</td>
-            <td>marie.durand@email.com</td>
-        </tr>
-        <tr>
-            <td>Martin</td>
-            <td>Pierre</td>
-            <td>pierre.martin@email.com</td>
-        </tr>
-        <tr>
-            <td>Bernard</td>
-            <td>Luc</td>
-            <td>luc.bernard@email.com</td>
-        </tr>
-    </tbody>
-</table>
-
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Ma Mini-Grammaire</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .auth-header h2 {
+            color: var(--blue-accent);
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--blue-accent);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #357abd;
+        }
+
+        .auth-footer {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .auth-footer a {
+            color: var(--blue-accent);
+            text-decoration: none;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Ma Mini-Grammaire</div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <h2>Connexion</h2>
+            <p>Heureux de vous revoir !</p>
+        </div>
+
+        <form action="index.html"> <!-- Redirection temporaire vers index.html -->
+            <div class="form-group">
+                <label for="email">Adresse Email</label>
+                <input type="email" id="email" name="email" required placeholder="exemple@email.com">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" required placeholder="Votre mot de passe">
+            </div>
+
+            <div class="form-group" style="text-align: right;">
+                <a href="forgot-password.html" style="font-size: 0.8rem; color: #7f8c8d;">Mot de passe oublié ?</a>
+            </div>
+
+            <button type="submit" class="btn-primary">Se connecter</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Pas encore de compte ? <a href="register.html">S'inscrire</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Ma Mini-Grammaire. Bonne étude !</p>
+    </footer>
+
+</body>
+</html>
