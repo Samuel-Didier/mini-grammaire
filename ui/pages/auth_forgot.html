@@ -1,0 +1,19 @@
+<div class="auth-container">
+    <div class="auth-header">
+        <h2 class="forgot">Mot de passe oublié ?</h2>
+        <p>Entrez votre email pour recevoir un lien de réinitialisation.</p>
+    </div>
+
+    <form action="/mini-grammaire/login">
+        <div class="form-group">
+            <label for="email">Adresse Email</label>
+            <input type="email" id="email" name="email" required placeholder="exemple@email.com">
+        </div>
+
+        <button type="submit" class="btn-primary forgot">Envoyer le lien</button>
+    </form>
+
+    <div class="auth-footer">
+        <a href="/mini-grammaire/login" style="color: var(--text-color);">← Retour à la connexion</a>
+    </div>
+</div>

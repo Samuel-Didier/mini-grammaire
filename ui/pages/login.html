@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription - Ma Mini-Grammaire</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Connexion - Ma Mini-Grammaire</title>
+    <link rel="stylesheet" href="../../assets/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         .auth-container {
@@ -18,7 +18,7 @@
         }
 
         .auth-header h2 {
-            color: var(--green-accent);
+            color: var(--blue-accent);
             margin-bottom: 1rem;
         }
 
@@ -45,7 +45,7 @@
         .btn-primary {
             width: 100%;
             padding: 12px;
-            background-color: var(--green-accent);
+            background-color: var(--blue-accent);
             color: white;
             border: none;
             border-radius: 6px;
@@ -55,7 +55,7 @@
         }
 
         .btn-primary:hover {
-            background-color: #3acfae;
+            background-color: #357abd;
         }
 
         .auth-footer {
@@ -64,7 +64,7 @@
         }
 
         .auth-footer a {
-            color: var(--green-accent);
+            color: var(--blue-accent);
             text-decoration: none;
         }
 
@@ -81,16 +81,11 @@
 
     <div class="auth-container">
         <div class="auth-header">
-            <h2>Créer un compte</h2>
-            <p>Commencez votre apprentissage dès aujourd'hui !</p>
+            <h2>Connexion</h2>
+            <p>Heureux de vous revoir !</p>
         </div>
 
-        <form action="login.html">
-            <div class="form-group">
-                <label for="name">Nom complet</label>
-                <input type="text" id="name" name="name" required placeholder="Jean Dupont">
-            </div>
-
+        <form action="index.html"> <!-- Redirection temporaire vers index.html -->
             <div class="form-group">
                 <label for="email">Adresse Email</label>
                 <input type="email" id="email" name="email" required placeholder="exemple@email.com">
@@ -98,14 +93,18 @@
 
             <div class="form-group">
                 <label for="password">Mot de passe</label>
-                <input type="password" id="password" name="password" required placeholder="Choisissez un mot de passe">
+                <input type="password" id="password" name="password" required placeholder="Votre mot de passe">
             </div>
 
-            <button type="submit" class="btn-primary">S'inscrire</button>
+            <div class="form-group" style="text-align: right;">
+                <a href="forgot-password.html" style="font-size: 0.8rem; color: #7f8c8d;">Mot de passe oublié ?</a>
+            </div>
+
+            <button type="submit" class="btn-primary">Se connecter</button>
         </form>
 
         <div class="auth-footer">
-            <p>Déjà un compte ? <a href="login.html">Se connecter</a></p>
+            <p>Pas encore de compte ? <a href="register.html">S'inscrire</a></p>
         </div>
     </div>
 

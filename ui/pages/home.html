@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de Bord - Ma Mini-Grammaire</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!--header-->
+
+<div class="main-container">
+
+  <!-- Message de bienvenue -->
+  <header class="dashboard-header">
+    <h1>Bienvenue, Apprenant ! 👋</h1>
+    <p>Prêt à perfectionner votre français aujourd'hui ?</p>
+  </header>
+
+  <!-- L'Astuce du jour (Mise en avant) -->
+  <section class="daily-tip-banner">
+    <div class="tip-content">
+      <h3>💡 Astuce du jour : </h3>
+      <p id="tip-text">Chargement de l'astuce...</p>
+      <button onclick="newTip()" class="refresh-tip" title="Nouvelle astuce">🔄</button>
+    </div>
+  </section>
+
+  <!-- Grille de navigation (Dashboard) -->
+  <section class="dashboard-grid">
+
+    <!-- Accès Mini-Grammaire -->
+    <a href="/mini_grammaire" class="dash-card blue">
+      <div class="icon">📖</div>
+      <h2>Mini-Grammaire</h2>
+      <p>Consultez les règles et les erreurs fréquentes.</p>
+    </a>
+
+    <!-- Accès Astuces -->
+    <a href="/astuces" class="dash-card green">
+      <div class="icon">✨</div>
+      <h2>Astuces</h2>
+      <p>Moyens mnémotechniques pour retenir facilement.</p>
+    </a>
+
+    <!-- Accès Quiz -->
+    <a href="#quiz" class="dash-card orange">
+      <div class="icon">📝</div>
+      <h2>Quiz & Exercices</h2>
+      <p>Testez vos connaissances et pratiquez.</p>
+    </a>
+
+    <!-- Accès Suivi Personnel -->
+    <a href="/profile" class="dash-card purple">
+      <div class="icon">📊</div>
+      <h2>Mon Suivi</h2>
+      <p>Visualisez vos progrès et statistiques.</p>
+    </a>
+
+  </section>
+
+</div>
+
+<footer>
+  <p>&copy; 2023 Ma Mini-Grammaire. Bonne étude !</p>
+</footer>
+
+<script src="../../assets/script.js"></script>
+</body>
+</html>

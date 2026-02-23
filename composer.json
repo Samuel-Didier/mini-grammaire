@@ -1,5 +1,6 @@
 {
     "require": {
-        "bcosca/fatfree": "^3.9"
+        "bcosca/fatfree": "^3.9",
+        "vlucas/phpdotenv": "5.6"
     }
 }
