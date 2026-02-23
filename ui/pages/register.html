@@ -3,115 +3,357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription - Ma Mini-Grammaire</title>
-    <link rel="stylesheet" href="../../assets/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Inscription - TheProperty</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
-        .auth-container {
-            max-width: 400px;
-            margin: 50px auto;
-            background: white;
-            padding: 2rem;
+        /* Les variables de votre thème sont réintégrées ici */
+        :root {
+            --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            --heading-font: "Raleway", sans-serif;
+            --background-color: #ffffff; /* Couleur de fond par défaut */
+            --default-color: #323b3b; /* Couleur de texte par défaut */
+            --heading-color: #163535; /* Couleur des titres */
+            --accent-color: #2c7a7b; /* Couleur d'accent (bleu-vert) */
+            --surface-color: #ffffff; /* Couleur de surface pour les boîtes */
+            --contrast-color: #ffffff; /* Couleur du texte sur les accents */
+        }
+
+        body {
+            /* Utilise une couleur de fond légère ou le background par défaut */
+            background-color: var(--background-color);
+            color: var(--default-color);
+            font-family: var(--default-font);
+        }
+
+        .register-container {
+            max-width: 450px;
+            margin-top: 50px;
+            padding: 40px;
             border-radius: 12px;
-            box-shadow: var(--shadow);
-            text-align: center;
+            /* Utilisation d'une ombre douce et du surface-color */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            background-color: var(--surface-color);
         }
 
-        .auth-header h2 {
-            color: var(--green-accent);
-            margin-bottom: 1rem;
+        h2 {
+            color: var(--heading-color);
+            font-family: var(--heading-font);
+            font-weight: 700;
         }
 
-        .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--text-color);
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .btn-primary {
-            width: 100%;
+        /* Adaptation du style des inputs pour le thème TheProperty */
+        .form-control {
+            color: var(--default-color);
+            background-color: var(--surface-color);
+            /* Utilisation des couleurs de bordure de votre CSS */
+            border-color: color-mix(in srgb, var(--default-color), transparent 80%);
+            border-radius: 8px; /* Bordures légèrement arrondies */
             padding: 12px;
-            background-color: var(--green-accent);
-            color: white;
-            border: none;
-            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .form-control:focus {
+            /* Bordure d'accent à la mise au point */
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--accent-color), transparent 75%);
+        }
+
+        .form-control::placeholder {
+            color: color-mix(in srgb, var(--default-color), transparent 70%);
+        }
+
+        /* Style du bouton d'inscription pour utiliser l'accent color */
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--contrast-color);
             font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: 0.3s;
         }
 
         .btn-primary:hover {
-            background-color: #3acfae;
+            /* Assombrir légèrement au survol comme dans votre CSS */
+            background-color: color-mix(in srgb, var(--accent-color), black 10%);
+            border-color: color-mix(in srgb, var(--accent-color), black 10%);
         }
 
-        .auth-footer {
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        .auth-footer a {
-            color: var(--green-accent);
+        a {
+            color: var(--accent-color);
             text-decoration: none;
+            transition: 0.3s;
         }
 
-        .auth-footer a:hover {
-            text-decoration: underline;
+        a:hover {
+            color: color-mix(in srgb, var(--accent-color), transparent 25%);
+        }
+
+        /* Styles pour la validation du mot de passe */
+        .password-wrapper {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--default-color);
+            opacity: 0.6;
+            z-index: 10;
+        }
+        .toggle-password:hover {
+            opacity: 1;
+        }
+        .password-strength {
+            height: 4px;
+            margin-top: 8px;
+            border-radius: 2px;
+            transition: all 0.3s;
+            width: 0%;
+        }
+        .strength-weak { width: 33%; background-color: #dc3545; }
+        .strength-medium { width: 66%; background-color: #ffc107; }
+        .strength-strong { width: 100%; background-color: #28a745; }
+
+        .validation-message {
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+        .text-success { color: #28a745 !important; }
+        .text-danger { color: #dc3545 !important; }
+
+        /* Styles pour les critères de mot de passe */
+        .password-criteria {
+            font-size: 0.8rem;
+            margin-top: 8px;
+            padding-left: 0;
+            list-style: none;
+        }
+        .password-criteria li {
+            margin-bottom: 2px;
+            color: #6c757d;
+            transition: color 0.3s;
+        }
+        .password-criteria li i {
+            margin-right: 5px;
+            font-size: 0.7rem;
+        }
+        .password-criteria li.valid {
+            color: #28a745;
+        }
+        .password-criteria li.invalid {
+            color: #dc3545;
         }
     </style>
 </head>
 <body>
+<main class="main">
+    <section id="hero" class="hero section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 register-container">
+                    <h2 class="text-center mb-4">Créer un Compte</h2>
+                    <form method="post" action="{{ @BASE }}/register" autocomplete="off">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                   placeholder="Entrez votre nom" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name2" class="form-label">Pénom</label>
+                            <input type="text" class="form-control" id="name2" name="name2"
+                                   placeholder="Entrez votre nom d'utilisateur" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Nom d'utilisateur</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                   placeholder="Entrez votre nom d'utilisateur" required>
+                        </div>
 
-    <nav class="navbar">
-        <div class="logo">Ma Mini-Grammaire</div>
-    </nav>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Adresse Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="nom@exemple.com" required>
+                        </div>
 
-    <div class="auth-container">
-        <div class="auth-header">
-            <h2>Créer un compte</h2>
-            <p>Commencez votre apprentissage dès aujourd'hui !</p>
+                        <div class="mb-3">
+                            <label for="tel" class="form-label">Téléphone</label>
+                            <input type="tel" class="form-control" id="tel" name="tel" placeholder="xxx-xxx-xxx" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Je suis</label>
+                            <select class="form-control" id="role" name="role" required>
+                                <option value="locataire">Locataire (Je cherche un logement)</option>
+                                <option value="proprietaire">Propriétaire (Je propose un logement)</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <div class="password-wrapper">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Minimum 8 caractères" required>
+                                <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('password', this)"></i>
+                            </div>
+                            <div class="password-strength" id="password-strength-bar"></div>
+
+                            <!-- Liste des critères de mot de passe -->
+                            <ul class="password-criteria" id="password-criteria">
+                                <li id="crit-length"><i class="fas fa-circle"></i> Au moins 8 caractères</li>
+                                <li id="crit-uppercase"><i class="fas fa-circle"></i> Une majuscule</li>
+                                <li id="crit-lowercase"><i class="fas fa-circle"></i> Une minuscule</li>
+                                <li id="crit-number"><i class="fas fa-circle"></i> Un chiffre</li>
+                                <li id="crit-special"><i class="fas fa-circle"></i> Un caractère spécial</li>
+                            </ul>
+
+                            <check if="{{ @errors_password }}">
+                                <ul class="mb-3 text-danger">
+                                    <repeat group="{{ @errors_password }}" value="{{ @err }}">
+                                        <li>{{ @err }}</li>
+                                    </repeat>
+                                </ul>
+                            </check>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label">Confirmer le Mot de passe</label>
+                            <div class="password-wrapper">
+                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirmez votre mot de passe" required>
+                                <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('confirm_password', this)"></i>
+                            </div>
+                            <div id="confirm-feedback" class="validation-message"></div>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="terms" required>
+                            <label class="form-check-label" for="terms">J'accepte les <a href="{{ @BASE }}/conditions">Conditions Générales</a></label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mt-3">S'inscrire</button>
+                    </form>
+
+                    <p class="text-center mt-4">
+                        Déjà un compte ? <a href="{{ @BASE }}/login">Connectez-vous ici</a>
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <form action="login.html">
-            <div class="form-group">
-                <label for="name">Nom complet</label>
-                <input type="text" id="name" name="name" required placeholder="Jean Dupont">
-            </div>
+    </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 
-            <div class="form-group">
-                <label for="email">Adresse Email</label>
-                <input type="email" id="email" name="email" required placeholder="exemple@email.com">
-            </div>
+<script>
+    function togglePasswordVisibility(inputId, icon) {
+        const input = document.getElementById(inputId);
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
 
-            <div class="form-group">
-                <label for="password">Mot de passe</label>
-                <input type="password" id="password" name="password" required placeholder="Choisissez un mot de passe">
-            </div>
+    document.addEventListener('DOMContentLoaded', function() {
+        const passwordInput = document.getElementById('password');
+        const confirmInput = document.getElementById('confirm_password');
+        const strengthBar = document.getElementById('password-strength-bar');
+        const confirmFeedback = document.getElementById('confirm-feedback');
 
-            <button type="submit" class="btn-primary">S'inscrire</button>
-        </form>
+        // Éléments de critères
+        const critLength = document.getElementById('crit-length');
+        const critUppercase = document.getElementById('crit-uppercase');
+        const critLowercase = document.getElementById('crit-lowercase');
+        const critNumber = document.getElementById('crit-number');
+        const critSpecial = document.getElementById('crit-special');
 
-        <div class="auth-footer">
-            <p>Déjà un compte ? <a href="login.html">Se connecter</a></p>
-        </div>
-    </div>
+        function updateCriteria(element, isValid) {
+            const icon = element.querySelector('i');
+            if (isValid) {
+                element.classList.remove('invalid');
+                element.classList.add('valid');
+                icon.classList.remove('fa-circle', 'fa-times-circle');
+                icon.classList.add('fa-check-circle');
+            } else {
+                element.classList.remove('valid');
+                // On ne met 'invalid' que si l'utilisateur a commencé à taper
+                if (passwordInput.value.length > 0) {
+                    element.classList.add('invalid');
+                    icon.classList.remove('fa-circle', 'fa-check-circle');
+                    icon.classList.add('fa-times-circle');
+                } else {
+                    element.classList.remove('invalid');
+                    icon.classList.remove('fa-check-circle', 'fa-times-circle');
+                    icon.classList.add('fa-circle');
+                }
+            }
+        }
 
-    <footer>
-        <p>&copy; 2023 Ma Mini-Grammaire. Bonne étude !</p>
-    </footer>
+        passwordInput.addEventListener('input', function() {
+            const val = passwordInput.value;
+            let strength = 0;
 
+            // Vérification des critères
+            const hasLength = val.length >= 8;
+            const hasUppercase = /[A-Z]/.test(val);
+            const hasLowercase = /[a-z]/.test(val);
+            const hasNumber = /\d/.test(val);
+            const hasSpecial = /[^a-zA-Z\d]/.test(val);
+
+            updateCriteria(critLength, hasLength);
+            updateCriteria(critUppercase, hasUppercase);
+            updateCriteria(critLowercase, hasLowercase);
+            updateCriteria(critNumber, hasNumber);
+            updateCriteria(critSpecial, hasSpecial);
+
+            // Calcul de la force pour la barre
+            if (hasLength) strength++;
+            if (hasUppercase) strength++;
+            if (hasLowercase) strength++;
+            if (hasNumber) strength++;
+            if (hasSpecial) strength++;
+
+            // Mise à jour de la barre
+            strengthBar.className = 'password-strength';
+            if (val.length > 0) {
+                if (strength <= 2) strengthBar.classList.add('strength-weak');
+                else if (strength <= 4) strengthBar.classList.add('strength-medium');
+                else strengthBar.classList.add('strength-strong');
+            }
+
+            validateMatch();
+        });
+
+        confirmInput.addEventListener('input', validateMatch);
+
+        function validateMatch() {
+            if (confirmInput.value.length > 0) {
+                confirmFeedback.style.display = 'block';
+                if (passwordInput.value === confirmInput.value) {
+                    confirmFeedback.textContent = 'Les mots de passe correspondent.';
+                    confirmFeedback.className = 'validation-message text-success';
+                    confirmInput.style.borderColor = '#28a745';
+                } else {
+                    confirmFeedback.textContent = 'Les mots de passe ne correspondent pas.';
+                    confirmFeedback.className = 'validation-message text-danger';
+                    confirmInput.style.borderColor = '#dc3545';
+                }
+            } else {
+                confirmFeedback.style.display = 'none';
+                confirmInput.style.borderColor = '';
+            }
+        }
+    });
+</script>
 </body>
 </html>

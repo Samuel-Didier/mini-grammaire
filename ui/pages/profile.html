@@ -112,15 +112,24 @@
 
 <div class="main-container">
 
-    <a href="index.html" class="back-link"><span>←</span> Retour au tableau de bord</a>
+    <a href="/" class="back-link"><span>←</span> Retour au tableau de bord</a>
 
     <div class="profile-container">
         <div class="profile-header">
-            <div class="avatar">JD</div>
+            <div class="avatar">{{ @user }}</div>
+<!--            <div class="avatar">J555D</div>-->
             <div class="user-info">
-                <h2>Jean Dupont</h2>
-                <p>jean.dupont@email.com</p>
-                <p style="font-size: 0.8rem; color: #aaa;">Membre depuis le 12 Octobre 2023</p>
+                <check if="{{ isset(@client) && @client }}">
+                    <true>
+                        <h2>{{ @client.nom ?: @user }} {{ @client.prenom }} {{ @user }}</h2>
+                        <p>{{ @client.email }}</p>
+                        <p style="font-size: 0.8rem; color: #aaa;">Membre depuis {{ @client.create_at }}</p>
+                    </true>
+                    <false>
+                        <li style="color:red;">Données du profil indisponibles.</li>
+                    </false>
+                </check>
+
             </div>
         </div>
 
@@ -146,7 +155,7 @@
 
         <div class="action-buttons">
             <a href="#" class="btn btn-edit">Modifier mes infos</a>
-            <a href="login.html" class="btn btn-logout">Se déconnecter</a>
+            <a href="/logout" class="btn btn-logout">Se déconnecter</a>
         </div>
     </div>
 

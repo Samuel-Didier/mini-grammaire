@@ -2,7 +2,7 @@
 namespace App\Controllers;
 use App\Models\User;
 class Auth {
-    public function login($f3)
+    public function login(\Base $f3)
     {
         $errors = [];
         if ($f3->get('VERB') === 'POST') {
@@ -23,7 +23,7 @@ class Auth {
                         // Stockage en session
                         $f3->set('SESSION.user', $user['username']);
                         $f3->set('SESSION.user_id', $user['id']); // Ajout de l'ID en session
-                        $f3->reroute('/profil');
+                        $f3->reroute('/profile');
                         return;
                     } else {
                         $f3->set('error', 'Identifiants invalides');
@@ -36,7 +36,7 @@ class Auth {
                         // Stockage en session
                         $f3->set('SESSION.user', $email['username']);
                         $f3->set('SESSION.user_id', $email['id']); // Ajout de l'ID en session
-                        $f3->reroute('/profil');
+                        $f3->reroute('/profile');
                         return;
                     } else {
                         $f3->set('error', 'Identifiants invalides');
@@ -50,7 +50,7 @@ class Auth {
         $f3->set('errors', $errors);
 
         $tpl = \Template::instance();
-        $content = $tpl->render('pages/conexion.html');
+        $content = $tpl->render('pages/login.html');
         $f3->set('title', 'Login');
         $f3->set('content', $content);
         echo $tpl->render('layout.html');
@@ -59,7 +59,7 @@ class Auth {
         $f3->clear('SESSION');
         $f3->reroute('/');
     }
-    public function usersI(\Base $f3)
+    public function register(\Base $f3)
     {
         $tpl = \Template::instance();
         $usersModel = new User($f3->get('DB'));
@@ -113,8 +113,7 @@ class Auth {
 
                     $f3->set('SESSION.user', $user['username']);
                     $f3->set('SESSION.user_id', $user['id']); // Ajout de l'ID en session
-                    $f3->reroute('/profil');
-                    var_dump($f3->reroute('/profil'),"\n");
+                    $f3->reroute('/profile');
                     return; // sécurité
                 } catch (\PDOException $e) {
                     $errors[] = 'Erreur DB : ' . $e->getMessage();
@@ -130,7 +129,7 @@ class Auth {
         // --- Données pour la vue ---
         $f3->set('users', $users);
         $f3->set('title', "S'inscrire");
-        $content = $tpl->render('pages/inscription.html');
+        $content = $tpl->render('pages/register.html');
         $f3->set('content', $content);
         echo $tpl->render('layout.html');
     }
@@ -148,7 +147,6 @@ class Auth {
         $data = $userModel->findData($userSession);
 
 
-
         // 3. Préparation des variables pour le template
         $f3->set('user', $userSession);
         $f3->set('client', $data); // On envoie l'objet complet sous le nom 'client'
@@ -161,8 +159,8 @@ class Auth {
 
         // 4. Rendu de la page
         $tpl = \Template::instance();
-        $f3->set('title', 'Mon Profil - Logement Alma');
-        $content = $tpl->render('pages/profil.html');
+        $f3->set('title', 'Mon Profile ');
+        $content = $tpl->render('pages/profile.html');
 
         $f3->set('content', $content);
         echo $tpl->render('layout.html');

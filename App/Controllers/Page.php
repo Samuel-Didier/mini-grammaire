@@ -23,16 +23,29 @@ class Page {
         $f3->set('content', $content);
         echo $tpl->render('layout.html');
     }
-
-    // Page de connexion
-    public function login(\Base $f3)
-    {
+    /**
+     * Affiche la page des conditions d'utilisation.
+     */
+    public function condition(\Base $f3) {
         $tpl = \Template::instance();
-        $content = $tpl->render('pages/auth_login.html');
-        $f3->set('title', 'Connexion');
+
+        $content = $tpl->render('pages/conditions.html');
+
+        $f3->set('title', "Conditions d'utilisation");
         $f3->set('content', $content);
+
         echo $tpl->render('layout.html');
     }
+
+    // Page de connexion
+//    public function login(\Base $f3)
+//    {
+//        $tpl = \Template::instance();
+//        $content = $tpl->render('pages/login.html');
+//        $f3->set('title', 'Connexion');
+//        $f3->set('content', $content);
+//        echo $tpl->render('layout.html');
+//    }
 
     // Page d'inscription
     public function register(\Base $f3)
@@ -58,7 +71,7 @@ class Page {
     public function profile(\Base $f3)
     {
         $tpl = \Template::instance();
-        $content = $tpl->render('pages/user_profile.html');
+        $content = $tpl->render('pages/profile.html');
         $f3->set('title', 'Mon Profil');
         $f3->set('content', $content);
         echo $tpl->render('layout.html');
