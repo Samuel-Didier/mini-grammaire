@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini-Grammaire - Codes de Correction</title>
+
+    <!-- ===================================================
+         POLICE GOOGLE FONTS
+         - Playfair Display : titres (serif élégant)
+         - DM Sans          : texte courant (sans-serif lisible)
+    =================================================== -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+
+        /* ===================================================
+           RESET GLOBAL
+           Supprime marges/paddings par défaut du navigateur
+           et applique box-sizing partout pour des calculs
+           de largeur cohérents.
+        =================================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ===================================================
+           VARIABLES CSS (palette de couleurs et ombres)
+           Chaque catégorie a une couleur principale (sombre)
+           et une couleur légère (fond des badges).
+           --bg      : fond général de la page
+           --ink     : couleur principale du texte et nav
+           --card    : fond blanc des cartes
+           --border  : bordure grise légère
+           --shadow  : ombre portée des cartes
+        =================================================== */
+        :root {
+            --bg:       #f7f4ef;   /* beige doux pour le fond */
+            --ink:      #1a1a2e;   /* bleu très foncé pour le texte */
+            --card:     #ffffff;
+
+            /* Grammaire → vert */
+            --g:        #2d6a4f;
+            --g-light:  #d8f3dc;
+
+            /* Ponctuation → violet */
+            --p:        #7b2d8b;
+            --p-light:  #f3d8f9;
+
+            /* Syntaxe → orange */
+            --s:        #c77c1a;
+            --s-light:  #fdf0d5;
+
+            /* Usage → bleu */
+            --u:        #1a6bb5;
+            --u-light:  #d5e9fd;
+
+            /* Vocabulaire → rouge */
+            --v:        #b5341a;
+            --v-light:  #fdd5d5;
+
+            --border:   #e0dbd0;
+            --shadow:   0 4px 24px rgba(26,26,46,0.08);
+        }
+
+        /* ===================================================
+           BODY
+           Police globale, fond beige, hauteur minimale
+           pour que le footer reste en bas même sur pages courtes.
+        =================================================== */
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+
+        /* ===================================================
+           BARRE DE NAVIGATION
+           Bande sombre en haut avec logo à gauche
+           et profil utilisateur à droite.
+        =================================================== */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2.5rem;
+            background: var(--ink);
+            color: #fff;
+        }
+
+        /* Logo en police serif pour un look éditorial */
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            letter-spacing: 0.02em;
+        }
+
+        /* Profil : semi-transparent, devient opaque au survol */
+        .user-profile {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            cursor: pointer;
+            transition: opacity .2s;
+        }
+        .user-profile:hover { opacity: 1; }
+
+        /* ===================================================
+           CONTENEUR PRINCIPAL
+           Centré, largeur max 1300px, padding confortable.
+        =================================================== */
+        .main-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 2rem 4rem;
+        }
+
+        /* ===================================================
+           LIEN RETOUR (← Tableau de bord)
+           Affiché en grisé, plein au survol.
+        =================================================== */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--ink);
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.55;
+            margin-bottom: 1.5rem;
+            transition: opacity .2s;
+        }
+        .back-link:hover { opacity: 1; }
+
+        /* ===================================================
+           EN-TÊTE DE LA PAGE (titre + sous-titre)
+        =================================================== */
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+        .dashboard-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            line-height: 1.15;
+            margin-bottom: 0.4rem;
+        }
+        .dashboard-header p {
+            font-size: 1rem;
+            opacity: 0.6;
+        }
+
+        /* ===================================================
+           BARRE DE RECHERCHE
+           Positionnement relatif pour placer l'icône SVG
+           en absolu à l'intérieur du champ.
+        =================================================== */
+        .search-wrap {
+            position: relative;
+            margin-bottom: 1.5rem;
+            max-width: 480px;
+        }
+
+        /* Icône loupe positionnée à gauche du champ */
+        .search-wrap svg {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.4;
+            pointer-events: none; /* ne bloque pas les clics sur l'input */
+        }
+
+        /* Champ texte avec padding-left pour laisser place à l'icône */
+        #searchInput {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.8rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            background: var(--card);
+            color: var(--ink);
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        /* Mise en évidence visuelle du focus */
+        #searchInput:focus {
+            border-color: var(--ink);
+            box-shadow: 0 0 0 3px rgba(26,26,46,0.08);
+        }
+
+        /* ===================================================
+           MESSAGE "AUCUN RÉSULTAT"
+           Masqué par défaut, affiché par JS si aucun code
+           ne correspond à la recherche en cours.
+        =================================================== */
+        #noResults {
+            display: none;
+            text-align: center;
+            padding: 2.5rem;
+            opacity: 0.5;
+            font-size: 1rem;
+        }
+
+        /* ===================================================
+           GRILLE DES CATÉGORIES
+           Layout CSS Grid responsive :
+           colonnes de 230px min, s'adapte à la largeur.
+           align-items: start → chaque carte prend sa propre
+           hauteur sans s'étirer pour s'aligner aux voisines.
+        =================================================== */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 1.25rem;
+            align-items: start;
+        }
+
+        /* ===================================================
+           CARTE DE CATÉGORIE
+           Fond blanc, coins arrondis, ombre légère.
+           align-self: start → hauteur auto selon son contenu.
+           Légère élévation au survol via transform + shadow.
+        =================================================== */
+        .category-card {
+            background: var(--card);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            height: auto;
+            align-self: start;
+            transition: transform .2s, box-shadow .2s;
+        }
+        .category-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(26,26,46,0.13);
+        }
+
+        /* ===================================================
+           EN-TÊTE DE CARTE (bandeau coloré)
+           La classe de couleur (g, p, s, u, v) est ajoutée
+           en HTML sur chaque .card-header pour appliquer
+           la bonne couleur de fond.
+        =================================================== */
+        .card-header {
+            padding: 0.9rem 1.1rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #fff;
+        }
+        /* Couleurs de fond selon la catégorie */
+        .card-header.g { background: var(--g); }
+        .card-header.p { background: var(--p); }
+        .card-header.s { background: var(--s); }
+        .card-header.u { background: var(--u); }
+        .card-header.v { background: var(--v); }
+
+        /* Corps de la carte (liste de lignes de codes) */
+        .card-body { padding: 0.4rem 0; }
+
+        /* ===================================================
+           LIGNE DE CODE
+           Une ligne = un code + sa description (cachée par
+           défaut) + flèche indicateur + contrôles d'édition.
+           cursor: pointer → indique la cliquabilité.
+           user-select: none → évite la sélection de texte
+           accidentelle lors des clics rapides.
+        =================================================== */
+        .code-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.55rem 1.1rem;
+            transition: background .15s;
+            cursor: default;
+            user-select: none;
+        }
+        /* Survol : légère teinte bleue */
+        .code-row:hover { background: #f0f5ff; }
+
+        /* ===================================================
+           BADGE DU CODE (ex: "G1", "P3")
+           Petite pastille colorée non rétrécissable.
+        =================================================== */
+        .code-badge {
+            flex-shrink: 0;
+            font-weight: 700;
+            font-size: 0.78rem;
+            padding: 0.18rem 0.55rem;
+            border-radius: 6px;
+            letter-spacing: 0.04em;
+            min-width: 36px;
+            text-align: center;
+        }
+        /* Couleurs des badges selon la catégorie */
+        .badge-g { background: var(--g-light); color: var(--g); }
+        .badge-p { background: var(--p-light); color: var(--p); }
+        .badge-s { background: var(--s-light); color: var(--s); }
+        .badge-u { background: var(--u-light); color: var(--u); }
+        .badge-v { background: var(--v-light); color: var(--v); }
+
+        /* ===================================================
+           DESCRIPTION DU CODE
+           Cachée par défaut (opacity:0, max-width:0).
+           Apparaît en animation fluide quand la ligne est
+           dans l'état .open ou .highlight.
+           white-space: nowrap empêche les sauts de ligne
+           pendant l'animation de largeur.
+        =================================================== */
+        /* Description toujours visible */
+        .code-desc {
+            font-size: 0.88rem;
+            line-height: 1.3;
+            display: inline;
+            opacity: 0.85;
+            flex: 1; /* prend l'espace disponible */
+        }
+
+        /* Flèche cliquable — tourne au clic pour révéler le détail */
+        .code-arrow {
+            margin-left: auto;
+            font-size: 0.65rem;
+            opacity: 0.3;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform .2s, opacity .2s;
+            padding: 0.2rem;
+        }
+        .code-row:hover .code-arrow { opacity: 0.6; }
+
+        /* ===================================================
+           SURBRILLANCE DE RECHERCHE
+           Fond jaune pâle appliqué par JS sur les lignes
+           dont le code ou la description correspond au filtre.
+        =================================================== */
+        .code-row.highlight { background: #fffbe6; }
+
+        /* Ligne masquée : ne correspond pas à la recherche */
+        .code-row.hidden { display: none; }
+
+        /* ===================================================
+           CONTRÔLES D'ÉDITION DU PANNEAU DÉTAIL
+           Le bouton ✏️ est dans le .code-detail.
+           Il apparaît au survol du panneau.
+        =================================================== */
+
+        /* Bouton crayon dans le panneau détail */
+        .detail-edit-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            opacity: 0;               /* invisible par défaut */
+            transition: opacity .2s;
+            padding: 0.1rem 0.3rem;
+            border-radius: 4px;
+            margin-left: 0.4rem;
+        }
+        /* Apparaît au survol du panneau détail */
+        .code-detail:hover .detail-edit-btn { opacity: 0.5; }
+        .detail-edit-btn:hover { opacity: 1 !important; background: #e8e8e8; }
+
+        /* Champ de saisie du détail — caché par défaut */
+        .detail-input {
+            display: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.83rem;
+            border: 1.5px solid #aaa;
+            border-radius: 6px;
+            padding: 0.2rem 0.5rem;
+            outline: none;
+            width: 220px;
+            transition: border-color .2s;
+        }
+        .detail-input:focus { border-color: var(--ink); }
+
+        /* Bouton sauvegarder du détail — caché par défaut */
+        .detail-save-btn {
+            display: none;
+            margin-left: 0.4rem;
+            background: var(--ink);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.78rem;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        /* En mode édition du détail (.editing-detail) :
+           cacher le texte et le crayon, afficher input + sauv. */
+        .code-detail.editing-detail .detail-text     { display: none; }
+        .code-detail.editing-detail .detail-edit-btn  { display: none; }
+        .code-detail.editing-detail .detail-input    { display: inline-block; }
+        .code-detail.editing-detail .detail-save-btn { display: inline-block; }
+
+        /* ===================================================
+           PANNEAU DÉTAIL (affiché au clic sur la flèche)
+           Ligne supplémentaire sous le contenu principal,
+           cachée par défaut, visible avec la classe .expanded
+        =================================================== */
+        .code-detail {
+            display: none;          /* caché par défaut */
+            width: 100%;
+            padding: 0.4rem 1.1rem 0.6rem 3.2rem;
+            font-size: 0.83rem;
+            color: #555;
+            font-style: italic;
+            border-top: 1px dashed #e0dbd0;
+            background: #fafafa;
+        }
+        /* Affiché quand la ligne a la classe .expanded */
+        .code-row.expanded + .code-detail { display: block; }
+
+        /* La flèche tourne quand expanded */
+        .code-row.expanded .code-arrow {
+            transform: rotate(90deg);
+            opacity: 0.7;
+        }
+
+        /* ===================================================
+           PIED DE PAGE
+        =================================================== */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.8rem;
+            opacity: 0.4;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- =====================================================
+     BARRE DE NAVIGATION PRINCIPALE
+     Logo à gauche, lien profil à droite.
+===================================================== -->
+<nav>
+    <div class="logo">Ma Mini-Grammaire</div>
+    <div class="user-profile">👤 Mon Profil</div>
+</nav>
+
+<!-- =====================================================
+     CONTENEUR PRINCIPAL DE LA PAGE
+===================================================== -->
+<div class="main-container">
+
+    <!-- Lien retour vers le tableau de bord -->
+    <a href="index.html" class="back-link"><span>←</span> Retour au tableau de bord</a>
+
+    <!-- Titre et sous-titre de la page -->
+    <header class="dashboard-header">
+        <h1>Codes de Correction 📝</h1>
+        <p>Retrouvez la signification des codes utilisés pour corriger vos textes.</p>
+    </header>
+
+    <!-- =====================================================
+         BARRE DE RECHERCHE
+         oninput → déclenche searchFunction() à chaque frappe.
+         L'icône SVG est inline pour éviter une requête réseau.
+    ===================================================== -->
+    <div class="search-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" id="searchInput"
+               placeholder="Rechercher un code (ex: G1) ou une erreur (ex: Accord)..."
+               oninput="searchFunction()">
+    </div>
+
+    <!-- Message affiché si aucun résultat ne correspond -->
+    <div id="noResults">Aucun résultat trouvé 🔍</div>
+
+    <!-- =====================================================
+         GRILLE DES CATÉGORIES
+         Chaque .category-card représente une catégorie.
+         data-cat = identifiant interne (g, p, s, u, v).
+         Chaque .code-row porte :
+           - data-code : le code (ex "G1") → pour la recherche
+           - data-desc : la description     → pour la recherche et l'édition
+         Structure d'une ligne :
+           badge | description (cachée) | flèche | ✏️ | input | ✓ Sauv.
+    ===================================================== -->
+    <div class="categories-grid" id="grid">
+
+        <!-- ══════════════════════════════
+             CATÉGORIE : GRAMMAIRE (G)
+        ══════════════════════════════ -->
+        <div class="category-card" data-cat="g">
+            <div class="card-header g">Grammaire (G)</div>
+            <div class="card-body">
+
+                <div class="code-row" data-code="G1" data-desc="Accord dans le groupe nominal">
+                    <span class="code-badge badge-g">G1</span>
+                    <span class="code-desc">Accord dans le groupe nominal</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="G2" data-desc="Accord du pronom">
+                    <span class="code-badge badge-g">G2</span>
+                    <span class="code-desc">Accord du pronom</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="G3" data-desc="Conjugaison du verbe">
+                    <span class="code-badge badge-g">G3</span>
+                    <span class="code-desc">Conjugaison du verbe</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="G4" data-desc="Accord participe passé">
+                    <span class="code-badge badge-g">G4</span>
+                    <span class="code-desc">Accord participe passé</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="G5" data-desc="Homophone">
+                    <span class="code-badge badge-g">G5</span>
+                    <span class="code-desc">Homophone</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="G6" data-desc="Mot invariable">
+                    <span class="code-badge badge-g">G6</span>
+                    <span class="code-desc">Mot invariable</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+            </div>
+        </div><!-- /Grammaire -->
+
+        <!-- ══════════════════════════════
+             CATÉGORIE : PONCTUATION (P)
+        ══════════════════════════════ -->
+        <div class="category-card" data-cat="p">
+            <div class="card-header p">Ponctuation (P)</div>
+            <div class="card-body">
+
+                <div class="code-row" data-code="P1" data-desc="Virgule">
+                    <span class="code-badge badge-p">P1</span>
+                    <span class="code-desc">Virgule</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="P2" data-desc="Ponctuation finale">
+                    <span class="code-badge badge-p">P2</span>
+                    <span class="code-desc">Ponctuation finale</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="P3" data-desc="Deux-points">
+                    <span class="code-badge badge-p">P3</span>
+                    <span class="code-desc">Deux-points</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="P4" data-desc="Point-virgule">
+                    <span class="code-badge badge-p">P4</span>
+                    <span class="code-desc">Point-virgule</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="P5" data-desc="Guillemets">
+                    <span class="code-badge badge-p">P5</span>
+                    <span class="code-desc">Guillemets</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="P6" data-desc="Crochets">
+                    <span class="code-badge badge-p">P6</span>
+                    <span class="code-desc">Crochets</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="P7" data-desc="Parenthèses">
+                    <span class="code-badge badge-p">P7</span>
+                    <span class="code-desc">Parenthèses</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="P8" data-desc="Tiret">
+                    <span class="code-badge badge-p">P8</span>
+                    <span class="code-desc">Tiret</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="P9" data-desc="Barre oblique">
+                    <span class="code-badge badge-p">P9</span>
+                    <span class="code-desc">Barre oblique</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="P10" data-desc="Citation">
+                    <span class="code-badge badge-p">P10</span>
+                    <span class="code-desc">Citation</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="P11" data-desc="Majuscule/Minuscule">
+                    <span class="code-badge badge-p">P11</span>
+                    <span class="code-desc">Majuscule / Minuscule</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="P12" data-desc="Élision">
+                    <span class="code-badge badge-p">P12</span>
+                    <span class="code-desc">Élision</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="P13" data-desc="Abréviation">
+                    <span class="code-badge badge-p">P13</span>
+                    <span class="code-desc">Abréviation</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="P14" data-desc="Titre d'ouvrage">
+                    <span class="code-badge badge-p">P14</span>
+                    <span class="code-desc">Titre d'ouvrage</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+            </div>
+        </div><!-- /Ponctuation -->
+
+        <!-- ══════════════════════════════
+             CATÉGORIE : SYNTAXE (S)
+        ══════════════════════════════ -->
+        <div class="category-card" data-cat="s">
+            <div class="card-header s">Syntaxe (S)</div>
+            <div class="card-body">
+
+                <div class="code-row" data-code="S1" data-desc="Phrase négative">
+                    <span class="code-badge badge-s">S1</span>
+                    <span class="code-desc">Phrase négative</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="S2" data-desc="Phrase restrictive">
+                    <span class="code-badge badge-s">S2</span>
+                    <span class="code-desc">Phrase restrictive</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="S3" data-desc="Phrase incomplète">
+                    <span class="code-badge badge-s">S3</span>
+                    <span class="code-desc">Phrase incomplète</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="S4" data-desc="Emploi préposition">
+                    <span class="code-badge badge-s">S4</span>
+                    <span class="code-desc">Emploi préposition</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="S5" data-desc="Liaison syntaxique">
+                    <span class="code-badge badge-s">S5</span>
+                    <span class="code-desc">Liaison syntaxique</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="S6" data-desc="Reprise pronominale">
+                    <span class="code-badge badge-s">S6</span>
+                    <span class="code-desc">Reprise pronominale</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="S7" data-desc="Temps de verbes">
+                    <span class="code-badge badge-s">S7</span>
+                    <span class="code-desc">Temps de verbes</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="S8" data-desc="Sujet phrase principale">
+                    <span class="code-badge badge-s">S8</span>
+                    <span class="code-desc">Sujet phrase principale</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="S9" data-desc="Choix de l'auxiliaire">
+                    <span class="code-badge badge-s">S9</span>
+                    <span class="code-desc">Choix de l'auxiliaire</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="S10" data-desc="Citation">
+                    <span class="code-badge badge-s">S10</span>
+                    <span class="code-desc">Citation</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="S11" data-desc="Choix déterminant">
+                    <span class="code-badge badge-s">S11</span>
+                    <span class="code-desc">Choix déterminant</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="S12" data-desc="Déformation phrase">
+                    <span class="code-badge badge-s">S12</span>
+                    <span class="code-desc">Déformation phrase</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+            </div>
+        </div><!-- /Syntaxe -->
+
+        <!-- ══════════════════════════════
+             CATÉGORIE : USAGE (U)
+        ══════════════════════════════ -->
+        <div class="category-card" data-cat="u">
+            <div class="card-header u">Usage (U)</div>
+            <div class="card-body">
+
+                <div class="code-row" data-code="U1" data-desc="Orthographe d'un mot">
+                    <span class="code-badge badge-u">U1</span>
+                    <span class="code-desc">Orthographe d'un mot</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="U2" data-desc="Orthographe locution">
+                    <span class="code-badge badge-u">U2</span>
+                    <span class="code-desc">Orthographe locution</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="U3" data-desc="Coquille">
+                    <span class="code-badge badge-u">U3</span>
+                    <span class="code-desc">Coquille</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+            </div>
+        </div><!-- /Usage -->
+
+        <!-- ══════════════════════════════
+             CATÉGORIE : VOCABULAIRE (V)
+        ══════════════════════════════ -->
+        <div class="category-card" data-cat="v">
+            <div class="card-header v">Vocabulaire (V)</div>
+            <div class="card-body">
+
+                <div class="code-row" data-code="V1" data-desc="Impropriété lexicale">
+                    <span class="code-badge badge-v">V1</span>
+                    <span class="code-desc">Impropriété lexicale</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="V2" data-desc="Anglicisme">
+                    <span class="code-badge badge-v">V2</span>
+                    <span class="code-desc">Anglicisme</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="V3" data-desc="Pléonasme">
+                    <span class="code-badge badge-v">V3</span>
+                    <span class="code-desc">Pléonasme</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="V4" data-desc="Vocabulaire répétitif">
+                    <span class="code-badge badge-v">V4</span>
+                    <span class="code-desc">Vocabulaire répétitif</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="V5" data-desc="Barbarisme">
+                    <span class="code-badge badge-v">V5</span>
+                    <span class="code-desc">Barbarisme</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="V6" data-desc="Registre de langue">
+                    <span class="code-badge badge-v">V6</span>
+                    <span class="code-desc">Registre de langue</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+                <div class="code-row" data-code="V7" data-desc="Archaïsme">
+                    <span class="code-badge badge-v">V7</span>
+                    <span class="code-desc">Archaïsme</span>
+                    <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
+                </div>
+                <div class="code-detail"><span class="detail-text">📌 Aucun détail ajouté.</span> <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button><input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button></div>
+
+            </div>
+        </div><!-- /Vocabulaire -->
+
+    </div><!-- /categories-grid -->
+</div><!-- /main-container -->
+
+<footer>
+    <p>&copy; 2023 Ma Mini-Grammaire. Bonne étude !</p>
+</footer>
+
+<!-- =====================================================
+     JAVASCRIPT — 3 fonctionnalités :
+       1. Toggle ouverture/fermeture d'une ligne au clic
+       2. Mode édition inline (✏️ → saisie → ✓ sauvegarder)
+       3. Recherche en temps réel sur code et description
+===================================================== -->
+<script>
+
+    /* ─────────────────────────────────────────────────
+   TOGGLE DU PANNEAU DÉTAIL au clic sur la flèche ▶
+   - Stoppe la propagation pour ne pas déclencher
+     d'autres événements sur la ligne parente
+   - Bascule la classe .expanded sur la .code-row
+   - CSS affiche/cache le .code-detail suivant via
+     le sélecteur adjacent : .code-row.expanded + .code-detail
+───────────────────────────────────────────────── */
+    function toggleDetail(e, arrow) {
+        e.stopPropagation();
+        const row = arrow.closest('.code-row');
+        row.classList.toggle('expanded');
+    }
+
+    /* Ouvrir l'édition du panneau détail */
+    function startDetailEdit(e, btn) {
+        e.stopPropagation();
+        const panel    = btn.closest('.code-detail');
+        const textSpan = panel.querySelector('.detail-text');
+        const input    = panel.querySelector('.detail-input');
+        input.value = textSpan.textContent.replace('📌 ', '').trim();
+        panel.classList.add('editing-detail');
+        input.focus();
+        input.select();
+    }
+
+    /* Sauvegarder le contenu du panneau détail */
+    function saveDetail(e, btn) {
+        e.stopPropagation();
+        const panel    = btn.closest('.code-detail');
+        const textSpan = panel.querySelector('.detail-text');
+        const input    = panel.querySelector('.detail-input');
+        const newVal   = input.value.trim();
+        if (newVal) {
+            textSpan.textContent = '📌 ' + newVal;
+        }
+        panel.classList.remove('editing-detail');
+    }
+
+    /* Raccourcis clavier dans le champ détail : Entrée = sauv., Échap = annuler */
+    function handleDetailKey(e, input) {
+        if (e.key === 'Enter') {
+            saveDetail(e, input);
+        } else if (e.key === 'Escape') {
+            e.stopPropagation();
+            input.closest('.code-detail').classList.remove('editing-detail');
+        }
+    }
+
+
+    /* ─────────────────────────────────────────────────
+       2a. DÉMARRER LE MODE ÉDITION — startEdit(e, btn)
+       Appelée quand l'utilisateur clique sur ✏️.
+       Paramètres :
+         e   → l'événement clic (pour stopPropagation)
+         btn → le bouton ✏️ cliqué (pour retrouver la ligne)
+
+       Actions :
+       1. Stoppe la propagation → évite de toggler la ligne
+       2. Récupère la description actuelle du span
+       3. Pré-remplit le champ input avec cette valeur
+       4. Ajoute .editing et .open à la ligne
+          (.editing → CSS cache desc/flèche/crayon, affiche input/sauv.)
+       5. Focus + sélection du texte pour édition rapide
+    ───────────────────────────────────────────────── */
+    function startEdit(e, btn) {
+        e.stopPropagation(); // empêche le clic de toggler la ligne parente
+
+        const row      = btn.closest('.code-row');    // remonter au conteneur parent
+        const descSpan = row.querySelector('.code-desc');
+        const input    = row.querySelector('.code-edit-input');
+
+        // Pré-remplir avec la description actuellement affichée
+        input.value = descSpan.textContent.trim();
+
+        // Activer le mode édition via la classe CSS
+        row.classList.add('editing', 'open');
+
+        // Mettre le curseur dans le champ et tout sélectionner
+        input.focus();
+        input.select();
+    }
+
+
+    /* ─────────────────────────────────────────────────
+       2b. SAUVEGARDER L'ÉDITION — saveEdit(e, btn)
+       Appelée au clic sur "✓ Sauv." ou via Entrée.
+       Paramètres :
+         e   → événement (pour stopPropagation)
+         btn → bouton sauvegarder ou input (pour retrouver la ligne)
+
+       Actions :
+       1. Stoppe la propagation
+       2. Lit et nettoie la nouvelle valeur de l'input
+       3. Si non vide : met à jour le .textContent du span
+          ET l'attribut data-desc (utilisé par la recherche)
+       4. Retire .editing pour quitter le mode édition
+    ───────────────────────────────────────────────── */
+    function saveEdit(e, btn) {
+        e.stopPropagation(); // empêche de toggler la ligne
+
+        const row      = btn.closest('.code-row');
+        const descSpan = row.querySelector('.code-desc');
+        const input    = row.querySelector('.code-edit-input');
+        const newVal   = input.value.trim();
+
+        if (newVal) {
+            descSpan.textContent = newVal; // mise à jour visuelle du span
+            row.dataset.desc     = newVal; // mise à jour pour la recherche JS
+        }
+
+        // Quitter le mode édition (CSS masque input, réaffiche desc/flèche/crayon)
+        row.classList.remove('editing');
+    }
+
+
+    /* ─────────────────────────────────────────────────
+       2c. RACCOURCIS CLAVIER — handleEditKey(e, input)
+       Écoute les touches dans le champ d'édition.
+         Entrée → appelle saveEdit pour sauvegarder
+         Échap  → annule sans modifier (retire juste .editing)
+    ───────────────────────────────────────────────── */
+    function handleEditKey(e, input) {
+        if (e.key === 'Enter') {
+            saveEdit(e, input); // sauvegarder et quitter le mode édition
+        } else if (e.key === 'Escape') {
+            e.stopPropagation();
+            input.closest('.code-row').classList.remove('editing'); // annuler
+        }
+    }
+
+
+    /* ─────────────────────────────────────────────────
+       3. RECHERCHE EN TEMPS RÉEL — searchFunction()
+       Appelée à chaque frappe dans #searchInput (oninput).
+
+       Algorithme :
+       Pour chaque .category-card :
+         Pour chaque .code-row de la carte :
+           - Comparer le filtre avec data-code ET data-desc
+           - Si correspondance → visible + .highlight
+             (CSS ouvre automatiquement la description via .highlight)
+           - Sinon → .hidden (masqué)
+         Si aucune ligne visible dans la carte → masquer la carte
+       Si aucune ligne visible au total → afficher #noResults
+
+       Cas particulier : filtre vide → tout réafficher + fermer
+       les lignes ouvertes (retrait de .open et .highlight).
+    ───────────────────────────────────────────────── */
+    function searchFunction() {
+        const filter = document.getElementById("searchInput").value.toLowerCase().trim();
+        const cards  = document.querySelectorAll(".category-card");
+        let totalVisible = 0;
+
+        cards.forEach(card => {
+            const rows       = card.querySelectorAll(".code-row");
+            // Lire le texte du bandeau titre (ex: "Grammaire (G)")
+            const headerText = card.querySelector(".card-header").textContent.toLowerCase();
+
+            // Si le filtre correspond au titre de la catégorie → afficher TOUTES les lignes
+            const headerMatch = filter !== "" && headerText.includes(filter);
+
+            let cardVisible = 0;
+
+            rows.forEach(row => {
+                const code = row.dataset.code.toLowerCase();
+                const desc = row.dataset.desc.toLowerCase();
+
+                // Match si : filtre vide, header correspond, code correspond, ou desc correspond
+                const match = filter === "" || headerMatch || code.includes(filter) || desc.includes(filter);
+
+                if (match) {
+                    row.classList.remove("hidden");
+
+                    if (filter !== "" && !headerMatch) {
+                        // Surbrillance jaune seulement si c'est code/desc qui a matché
+                        row.classList.add("highlight");
+                    } else {
+                        // Pas de surbrillance si c'est le header ou filtre vide
+                        row.classList.remove("highlight");
+                    }
+
+                    cardVisible++;
+                    totalVisible++;
+                } else {
+                    row.classList.add("hidden");
+                    row.classList.remove("highlight");
+                }
+            });
+
+            card.style.display = cardVisible > 0 ? "" : "none";
+        });
+
+        document.getElementById("noResults").style.display =
+            totalVisible === 0 ? "block" : "none";
+    }
+
+</script>
+
+</body>
+</html>
