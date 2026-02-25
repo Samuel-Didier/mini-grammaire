@@ -138,48 +138,48 @@ function newTip() {
 /* =========================================
    FONCTION : RECHERCHE DANS LE TABLEAU
    ========================================= */
-function searchFunction() {
-    // Déclaration des variables
-    var input, filter, table, tr, td, i, j, txtValue, rowMatch;
-    
-    input = document.getElementById("searchInput");
-    // Si pas d'input de recherche sur cette page, on arrête
-    if (!input) return;
-
-    filter = input.value.toUpperCase();
-    table = document.getElementById("infoTable");
-    tr = table.getElementsByTagName("tr");
-
-    // Boucle à travers toutes les lignes du tableau (sauf l'en-tête)
-    for (i = 0; i < tr.length; i++) {
-        // Récupère toutes les cellules de la ligne
-        td = tr[i].getElementsByTagName("td");
-        
-        // Si la ligne contient des données (n'est pas un en-tête)
-        if (td.length > 0) {
-            rowMatch = false;
-            
-            // Vérifie chaque cellule de la ligne
-            for (j = 0; j < td.length; j++) {
-                if (td[j]) {
-                    txtValue = td[j].textContent || td[j].innerText;
-                    // Si le texte est trouvé dans une des cellules
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        rowMatch = true;
-                        break; // Trouvé ! Pas besoin de vérifier le reste de la ligne
-                    }
-                }
-            }
-            
-            // Affiche ou cache la ligne
-            if (rowMatch) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-        }
-    }
-}
+// function searchFunction() {
+//     // Déclaration des variables
+//     var input, filter, table, tr, td, i, j, txtValue, rowMatch;
+//
+//     input = document.getElementById("searchInput");
+//     // Si pas d'input de recherche sur cette page, on arrête
+//     if (!input) return;
+//
+//     filter = input.value.toUpperCase();
+//     table = document.getElementById("infoTable");
+//     tr = table.getElementsByTagName("tr");
+//
+//     // Boucle à travers toutes les lignes du tableau (sauf l'en-tête)
+//     for (i = 0; i < tr.length; i++) {
+//         // Récupère toutes les cellules de la ligne
+//         td = tr[i].getElementsByTagName("td");
+//
+//         // Si la ligne contient des données (n'est pas un en-tête)
+//         if (td.length > 0) {
+//             rowMatch = false;
+//
+//             // Vérifie chaque cellule de la ligne
+//             for (j = 0; j < td.length; j++) {
+//                 if (td[j]) {
+//                     txtValue = td[j].textContent || td[j].innerText;
+//                     // Si le texte est trouvé dans une des cellules
+//                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
+//                         rowMatch = true;
+//                         break; // Trouvé ! Pas besoin de vérifier le reste de la ligne
+//                     }
+//                 }
+//             }
+//
+//             // Affiche ou cache la ligne
+//             if (rowMatch) {
+//                 tr[i].style.display = "";
+//             } else {
+//                 tr[i].style.display = "none";
+//             }
+//         }
+//     }
+// }
 
 /* =========================================
    INITIALISATION AU CHARGEMENT

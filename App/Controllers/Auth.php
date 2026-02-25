@@ -73,8 +73,6 @@ class Auth {
             $name2 = trim($f3->get('POST.name2'));
             $username = trim((string)$f3->get('POST.username'));
             $email = trim($f3->get('POST.email'));
-            $tel = trim($f3->get('POST.tel'));
-            $role = trim($f3->get('POST.role')); // Récupération du rôle
             $password = trim((string)$f3->get('POST.password'));
             $confirm_password = trim((string)$f3->get('POST.confirm_password'));
 
@@ -105,7 +103,7 @@ class Auth {
 
             if (!$errors && !$errors_password) {
                 try {
-                    $usersModel->register($name,$name2,$hachage,$email,$tel,$username, $role);
+                    $usersModel->register($name,$name2,$hachage,$email,$username);
 
 
 

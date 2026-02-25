@@ -46,15 +46,13 @@ class User extends \DB\SQL\Mapper
         try {
             $this->db->begin();
             $this->db->exec(
-                'INSERT INTO users (nom, prenom, password, email, telephone, username, role) VALUES (:nom, :prenom, :password, :email, :telephone, :username, :role)',
+                'INSERT INTO users (nom, prenom, password, email, username) VALUES (:nom, :prenom, :password, :email, :username)',
                 [
                     ':nom' => $name,
                     ':prenom' => $name2,
                     ':password' => $password,
                     ':email' => $email,
-                    ':telephone' => $tel,
-                    ':username' => $username,
-                    ':role' => $role
+                    ':username' => $username
                 ]
             );
             $id = (int)$this->db->lastInsertId();
