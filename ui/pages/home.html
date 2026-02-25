@@ -15,7 +15,16 @@
 
   <!-- Message de bienvenue -->
   <header class="dashboard-header">
-    <h1>Bienvenue, Apprenant ! 👋</h1>
+
+    <check if="{{ isset(@etudiant) && @etudiant }}">
+
+      <true>
+        <h1>Bienvenue, {{ @etudiant.prenom }} {{ @etudiant.nom ?: @user }}  ! 👋</h1>
+      </true>
+      <false>
+        <h1>Bienvenue ! 👋</h1>
+      </false>
+    </check>
     <p>Prêt à perfectionner votre français aujourd'hui ?</p>
   </header>
 
@@ -39,7 +48,7 @@
     </a>
 
     <!-- Accès Astuces -->
-    <a href="/astuces" class="dash-card green">
+    <a href="/astuces5" class="dash-card green">
       <div class="icon">✨</div>
       <h2>Astuces</h2>
       <p>Moyens mnémotechniques pour retenir facilement.</p>

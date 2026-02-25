@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\User;
+
 class Page {
 //    public function generic(\Base $f3)
 //    {
@@ -18,6 +20,11 @@ class Page {
     public function home(\Base $f3)
     {
         $tpl = \Template::instance();
+        $userModel = new User($f3->get('DB'));
+        $userSession = $f3->get('SESSION.user');
+        $data = $userModel->findData($userSession);
+        $f3->set('etudiant', $data);
+        $f3->set('user', $userSession);
         $content = $tpl->render('pages/home.html');
         $f3->set('title', 'Tableau de Bord');
         $f3->set('content', $content);

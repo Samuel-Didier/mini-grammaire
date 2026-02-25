@@ -6,6 +6,25 @@
     <title>Tableau de Bord - Ma Mini-Grammaire</title>
     <link rel="stylesheet" href="../../assets/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .tip-card {
+            position: relative; /* Pour positionner le bouton absolument */
+        }
+        .favorite-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.4rem; /* Taille plus grande pour visibilité */
+            cursor: pointer;
+            color: #ccc; /* Gris pour non-favori */
+            transition: color 0.3s;
+        }
+        .favorite-btn.favorited {
+            color: #ff0000; /* Rouge pour favori */
+        }
+    </style>
 </head>
 <body>
 
@@ -22,10 +41,21 @@
     <div class="tip-card">
         <h3>Distinction a / à</h3>
         <p>'a' sans accent est le verbe avoir (il a). 'à' avec accent est une préposition (je vais à Paris).</p>
+        <!-- Ajout du bouton favoris -->
+        <button class="favorite-btn" onclick="toggleFavorite(this)" style="font-size: 40px;">♡</button>
+
     </div>
+    <repeat group="{{ @astuces }}" value="{{ @l }}">
+        <div class="tip-card">
+            <h3>{{ @l.titre }}</h3>
+            <p>{{ @l.description }}</p>
+            <button class="favorite-btn" onclick="toggleFavorite(this)" style="font-size: 40px;">♡</button>
+        </div>
+    </repeat>
     <div class="tip-card">
         <h3>Orthographe : Cauchemar</h3>
         <p>On écrit 'cauchemar' sans 'd' à la fin, même si on dit 'cauchemardesque'.</p>
+        <button class="favorite-btn" onclick="toggleFavorite(this)" style="font-size: 40px;">♡</button>
     </div>
     <div class="tip-card">
         <h3>Parmi vs Hormis</h3>
@@ -121,4 +151,17 @@
     </div>
 </div>
 </div>
+    <script>
+        function toggleFavorite(btn) {
+            btn.classList.toggle('favorited');
+            if (btn.classList.contains('favorited')) {
+                btn.textContent = '♥'; // Icône pleine quand favori
+                console.log('Astuce ajoutée aux favoris');
+            } else {
+                btn.textContent = '♡'; // Icône vide quand non-favori
+                console.log('Astuce retirée des favoris');
+            }
+            // Optionnel : Ajouter une logique pour sauvegarder l'état (ex: localStorage ou AJAX vers PHP)
+        }
+    </script>
 </body>

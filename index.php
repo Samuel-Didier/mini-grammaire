@@ -92,11 +92,13 @@ $f3->route('GET /conditions', 'App\Controllers\Page->condition');
 $f3->route('GET /mini_grammaire', 'App\Controllers\Page->grammaire');
 
 // Route pour la page des astuces
-$f3->route('GET /astuces', 'App\Controllers\Page->astuces');
+//$f3->route('GET /astuces', 'App\Controllers\Page->astuces');
+$f3->route('GET /astuces5', 'App\Controllers\AstucesController->getAstuces');
 
 // Routes génériques (si besoin)
 $f3->route('GET /generic', 'App\Controllers\Page->generic');
 $f3->route('GET /elements', 'App\Controllers\Page->elements');
+//$f3->route('GET /api/astuces', 'TipController->getTips');
 
 
 $f3->set('ONERROR', 'App\Controllers\Error->handle');

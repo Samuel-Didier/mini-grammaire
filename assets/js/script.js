@@ -1,109 +1,111 @@
 /* =========================================
    DONNÉES : ASTUCES
    ========================================= */
-
-const tips = [
-    {
-        titre: "Distinction a / à",
-        description: "'a' sans accent est le verbe avoir (il a). 'à' avec accent est une préposition (je vais à Paris)."
-    },
-    {
-        titre: "Orthographe : Cauchemar",
-        description: "On écrit 'cauchemar' sans 'd' à la fin, même si on dit 'cauchemardesque'."
-    },
-    {
-        titre: "Parmi vs Hormis",
-        description: "'Parmi' ne prend jamais de 's', contrairement à 'hormis'."
-    },
-    {
-        titre: "Mourir vs Nourrir",
-        description: "Le verbe 'mourir' ne prend qu'un seul 'r', mais 'nourrir' en prend deux. On meurt une fois, on se nourrit plusieurs fois."
-    },
-    {
-        titre: "Règle des 'l' : Appeler",
-        description: "'Appeler' prend deux 'l' devant un 'e' muet (j'appelle), mais un seul sinon (nous appelons)."
-    },
-    {
-        titre: "Invariabilité de Mille",
-        description: "'Mille' est invariable, sauf s'il s'agit de l'unité de mesure (des milles marins)."
-    },
-    {
-        titre: "Quelque ou Quel que",
-        description: "'Quelque' s'écrit en un seul mot devant un nom (quelque temps) et en deux mots devant un verbe (quel que soit)."
-    },
-    {
-        titre: "Davantage vs D'avantage",
-        description: "'Davantage' (plus de) s'écrit en un mot. 'D'avantage' (profit, bénéfice) s'écrit en deux mots (ex: Je n'y vois pas d'avantage)."
-    },
-    {
-        titre: "Objectifs concrets",
-        description: "Fixez des objectifs mesurables — par exemple, 5 nouveaux mots par semaine (plus de 250 par an)."
-    },
-    {
-        titre: "Tableau de suivi",
-        description: "Tenez un suivi hebdomadaire : nouveaux mots, grammaire, heures d'écoute et pratique orale."
-    },
-    {
-        titre: "Immersion numérique",
-        description: "Passez la langue de vos appareils (téléphone, ordinateur) en français."
-    },
-    {
-        titre: "Consommation média",
-        description: "Regardez des séries ou films sur Netflix avec des sous-titres en français."
-    },
-    {
-        titre: "Écoute active",
-        description: "Écoutez des podcasts comme RFI Français Facile pour la compréhension."
-    },
-    {
-        titre: "Étiquetage",
-        description: "Étiquetez les objets de votre maison avec leur nom en français."
-    },
-    {
-        titre: "Shadowing",
-        description: "Répétez à haute voix des phrases entendues dans des podcasts ou vidéos."
-    },
-    {
-        titre: "Phonétique spécifique",
-        description: "Concentrez-vous sur les sons : voyelles nasales (on, an, in), le 'r' guttural et les liaisons."
-    },
-    {
-        titre: "Auto-correction",
-        description: "Enregistrez-vous et comparez votre prononciation à celle d'un locuteur natif."
-    },
-    {
-        titre: "Flashcards",
-        description: "Utilisez des outils comme Anki ou Quizlet pour mémoriser les mots fréquents."
-    },
-    {
-        titre: "Loi de Pareto (80/20)",
-        description: "Apprenez d'abord les 2000 mots les plus courants — ils couvrent 80% de la langue."
-    },
-    {
-        titre: "Journal de bord",
-        description: "Rédigez un journal quotidien en français, même avec des phrases très simples."
-    },
-    {
-        titre: "Structure simple",
-        description: "Structurez vos phrases avec la formule de base : Sujet – Verbe – Complément."
-    },
-    {
-        titre: "Vérification",
-        description: "Relisez-vous systématiquement et utilisez un conjugueur en ligne."
-    },
-    {
-        titre: "Dictées",
-        description: "Entraînez-vous avec des dictées en ligne pour améliorer votre orthographe."
-    },
-    {
-        titre: "Simulation IA",
-        description: "Utilisez ChatGPT pour simuler des conversations réelles en français."
-    },
-    {
-        titre: "État d'esprit",
-        description: "Acceptez de faire des erreurs — c'est une étape obligatoire pour progresser."
-    }
-];
+import { getAstuces } from "./apiAstuces.js";
+// const getAstuces = require('./apiAstuces.js');
+const tips = getAstuces();
+// const tips = [
+//     {
+//         titre: "Distinction a / à",
+//         description: "'a' sans accent est le verbe avoir (il a). 'à' avec accent est une préposition (je vais à Paris)."
+//     },
+//     {
+//         titre: "Orthographe : Cauchemar",
+//         description: "On écrit 'cauchemar' sans 'd' à la fin, même si on dit 'cauchemardesque'."
+//     },
+//     {
+//         titre: "Parmi vs Hormis",
+//         description: "'Parmi' ne prend jamais de 's', contrairement à 'hormis'."
+//     },
+//     {
+//         titre: "Mourir vs Nourrir",
+//         description: "Le verbe 'mourir' ne prend qu'un seul 'r', mais 'nourrir' en prend deux. On meurt une fois, on se nourrit plusieurs fois."
+//     },
+//     {
+//         titre: "Règle des 'l' : Appeler",
+//         description: "'Appeler' prend deux 'l' devant un 'e' muet (j'appelle), mais un seul sinon (nous appelons)."
+//     },
+//     {
+//         titre: "Invariabilité de Mille",
+//         description: "'Mille' est invariable, sauf s'il s'agit de l'unité de mesure (des milles marins)."
+//     },
+//     {
+//         titre: "Quelque ou Quel que",
+//         description: "'Quelque' s'écrit en un seul mot devant un nom (quelque temps) et en deux mots devant un verbe (quel que soit)."
+//     },
+//     {
+//         titre: "Davantage vs D'avantage",
+//         description: "'Davantage' (plus de) s'écrit en un mot. 'D'avantage' (profit, bénéfice) s'écrit en deux mots (ex: Je n'y vois pas d'avantage)."
+//     },
+//     {
+//         titre: "Objectifs concrets",
+//         description: "Fixez des objectifs mesurables — par exemple, 5 nouveaux mots par semaine (plus de 250 par an)."
+//     },
+//     {
+//         titre: "Tableau de suivi",
+//         description: "Tenez un suivi hebdomadaire : nouveaux mots, grammaire, heures d'écoute et pratique orale."
+//     },
+//     {
+//         titre: "Immersion numérique",
+//         description: "Passez la langue de vos appareils (téléphone, ordinateur) en français."
+//     },
+//     {
+//         titre: "Consommation média",
+//         description: "Regardez des séries ou films sur Netflix avec des sous-titres en français."
+//     },
+//     {
+//         titre: "Écoute active",
+//         description: "Écoutez des podcasts comme RFI Français Facile pour la compréhension."
+//     },
+//     {
+//         titre: "Étiquetage",
+//         description: "Étiquetez les objets de votre maison avec leur nom en français."
+//     },
+//     {
+//         titre: "Shadowing",
+//         description: "Répétez à haute voix des phrases entendues dans des podcasts ou vidéos."
+//     },
+//     {
+//         titre: "Phonétique spécifique",
+//         description: "Concentrez-vous sur les sons : voyelles nasales (on, an, in), le 'r' guttural et les liaisons."
+//     },
+//     {
+//         titre: "Auto-correction",
+//         description: "Enregistrez-vous et comparez votre prononciation à celle d'un locuteur natif."
+//     },
+//     {
+//         titre: "Flashcards",
+//         description: "Utilisez des outils comme Anki ou Quizlet pour mémoriser les mots fréquents."
+//     },
+//     {
+//         titre: "Loi de Pareto (80/20)",
+//         description: "Apprenez d'abord les 2000 mots les plus courants — ils couvrent 80% de la langue."
+//     },
+//     {
+//         titre: "Journal de bord",
+//         description: "Rédigez un journal quotidien en français, même avec des phrases très simples."
+//     },
+//     {
+//         titre: "Structure simple",
+//         description: "Structurez vos phrases avec la formule de base : Sujet – Verbe – Complément."
+//     },
+//     {
+//         titre: "Vérification",
+//         description: "Relisez-vous systématiquement et utilisez un conjugueur en ligne."
+//     },
+//     {
+//         titre: "Dictées",
+//         description: "Entraînez-vous avec des dictées en ligne pour améliorer votre orthographe."
+//     },
+//     {
+//         titre: "Simulation IA",
+//         description: "Utilisez ChatGPT pour simuler des conversations réelles en français."
+//     },
+//     {
+//         titre: "État d'esprit",
+//         description: "Acceptez de faire des erreurs — c'est une étape obligatoire pour progresser."
+//     }
+// ];
 
 /* =========================================
    FONCTION : GÉNÉRER UNE NOUVELLE ASTUCE
