@@ -93,7 +93,7 @@ $f3->route('GET /mini_grammaire', 'App\Controllers\Page->grammaire');
 
 // Route pour la page des astuces
 //$f3->route('GET /astuces', 'App\Controllers\Page->astuces');
-$f3->route('GET /astuces5', 'App\Controllers\AstucesController->getAstuces');
+$f3->route('GET /astuces', 'App\Controllers\AstucesController->getAstuces');
 
 // Routes génériques (si besoin)
 $f3->route('GET /generic', 'App\Controllers\Page->generic');
