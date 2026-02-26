@@ -75,10 +75,19 @@ class Page {
         echo $tpl->render('layout.html');
     }
 
-    // Page de profil
+    // Page de profil (avec vérification de session)
     public function profile(\Base $f3)
     {
         $tpl = \Template::instance();
+        // Vérification de l’authentification (à décommenter quand la session sera gérée)
+
+        if (!$f3->exists('SESSION.user')) {
+            $f3->reroute('/login');
+            return;
+        }
+        $user = $f3->get('SESSION.user');
+        $f3->set('user', $user);
+
         $content = $tpl->render('pages/profile.html');
         $f3->set('title', 'Mon Profil');
         $f3->set('content', $content);
@@ -89,6 +98,17 @@ class Page {
     public function grammaire(\Base $f3)
     {
         $tpl = \Template::instance();
+        $userRole = 'etudiant'; // Par défaut
+
+        if ($f3->exists('SESSION.user')) {
+            $userModel = new User($f3->get('DB'));
+            $user = $userModel->findByUsername($f3->get('SESSION.user'));
+            if ($user) {
+                $userRole = $user['role'];
+            }
+        }
+        
+        $f3->set('userRole', $userRole);
         $content = $tpl->render('pages/mini_grammaire.html');
         $f3->set('title', 'Mini-Grammaire');
         $f3->set('content', $content);

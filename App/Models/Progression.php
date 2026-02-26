@@ -19,16 +19,24 @@ class Progression extends \DB\SQL\Mapper
      */
     public function saveTestResult(int $userId, string $niveau, int $score): bool
     {
-        // Vérifier si une progression existe déjà pour cet utilisateur
-        $this->load(['user_id = ?', $userId]);
-        
-        $this->set('user_id', $userId);
-        $this->set('niveau_global', $niveau);
-        $this->set('score_test_initial', $score);
-        $this->set('date_test', date('Y-m-d H:i:s'));
-        
-        $this->save();
-        return true;
+        try {
+            $this->db->begin();
+            $this->db->exec(
+                'INSERT INTO progression (user_id, niveau_global, score_test_initial, date_test) VALUES (:user_id, :niveau_global, :score_test_initial, :date_test)',
+                [
+                   ':user_id' => $userId,
+                    ':niveau_global' => $niveau,
+                    ':score_test_initial' => $score,
+                    ':date_test' => date('Y-m-d H:i:s')
+                ]
+            );
+            $id = (int)$this->db->lastInsertId();
+            $this->db->commit();
+            return $id;
+        } catch (\PDOException $e) {
+            $this->db->rollback();
+            throw $e;
+        }
     }
 
     /**
@@ -38,7 +46,9 @@ class Progression extends \DB\SQL\Mapper
      */
     public function getByUser(int $userId)
     {
-        $this->load(['user_id = ?', $userId]);
-        return $this->dry() ? false : $this->cast();
+        return $this->db->exec(
+            "SELECT * FROM `progression` WHERE ? LIMIT 1",
+            [$userId]
+        )[0] ?? null;
     }
 }

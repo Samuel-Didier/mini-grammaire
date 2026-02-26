@@ -1,7 +1,8 @@
 <?php
 namespace App\Controllers;
 use App\Models\User;
-use App\Models\Favori; // Import du modèle Favori
+use App\Models\Favori;
+use App\Models\Progression; // Import du modèle Progression
 
 class Auth {
     public function login(\Base $f3)
@@ -151,10 +152,19 @@ class Auth {
         $favoris = $favoriModel->getFavorisByUser($data['id']);
         $favorisCount = count($favoris);
 
-        // 4. Préparation des variables pour le template
+        // 4. Récupération de la progression (Niveau et Score)
+        $progressionModel = new Progression($f3->get('DB'));
+        $progression = $progressionModel->getByUser($data['id']);
+        
+        $niveau = $progression ? $progression['niveau_global'] : 'Non évalué';
+        $score = $progression ? $progression['score_test_initial'] . '/10' : '-';
+
+        // 5. Préparation des variables pour le template
         $f3->set('user', $userSession);
-        $f3->set('client', $data); // On envoie l'objet complet sous le nom 'client'
-        $f3->set('favorisCount', $favorisCount); // On envoie le nombre de favoris
+        $f3->set('client', $data);
+        $f3->set('favorisCount', $favorisCount);
+        $f3->set('niveau', $niveau);
+        $f3->set('score', $score);
 
         // Gestion des messages flash (succès/erreur)
         if ($f3->exists('SESSION.flash')) {
@@ -162,10 +172,10 @@ class Auth {
             $f3->clear('SESSION.flash');
         }
 
-        // 5. Rendu de la page
+        // 6. Rendu de la page
         $tpl = \Template::instance();
-        $f3->set('title', 'Mon Profil ');
-        $content = $tpl->render('pages/profile.html');
+        $f3->set('title', 'Mon Profil');
+        $content = $tpl->render('pages/profile.html'); // Utilisation de profile.html
 
         $f3->set('content', $content);
         echo $tpl->render('layout.html');
