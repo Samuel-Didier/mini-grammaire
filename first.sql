@@ -1,0 +1,1 @@
+create database mini_gram;

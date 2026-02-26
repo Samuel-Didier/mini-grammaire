@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 25, 2026 at 06:36 PM
+-- Generation Time: Feb 26, 2026 at 11:17 AM
 -- Server version: 8.4.3
--- PHP Version: 8.3.28
+-- PHP Version: 8.3.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,7 +37,7 @@ CREATE TABLE `astuces` (
 -- Dumping data for table `astuces`
 --
 
-INSERT INTO `astuces` (`astuces`, `titre`, `description`) VALUES
+INSERT INTO `astuces` (`id`, `titre`, `description`) VALUES
 (1, 'Distinction a / à', '\'a\''),
 (2, 'Orthographe : Cauchemar', 'On écrit \'cauchemar\' sans \'d\' à la fin, même si on dit \'cauchemardesque\'.'),
 (3, 'Parmi vs Hormis', '\'Parmi\' ne prend jamais de \'s\', contrairement à \'hormis\'.'),
@@ -81,8 +81,32 @@ CREATE TABLE `favoris` (
 --
 
 INSERT INTO `favoris` (`id`, `user_id`, `astuces_id`) VALUES
-(12, 1, 8),
-(13, 1, 6);
+(23, 1, 3),
+(33, 1, 2),
+(34, 1, 5),
+(36, 1, 1),
+(37, 1, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `progression`
+--
+
+CREATE TABLE `progression` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `niveau_global` varchar(10) DEFAULT NULL,
+  `score_test_initial` int DEFAULT NULL,
+  `date_test` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `progression`
+--
+
+INSERT INTO `progression` (`id`, `user_id`, `niveau_global`, `score_test_initial`, `date_test`) VALUES
+(1, 1, 'A1', 1, '2026-02-26 10:39:31');
 
 -- --------------------------------------------------------
 
@@ -120,8 +144,8 @@ INSERT INTO `users` (`id`, `nom`, `prenom`, `password`, `email`, `create_at`, `u
 -- Indexes for table `astuces`
 --
 ALTER TABLE `astuces`
-  ADD PRIMARY KEY (`astuces`),
-  ADD UNIQUE KEY `astuces` (`astuces`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `astuces` (`id`);
 
 --
 -- Indexes for table `favoris`
@@ -130,6 +154,13 @@ ALTER TABLE `favoris`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `astuces_id` (`astuces_id`) USING BTREE;
+
+--
+-- Indexes for table `progression`
+--
+ALTER TABLE `progression`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -145,19 +176,35 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `astuces`
 --
 ALTER TABLE `astuces`
-  MODIFY `astuces` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `favoris`
 --
 ALTER TABLE `favoris`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
+--
+-- AUTO_INCREMENT for table `progression`
+--
+ALTER TABLE `progression`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `progression`
+--
+ALTER TABLE `progression`
+  ADD CONSTRAINT `fk_progression_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
