@@ -1,40 +1,59 @@
-<header class="dashboard-header">
+<header class="dashboard-header" style="margin-left: 20px">
     <h1>Mes Astuces Favorites ❤️</h1>
     <p>Retrouvez ici toutes les astuces que vous avez sauvegardées.</p>
+    <br>
+    <a href="/" class="back-link"><span>←</span> Retour au tableau de bord</a>
 </header>
 
 <check if="{{ @count == 0 }}">
     <div style="text-align: center; padding: 3rem;">
         <p>Vous n'avez pas encore de favoris.</p>
-        <a href="/mini-grammaire/astuces" class="btn-primary" style="text-decoration: none; display: inline-block; margin-top: 1rem;">Découvrir les astuces</a>
+        <a href="/mini-grammaire/astuces" class="btn-primary" style="text-decoration: none; display: inline-block; margin-top: 1rem; padding: 10px 20px; border-radius: 30px;">Découvrir les astuces</a>
     </div>
 </check>
 
 <div class="tips-grid">
     <repeat group="{{ @favoris }}" value="{{ @astuce }}">
         <div class="tip-card">
-            <h3>{{ @astuce.titre }}</h3>
-            <p>{{ @astuce.description }}</p>
-            <button class="btn-favori active" onclick="toggleFavori( this ,{{ @astuce.id }})" title="Retirer des favoris">❤️</button>
+            <div class="tip-content">
+                <h3>{{ @astuce.titre }}</h3>
+                <p>{{ @astuce.description }}</p>
+            </div>
+            <!-- Bouton déjà actif car on est dans les favoris -->
+            <button class="btn-favori active" onclick="toggleFavori({{ @astuce.id }}, this)" title="Retirer des favoris">
+                <svg class="heart-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 17.5 3 20.58 3 23 5.42 23 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
+            </button>
         </div>
     </repeat>
 </div>
 
 <script>
 function toggleFavori(id, btn) {
-    fetch('/mini-grammaire/favori/toggle/' + id, {
+    // Animation immédiate
+    btn.classList.add('popping');
+
+    fetch('/favori/toggle/' + id, {
         method: 'POST'
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Si on est sur la page "Mes favoris", on supprime la carte
             if (data.action === 'removed') {
-                btn.closest('.tip-card').remove();
-                // Si plus de favoris, recharger pour afficher le message vide
-                if (document.querySelectorAll('.tip-card').length === 0) {
-                    location.reload();
-                }
+                // Animation de disparition de la carte
+                const card = btn.closest('.tip-card');
+                card.style.transition = 'all 0.3s ease';
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.9)';
+
+                setTimeout(() => {
+                    card.remove();
+                    // Si plus de favoris, recharger pour afficher le message vide
+                    if (document.querySelectorAll('.tip-card').length === 0) {
+                        location.reload();
+                    }
+                }, 300);
             }
         } else {
             alert(data.message);
@@ -45,15 +64,99 @@ function toggleFavori(id, btn) {
 </script>
 
 <style>
-.btn-favori {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-    float: right;
-    margin-top: -10px;
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
 }
+
+.tip-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border-left: 4px solid #50e3c2; /* Vert pour rappeler les astuces */
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.5rem;
+    transition: transform 0.2s;
+}
+
+.tip-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.tip-content {
+    padding-right: 1rem;
+    flex: 1;
+}
+
+.tip-card h3 {
+    font-size: 1.1rem;
+    color: #50e3c2;
+    margin-bottom: 0.5rem;
+}
+
+.tip-card p {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Bouton Favori Moderne (Copie de astuces.html pour cohérence) */
+.btn-favori {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid #f0f0f0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+}
+
 .btn-favori:hover {
-    transform: scale(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    border-color: #e2e8f0;
+}
+
+/* Icône SVG */
+.heart-svg {
+    width: 22px;
+    height: 22px;
+    stroke: #94a3b8;
+    stroke-width: 2;
+    fill: transparent;
+    transition: all 0.3s ease;
+}
+
+/* État Actif (Toujours actif ici) */
+.btn-favori.active {
+    background: #fff0f0;
+    border-color: #ffcdd2;
+}
+
+.btn-favori.active .heart-svg {
+    stroke: #e53935;
+    fill: #e53935;
+    filter: drop-shadow(0 2px 4px rgba(229, 57, 53, 0.3));
+}
+
+/* Animation "Pop" */
+.btn-favori.popping {
+    animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
 }
 </style>
