@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `astuces` (
-  `astuces` bigint UNSIGNED NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
   `titre` varchar(500) NOT NULL,
   `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

@@ -8,3 +8,4 @@ CREATE TABLE `progression` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `fk_progression_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+ALTER TABLE `astuces` CHANGE `astuces` `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT;
