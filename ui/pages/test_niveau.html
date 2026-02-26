@@ -1,0 +1,47 @@
+<!-- Ce fichier contient uniquement le HTML pour le test de niveau -->
+<head>
+    <link rel="stylesheet" href="{{ @BASE }}/assets/css/quiz.css"/>
+</head>
+<header>
+    <h1>🇫🇷 Quiz de Français</h1>
+    <p>Teste ton niveau et améliore tes compétences linguistiques</p>
+</header>
+
+<div class="container">
+    <!-- Level Test -->
+    <div id="level-test" class="card">
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="progress-text" id="progress-text">Question 1 sur 10</div>
+        </div>
+
+        <div id="questions-container">
+            <!-- Les questions seront insérées ici par le script quiz.js -->
+        </div>
+
+        <div id="question-nav">
+            <button class="btn btn-primary" id="next-btn" disabled>Suivant</button>
+        </div>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="card result-container hidden">
+        <div class="result-icon">🎉</div>
+        <h2 class="result-title">Test Terminé !</h2>
+        <div class="result-level" id="result-level">Niveau B1</div>
+        <p class="result-score" id="result-score">Tu as obtenu -/10</p>
+
+        <div class="result-details">
+            <h3>📊 Résumé</h3>
+            <p><strong>Questions répondues:</strong> <span id="total-answered">0</span>/10</p>
+            <p><strong>Réponses correctes:</strong> <span id="correct-count">0</span></p>
+            <p><strong>Temps total:</strong> <span id="total-time">0</span> secondes</p>
+            <p><strong>Niveau déterminé:</strong> <span id="determined-level">-</span></p>
+        </div>
+
+        <button class="btn btn-primary" onclick="location.reload()">Recommencer le Test</button>
+        <button class="btn btn-primary" >Faire les quiz</button>
+    </div>
+</div>

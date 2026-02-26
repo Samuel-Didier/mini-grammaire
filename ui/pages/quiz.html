@@ -1,0 +1,144 @@
+<!--
+    PAGE DE SÉLECTION DES QUIZ
+    Cette page sert de menu principal pour que l'utilisateur choisisse un quiz
+    par catégorie (Grammaire, Vocabulaire, etc.) et par niveau.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Français - Choisissez votre défi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ @BASE }}/assets/css/quiz.css"/>
+</head>
+<body>
+
+<!-- En-tête de la page -->
+<header>
+    <h1>🇫🇷 Quiz de Français</h1>
+    <p>Choisis un quiz pour commencer à t'entraîner !</p>
+</header>
+
+<div class="container">
+    <!--
+        MENU DE SÉLECTION DES QUIZ
+        Affiche les différentes catégories et niveaux de quiz disponibles.
+    -->
+    <div id="quiz-menu" class="card active">
+        <h2 style="text-align: center; margin-bottom: 30px;">📚 Choisis ton Quiz</h2>
+
+        <!-- Catégorie : Grammaire -->
+        <div class="quiz-category">
+            <h3>📖 Grammaire</h3>
+            <div class="quiz-buttons">
+                <div class="quiz-btn" onclick="startQuiz('grammaire', 'a1')">
+                    <div class="quiz-btn-icon">📝</div>
+                    <div class="quiz-btn-title">A1 - Débutant</div>
+                    <div class="quiz-btn-desc">Les bases</div>
+                </div>
+                <div class="quiz-btn" onclick="startQuiz('grammaire', 'a2')">
+                    <div class="quiz-btn-icon">📝</div>
+                    <div class="quiz-btn-title">A2 - Élémentaire</div>
+                    <div class="quiz-btn-desc">Communication simple</div>
+                </div>
+                <div class="quiz-btn" onclick="startQuiz('grammaire', 'b1')">
+                    <div class="quiz-btn-icon">📝</div>
+                    <div class="quiz-btn-title">B1 - Intermédiaire</div>
+                    <div class="quiz-btn-desc">S'exprimer clairement</div>
+                </div>
+                <div class="quiz-btn" onclick="startQuiz('grammaire', 'b2')">
+                    <div class="quiz-btn-icon">📝</div>
+                    <div class="quiz-btn-title">B2 - Avancé</div>
+                    <div class="quiz-btn-desc">Complexité nuancée</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catégorie : Vocabulaire -->
+        <div class="quiz-category">
+            <h3>🗣️ Vocabulaire</h3>
+            <div class="quiz-buttons">
+                <div class="quiz-btn" onclick="startQuiz('vocabulaire', 'a1')">
+                    <div class="quiz-btn-icon">💬</div>
+                    <div class="quiz-btn-title">A1 - Quotidien</div>
+                    <div class="quiz-btn-desc">Mots essentiels</div>
+                </div>
+                <div class="quiz-btn" onclick="startQuiz('vocabulaire', 'a2')">
+                    <div class="quiz-btn-icon">💬</div>
+                    <div class="quiz-btn-title">A2 - Courant</div>
+                    <div class="quiz-btn-desc">Vie quotidienne</div>
+                </div>
+                <div class="quiz-btn" onclick="startQuiz('vocabulaire', 'b1')">
+                    <div class="quiz-btn-icon">💬</div>
+                    <div class="quiz-btn-title">B1 - Étendu</div>
+                    <div class="quiz-btn-desc">Sujets variés</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catégorie : Compréhension -->
+        <div class="quiz-category">
+            <h3>👂 Compréhension</h3>
+            <div class="quiz-buttons">
+                <div class="quiz-btn" onclick="startQuiz('comprehension', 'a1')">
+                    <div class="quiz-btn-icon">👂</div>
+                    <div class="quiz-btn-title">A1 - Écrite</div>
+                    <div class="quiz-btn-desc">Textes simples</div>
+                </div>
+                <div class="quiz-btn" onclick="startQuiz('comprehension', 'a2')">
+                    <div class="quiz-btn-icon">👂</div>
+                    <div class="quiz-btn-title">A2 - Orale</div>
+                    <div class="quiz-btn-desc">Dialogues</div>
+                </div>
+                <div class="quiz-btn" onclick="startQuiz('comprehension', 'b1')">
+                    <div class="quiz-btn-icon">👂</div>
+                    <div class="quiz-btn-title">B1 - Avancée</div>
+                    <div class="quiz-btn-desc">Textes complexes</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Base de données des questions (gardée pour une future utilisation)
+    const quizDatabase = {
+        grammaire: {
+            a1: [ { question: "Quel est le féminin de 'grand' ?", options: ["grande", "größer", "grandir", "grandi"], correct: 0 } ],
+            a2: [ { question: "Le passé composé de 'aller' est :", options: ["allé", "suis allé", "étais allé", "ai alllé"], correct: 1 } ],
+            b1: [ { question: "Le plus-que-parfait de 'finir' :", options: ["avait fini", "eut fini", "aurait fini", "finissait"], correct: 0 } ],
+            b2: [ { question: "Le subjonctif après 'il faut que' :", options: ["infinitif", "conditionnel", "subjonctif", "indicatif"], correct: 2 } ]
+        },
+        vocabulaire: {
+            a1: [ { question: "'La maison' en anglais :", options: ["mouse", "house", "mouse", "spouse"], correct: 1 } ],
+            a2: [ { question: "'Faire les courses' signifie :", options: ["faire du sport", "acheter des provisions", "courir", "faire la cuisine"], correct: 1 } ],
+            b1: [ { question: "'Par ailleurs' est un connecteur de :", options: ["temps", "addition", "opposition", "cause"], correct: 1 } ]
+        },
+        comprehension: {
+            a1: [ { question: "Texte : 'Je m'appelle Marie. J'ai 20 ans.' Quel âge a Marie ?", options: ["10 ans", "20 ans", "30 ans", "25 ans"], correct: 1 } ],
+            a2: [ { question: "Dialogue : 'Où est la gare ? - C'est à droite.' La gare est :", options: ["à gauche", "à droite", "devant", "derrière"], correct: 1 } ],
+            b1: [ { question: "Article : 'Malgré la crise, l'économie croissance.' Le contexte est :", options: ["négatif", "positif", "neutre", "inconnu"], correct: 1 } ]
+        }
+    };
+
+    /**
+     * Démarre un quiz spécifique.
+     * Pour l'instant, cette fonction affiche une alerte.
+     * Plus tard, elle pourrait rediriger vers une page de quiz avec les bonnes questions.
+     * @param {string} category - La catégorie du quiz (ex: 'grammaire')
+     * @param {string} level - Le niveau du quiz (ex: 'a1')
+     */
+    function startQuiz(category, level) {
+        if (!quizDatabase[category] || !quizDatabase[category][level]) {
+            alert('Ce quiz arrive bientôt !');
+            return;
+        }
+
+        // Logique future : rediriger vers une page qui prendra en charge le quiz
+        // window.location.href = `/quiz/start?category=${category}&level=${level}`;
+        alert(`Lancement du quiz : ${category.toUpperCase()} - ${level.toUpperCase()}\n(Fonctionnalité à implémenter)`);
+    }
+</script>
+</body>
+</html>

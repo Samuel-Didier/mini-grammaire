@@ -1,0 +1,103 @@
+<header class="dashboard-header">
+    <h1>📚 Choisis ton Quiz</h1>
+    <p>Entraîne-toi sur des sujets spécifiques adaptés à ton niveau.</p>
+</header>
+
+<div class="container">
+    <div class="quiz-category">
+        <h3>🎯 Tests de Niveau</h3>
+        <div class="quiz-buttons">
+            <a href="/test-niveau" class="quiz-btn" style="text-decoration: none; color: inherit; display: block;">
+                <div class="quiz-btn-icon">📝</div>
+                <div class="quiz-btn-title">Refaire le Test de Niveau</div>
+                <div class="quiz-btn-desc">10 questions</div>
+            </a>
+        </div>
+    </div>
+
+    <div class="quiz-category">
+        <h3>📖 Grammaire</h3>
+        <div class="quiz-buttons">
+            <div class="quiz-btn" onclick="alert('Bientôt disponible !')">
+                <div class="quiz-btn-icon">📝</div>
+                <div class="quiz-btn-title">A1 - Débutant</div>
+                <div class="quiz-btn-desc">Les bases</div>
+            </div>
+            <div class="quiz-btn" onclick="alert('Bientôt disponible !')">
+                <div class="quiz-btn-icon">📝</div>
+                <div class="quiz-btn-title">A2 - Élémentaire</div>
+                <div class="quiz-btn-desc">Communication simple</div>
+            </div>
+            <div class="quiz-btn" onclick="alert('Bientôt disponible !')">
+                <div class="quiz-btn-icon">📝</div>
+                <div class="quiz-btn-title">B1 - Intermédiaire</div>
+                <div class="quiz-btn-desc">S'exprimer clairement</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quiz-category">
+        <h3>🗣️ Vocabulaire</h3>
+        <div class="quiz-buttons">
+            <div class="quiz-btn" onclick="alert('Bientôt disponible !')">
+                <div class="quiz-btn-icon">💬</div>
+                <div class="quiz-btn-title">A1 - Quotidien</div>
+                <div class="quiz-btn-desc">Mots essentiels</div>
+            </div>
+            <div class="quiz-btn" onclick="alert('Bientôt disponible !')">
+                <div class="quiz-btn-icon">💬</div>
+                <div class="quiz-btn-title">A2 - Courant</div>
+                <div class="quiz-btn-desc">Vie quotidienne</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.quiz-category {
+    margin-bottom: 30px;
+}
+
+.quiz-category h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--text-light);
+}
+
+.quiz-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.quiz-btn {
+    padding: 20px;
+    background: var(--white);
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.quiz-btn:hover {
+    border-color: var(--blue-accent);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
+.quiz-btn-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.quiz-btn-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.quiz-btn-desc {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+</style>

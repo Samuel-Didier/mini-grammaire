@@ -44,15 +44,15 @@ class Page {
         echo $tpl->render('layout.html');
     }
 
-    // Page de connexion
-//    public function login(\Base $f3)
-//    {
-//        $tpl = \Template::instance();
-//        $content = $tpl->render('pages/login.html');
-//        $f3->set('title', 'Connexion');
-//        $f3->set('content', $content);
-//        echo $tpl->render('layout.html');
-//    }
+//     Page de connexion
+    public function testNiveau(\Base $f3)
+    {
+        $tpl = \Template::instance();
+        $content = $tpl->render('pages/test_niveau.html');
+        $f3->set('title', 'Test de Niveau');
+        $f3->set('content', $content);
+        echo $tpl->render('layout.html');
+    }
 
     // Page d'inscription
     public function register(\Base $f3)
@@ -105,10 +105,10 @@ class Page {
     }
 
     // Page générique (si besoin)
-    public function generic(\Base $f3)
+    public function quiz(\Base $f3)
     {
         $tpl = \Template::instance();
-        $content = $tpl->render('pages/generic.html');
+        $content = $tpl->render('pages/quiz.html');
         $f3->set('title', 'Generic');
         $f3->set('content', $content);
         echo $tpl->render('layout.html');
