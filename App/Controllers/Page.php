@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use App\Models\Progression;
 
 class Page {
 //    public function generic(\Base $f3)

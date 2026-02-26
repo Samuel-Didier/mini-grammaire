@@ -1,6 +1,12 @@
 <header class="dashboard-header">
     <h1>📚 Choisis ton Quiz</h1>
     <p>Entraîne-toi sur des sujets spécifiques adaptés à ton niveau.</p>
+
+    <check if="{{ @userLevel }}">
+        <div style="margin-top: 15px; display: inline-block; background: #e0e7ff; color: #4f46e5; padding: 8px 20px; border-radius: 20px; font-weight: 600;">
+            Ton niveau actuel : {{ @userLevel }}
+        </div>
+    </check>
 </header>
 
 <div class="container">
