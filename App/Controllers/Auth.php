@@ -164,7 +164,7 @@ class Auth {
 
         // 5. Rendu de la page
         $tpl = \Template::instance();
-        $f3->set('title', 'Mon Profile ');
+        $f3->set('title', 'Mon Profil ');
         $content = $tpl->render('pages/profile.html');
 
         $f3->set('content', $content);

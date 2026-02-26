@@ -104,8 +104,8 @@ $f3->route('GET /test-niveau', 'App\Controllers\Page->testNiveau');
 
 // Routes pour les quiz
 $f3->route('POST /quiz/save-level', 'App\Controllers\QuizController->saveLevel');
-//$f3->route('GET /quiz', 'App\Controllers\QuizController->index');
-$f3->route('GET /quiz', 'App\Controllers\Page->quiz');
+$f3->route('GET /quiz', 'App\Controllers\QuizController->index');
+//$f3->route('GET /quiz', 'App\Controllers\Page->quiz');
 
 // Routes génériques (si besoin)
 $f3->route('GET /generic', 'App\Controllers\Page->generic');
