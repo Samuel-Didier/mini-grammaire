@@ -95,6 +95,10 @@ $f3->route('GET /mini_grammaire', 'App\Controllers\Page->grammaire');
 //$f3->route('GET /astuces', 'App\Controllers\Page->astuces');
 $f3->route('GET /astuces', 'App\Controllers\AstucesController->getAstuces');
 
+// Routes pour les favoris
+$f3->route('POST /favori/toggle/@id', 'App\Controllers\FavorisController->toggle');
+$f3->route('GET /mes-favoris', 'App\Controllers\FavorisController->mesFavoris');
+
 // Routes génériques (si besoin)
 $f3->route('GET /generic', 'App\Controllers\Page->generic');
 $f3->route('GET /elements', 'App\Controllers\Page->elements');

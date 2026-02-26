@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers;
 use App\Models\User;
+use App\Models\Favori; // Import du modèle Favori
+
 class Auth {
     public function login(\Base $f3)
     {
@@ -144,10 +146,15 @@ class Auth {
         // 2. Récupération des données complètes du client
         $data = $userModel->findData($userSession);
 
+        // 3. Récupération du nombre de favoris
+        $favoriModel = new Favori($f3->get('DB'));
+        $favoris = $favoriModel->getFavorisByUser($data['id']);
+        $favorisCount = count($favoris);
 
-        // 3. Préparation des variables pour le template
+        // 4. Préparation des variables pour le template
         $f3->set('user', $userSession);
         $f3->set('client', $data); // On envoie l'objet complet sous le nom 'client'
+        $f3->set('favorisCount', $favorisCount); // On envoie le nombre de favoris
 
         // Gestion des messages flash (succès/erreur)
         if ($f3->exists('SESSION.flash')) {
@@ -155,7 +162,7 @@ class Auth {
             $f3->clear('SESSION.flash');
         }
 
-        // 4. Rendu de la page
+        // 5. Rendu de la page
         $tpl = \Template::instance();
         $f3->set('title', 'Mon Profile ');
         $content = $tpl->render('pages/profile.html');

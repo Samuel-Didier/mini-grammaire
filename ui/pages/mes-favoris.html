@@ -1,0 +1,59 @@
+<header class="dashboard-header">
+    <h1>Mes Astuces Favorites ❤️</h1>
+    <p>Retrouvez ici toutes les astuces que vous avez sauvegardées.</p>
+</header>
+
+<check if="{{ @count == 0 }}">
+    <div style="text-align: center; padding: 3rem;">
+        <p>Vous n'avez pas encore de favoris.</p>
+        <a href="/mini-grammaire/astuces" class="btn-primary" style="text-decoration: none; display: inline-block; margin-top: 1rem;">Découvrir les astuces</a>
+    </div>
+</check>
+
+<div class="tips-grid">
+    <repeat group="{{ @favoris }}" value="{{ @astuce }}">
+        <div class="tip-card">
+            <h3>{{ @astuce.titre }}</h3>
+            <p>{{ @astuce.description }}</p>
+            <button class="btn-favori active" onclick="toggleFavori({{ @astuce.id }}, this)" title="Retirer des favoris">❤️</button>
+        </div>
+    </repeat>
+</div>
+
+<script>
+function toggleFavori(id, btn) {
+    fetch('/mini-grammaire/favori/toggle/' + id, {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Si on est sur la page "Mes favoris", on supprime la carte
+            if (data.action === 'removed') {
+                btn.closest('.tip-card').remove();
+                // Si plus de favoris, recharger pour afficher le message vide
+                if (document.querySelectorAll('.tip-card').length === 0) {
+                    location.reload();
+                }
+            }
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => console.error('Erreur:', error));
+}
+</script>
+
+<style>
+.btn-favori {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    float: right;
+    margin-top: -10px;
+}
+.btn-favori:hover {
+    transform: scale(1.1);
+}
+</style>
