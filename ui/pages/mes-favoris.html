@@ -15,7 +15,7 @@
         <div class="tip-card">
             <h3>{{ @astuce.titre }}</h3>
             <p>{{ @astuce.description }}</p>
-            <button class="btn-favori active" onclick="toggleFavori({{ @astuce.id }}, this)" title="Retirer des favoris">❤️</button>
+            <button class="btn-favori active" onclick="toggleFavori( this ,{{ @astuce.id }})" title="Retirer des favoris">❤️</button>
         </div>
     </repeat>
 </div>

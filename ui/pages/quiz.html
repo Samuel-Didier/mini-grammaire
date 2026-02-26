@@ -1,32 +1,92 @@
-<!--
-    PAGE DE SÉLECTION DES QUIZ
-    Cette page sert de menu principal pour que l'utilisateur choisisse un quiz
-    par catégorie (Grammaire, Vocabulaire, etc.) et par niveau.
--->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de Français - Choisissez votre défi</title>
+    <title>Quiz de Français - Test de Niveau</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lien vers le fichier CSS externe -->
     <link rel="stylesheet" href="{{ @BASE }}/assets/css/quiz.css"/>
 </head>
 <body>
 
-<!-- En-tête de la page -->
+<!--
+    EN-TÊTE DE LA PAGE
+    Affiche le titre principal et une brève description.
+-->
 <header>
     <h1>🇫🇷 Quiz de Français</h1>
-    <p>Choisis un quiz pour commencer à t'entraîner !</p>
+    <p>Teste ton niveau et improve tes compétences linguistiques</p>
 </header>
 
 <div class="container">
+
+    <!--
+        SECTION DU TEST DE NIVEAU
+        Cette section contient la barre de progression et l'interface des questions.
+        Elle est affichée par défaut ou lorsque l'utilisateur commence le test.
+    -->
+    <div id="level-test" class="card">
+        <!-- Barre de progression -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="progress-text" id="progress-text">Question 1 sur 10</div>
+        </div>
+
+        <!-- Conteneur où les questions sont injectées dynamiquement par JS -->
+        <div id="questions-container">
+            <!-- Questions will be inserted here -->
+        </div>
+
+        <!-- Navigation (Bouton Suivant) -->
+        <div id="question-nav">
+            <button class="btn btn-primary" id="next-btn" disabled>Suivant</button>
+        </div>
+    </div>
+
+    <!--
+        SECTION DES RÉSULTATS
+        Cette section est masquée par défaut et s'affiche à la fin du test.
+        Elle présente le niveau déterminé, le score et les détails.
+    -->
+    <div id="results" class="card result-container">
+        <div class="result-icon">🎉</div>
+        <h2 class="result-title">Test Terminé !</h2>
+        <div class="result-level" id="result-level">Niveau B1</div>
+        <p class="result-score" id="result-score">Tu as obtenu -/10</p>
+
+        <div class="result-details">
+            <h3>📊 Résumé</h3>
+            <p><strong>Questions répondues:</strong> <span id="total-answered">0</span>/10</p>
+            <p><strong>Réponses correctes:</strong> <span id="correct-count">0</span></p>
+            <p><strong>Temps total:</strong> <span id="total-time">0</span> secondes</p>
+            <p><strong>Niveau déterminé:</strong> <span id="determined-level">-</span></p>
+        </div>
+
+        <button class="btn btn-primary" onclick="showQuizMenu()">Commencer les Quiz</button>
+    </div>
+
     <!--
         MENU DE SÉLECTION DES QUIZ
-        Affiche les différentes catégories et niveaux de quiz disponibles.
+        Cette section permet à l'utilisateur de choisir un quiz spécifique (Grammaire, Vocabulaire, etc.)
+        après avoir terminé le test de niveau ou en cliquant sur "Recommencer".
     -->
-    <div id="quiz-menu" class="card active">
+    <div id="quiz-menu" class="card quiz-menu">
         <h2 style="text-align: center; margin-bottom: 30px;">📚 Choisis ton Quiz</h2>
+
+        <!-- Catégorie : Tests de Niveau -->
+        <div class="quiz-category">
+            <h3>🎯 Tests de Niveau</h3>
+            <div class="quiz-buttons">
+                <div class="quiz-btn" onclick="startLevelTest()">
+                    <div class="quiz-btn-icon">📝</div>
+                    <div class="quiz-btn-title">Test de Niveau</div>
+                    <div class="quiz-btn-desc">10 questions</div>
+                </div>
+            </div>
+        </div>
 
         <!-- Catégorie : Grammaire -->
         <div class="quiz-category">
@@ -50,7 +110,7 @@
                 <div class="quiz-btn" onclick="startQuiz('grammaire', 'b2')">
                     <div class="quiz-btn-icon">📝</div>
                     <div class="quiz-btn-title">B2 - Avancé</div>
-                    <div class="quiz-btn-desc">Complexité nuancée</div>
+                    <div class="quiz-btn-desc">Complexité nuanced</div>
                 </div>
             </div>
         </div>
@@ -98,47 +158,394 @@
                 </div>
             </div>
         </div>
+
+        <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;" onclick="resetTest()">
+            🔄 Recommencer
+        </button>
     </div>
 </div>
 
 <script>
-    // Base de données des questions (gardée pour une future utilisation)
+    // ==========================================
+    // DONNÉES DU QUIZ
+    // ==========================================
+
+    // Questions pour le test de niveau initial
+    const levelTestQuestions = [
+        // A1 Level (Questions 1-2)
+        {
+            level: 'a1',
+            question: "Comment dit-on 'Hello' en français ?",
+            options: ["Bonjour", "Au revoir", "Merci", "Bonsoir"],
+            correct: 0
+        },
+        {
+            level: 'a1',
+            question: "Complètez : 'Je ___ français.'",
+            options: ["suis", "es", "sommes", "êtes"],
+            correct: 0
+        },
+        // A2 Level (Questions 3-4)
+        {
+            level: 'a2',
+            question: "Quel temps fait-il ? 'Il ___ beaucoup.'",
+            options: ["fait", "fait beau", "pleut", "y a"],
+            correct: 2
+        },
+        {
+            level: 'a2',
+            question: "Complétez : 'Nous ___ aller au cinéma ce soir.'",
+            options: ["allons", "aller", "allez", "va"],
+            correct: 0
+        },
+        // B1 Level (Questions 5-6)
+        {
+            level: 'b1',
+            question: "Complétez : 'Si tu ___ riche, tu voyagerais.'",
+            options: ["es", "serais", "étais", "seras"],
+            correct: 2
+        },
+        {
+            level: 'b1',
+            question: "Quel est le participe passé de 'finir' ?",
+            options: ["finissant", "fini", "finie", "finirez"],
+            correct: 1
+        },
+        // B2 Level (Questions 7-8)
+        {
+            level: 'b2',
+            question: "Choisissez le subjonctif : 'Il faut que tu ___ ton travail.'",
+            options: ["fais", "fasses", "fait", "faire"],
+            correct: 1
+        },
+        {
+            level: 'b2',
+            question: "Identifiez le mode verbal : 'Pourvu qu'il vienne!'",
+            options: ["Indicatif", "Subjonctif", "Conditionnel", "Impératif"],
+            correct: 1
+        },
+        // C1 Level (Questions 9-10)
+        {
+            level: 'c1',
+            question: "Identifiez la figure de style : 'La nuit, les chats sont gris.'",
+            options: ["Métaphore", "Personnification", "Oxymore", "Euphémisme"],
+            correct: 2
+        },
+        {
+            level: 'c1',
+            question: "Choisissez le bon registre : 'Je t'aime' (registre littéraire)",
+            options: ["Je t'affectionne", "Je t'adore", "Mon cœur palpite pour toi", "Je te suis attaché"],
+            correct: 2
+        }
+    ];
+
+    // Base de données complète des quiz par catégorie et niveau
     const quizDatabase = {
         grammaire: {
-            a1: [ { question: "Quel est le féminin de 'grand' ?", options: ["grande", "größer", "grandir", "grandi"], correct: 0 } ],
-            a2: [ { question: "Le passé composé de 'aller' est :", options: ["allé", "suis allé", "étais allé", "ai alllé"], correct: 1 } ],
-            b1: [ { question: "Le plus-que-parfait de 'finir' :", options: ["avait fini", "eut fini", "aurait fini", "finissait"], correct: 0 } ],
-            b2: [ { question: "Le subjonctif après 'il faut que' :", options: ["infinitif", "conditionnel", "subjonctif", "indicatif"], correct: 2 } ]
+            a1: [
+                { question: "Quel est le féminin de 'grand' ?", options: ["grande", "größer", "grandir", "grandi"], correct: 0 },
+                { question: "L'article défini de 'école' est :", options: ["le", "la", "un", "une"], correct: 1 },
+                { question: "'Merci' est un :", options: ["verbe", "nom", "adverbe", "interjection"], correct: 3 },
+                { question: "Le pluriel de 'cheval' est :", options: ["chevals", "chevaux", "chevalx", "chevies"], correct: 1 },
+                { question: "Complétez : '___ une table.'", options: ["Il y a", "C'est", "Est-ce", "Il est"], correct: 1 }
+            ],
+            a2: [
+                { question: "Le passé composé de 'aller' est :", options: ["allé", "suis allé", "étais allé", "ai alllé"], correct: 1 },
+                { question: "L'imparfait de 'être' (nous) :", options: ["étions", "sommes", "étiez", "sont"], correct: 0 },
+                { question: "Complétez : 'Je ___ depuis une heure.'", options: ["attends", "attende", "attendez", "attendre"], correct: 0 },
+                { question: "Le comparatif de 'bon' :", options: ["plus bon", "meilleur", "bien", "plus mieux"], correct: 1 },
+                { question: "Les pronoms COD de 'il' et 'elle' :", options: ["le/la", "lui", "leur", "soi"], correct: 0 }
+            ],
+            b1: [
+                { question: "Le plus-que-parfait de 'finir' :", options: ["avait fini", "eut fini", "aurait fini", "finissait"], correct: 0 },
+                { question: "La cause avec 'parce que' ou 'car' :", options: ["conséquence", "cause", "but", "opposition"], correct: 1 },
+                { question: "Le conditionnel de 'pouvoir' (je) :", options: ["pourrais", "pouvais", "pourrait", "pourrai"], correct: 0 },
+                { question: "L'hypothèse avec 'si' + :", options: ["futur", "conditionnel", "imparfait", "subjonctif"], correct: 2 },
+                { question: "La concessive avec 'bien que' :", options: ["but", "cause", "opposition", "temps"], correct: 2 }
+            ],
+            b2: [
+                { question: "Le subjonctif après 'il faut que' :", options: ["infinitif", "conditionnel", "subjonctif", "indicatif"], correct: 2 },
+                { question: "Le participe présent de 'lire' :", options: ["lis", "lisant", "lu", "lit"], correct: 1 },
+                { question: "La voix passive utilise :", options: ["être + participe", "avoir + participe", "être en train de", "aller + infinitif"], correct: 0 },
+                { question: "'Cependant' introduit une :", options: ["cause", "opposition", "conséquence", "addition"], correct: 1 },
+                { question: "L'inversion du sujet après 'jamais' :", options: ["Jamais je", "Je jamais", "Jamais est-ce que je", "Je ne jamais"], correct: 0 }
+            ]
         },
         vocabulaire: {
-            a1: [ { question: "'La maison' en anglais :", options: ["mouse", "house", "mouse", "spouse"], correct: 1 } ],
-            a2: [ { question: "'Faire les courses' signifie :", options: ["faire du sport", "acheter des provisions", "courir", "faire la cuisine"], correct: 1 } ],
-            b1: [ { question: "'Par ailleurs' est un connecteur de :", options: ["temps", "addition", "opposition", "cause"], correct: 1 } ]
+            a1: [
+                { question: "'La maison' en anglais :", options: ["mouse", "house", "mouse", "spouse"], correct: 1 },
+                { question: "Les couleurs : 'bleu', 'rouge', '___'", options: ["vert", "verte", "ver", "vair"], correct: 0 },
+                { question: "Les nombres de 1 à 5 : un, deux, trois, quatre, ___", options: ["cinq", "sink", "cinque", "cing"], correct: 0 },
+                { question: "'Bonjour' signifie :", options: ["Goodbye", "Hello/Good day", "Thank you", "Please"], correct: 1 },
+                { question: "La familie : 'le père', 'la mère', 'l'___'", options: ["enfant", "enfent", "enfan", "enfnt"], correct: 0 }
+            ],
+            a2: [
+                { question: "'Faire les courses' signifie :", options: ["faire du sport", "acheter des provisions", "courir", "faire la cuisine"], correct: 1 },
+                { question: "Le temps : 'il pleut' signifie :", options: ["il fait beau", "il neige", "il pluie", "il fait mauvais"], correct: 3 },
+                { question: "Les métiers : 'un ___'", options: ["collègue", "collegue", "collèg", "colègue"], correct: 0 },
+                { question: "'Avoir faim' signifie :", options: ["avoir soif", "être fatigué", "vouloir manger", "avoir peur"], correct: 2 },
+                { question: "Les jours : 'lundi', 'mardi', '___'", options: ["Mercrdi", "mercredi", "mercredy", "mercred"], correct: 1 }
+            ],
+            b1: [
+                { question: "'Par ailleurs' est un connecteur de :", options: ["temps", "addition", "opposition", "cause"], correct: 1 },
+                { question: "Le vocabulaire du travail : 'un ___'", options: ["collègue", "collegue", "collèg", "colègue"], correct: 0 },
+                { question: "'Par conséquent' introduit une :", options: ["cause", "conséquence", "opposition", "comparaison"], correct: 1 },
+                { question: "L'argent : 'le salaire' est différent de :", options: ["le salaire", "le revenu", "le traite", "le traitement"], correct: 2 },
+                { question: "'Se déplacer' signifie :", options: ["demeurer", "voyager/bouger", "s'arrêter", "rester"], correct: 1 }
+            ]
         },
         comprehension: {
-            a1: [ { question: "Texte : 'Je m'appelle Marie. J'ai 20 ans.' Quel âge a Marie ?", options: ["10 ans", "20 ans", "30 ans", "25 ans"], correct: 1 } ],
-            a2: [ { question: "Dialogue : 'Où est la gare ? - C'est à droite.' La gare est :", options: ["à gauche", "à droite", "devant", "derrière"], correct: 1 } ],
-            b1: [ { question: "Article : 'Malgré la crise, l'économie croissance.' Le contexte est :", options: ["négatif", "positif", "neutre", "inconnu"], correct: 1 } ]
+            a1: [
+                { question: "Texte : 'Je m'appelle Marie. J'ai 20 ans.' Quel âge a Marie ?", options: ["10 ans", "20 ans", "30 ans", "25 ans"], correct: 1 },
+                { question: "Signal : 'ENTRÉE' signifie :", options: ["Sortie", "Passage", "Entrer ici", "Interdit"], correct: 2 },
+                { question: "Phrase : 'Il fait beau.' Le temps est :", options: ["mauvais", "chaud", "beau", "froid"], correct: 2 },
+                { question: "Instructions : 'Écrivez votre nom.' Vous devez :", options: ["lire", "parler", "écrire", "dessiner"], correct: 2 },
+                { question: "Horaire : 'Le bus arrive à 8h.' L'heure est :", options: ["sept heures", "huit heures", "neuf heures", "dix heures"], correct: 1 }
+            ],
+            a2: [
+                { question: "Dialogue : 'Où est la gare ? - C'est à droite.' La gare est :", options: ["à gauche", "à droite", "devant", "derrière"], correct: 1 },
+                { question: "Message : 'Merci de répondre avant le 15.' Réponse avant :", options: ["le 14", "le 15", "le 16", "le 20"], correct: 1 },
+                { question: "Texte : 'Je travaillerai demain.' L'action est :", options: ["passée", "présente", "future", "impossible"], correct: 2 },
+                { question: "Invitation : 'Viens si tu veux.' C'est :", options: ["obligatoire", "interdit", "facultatif", "urgent"], correct: 2 },
+                { question: "Avis : 'Ce film est nul.' L'opinion est :", options: ["positive", "négative", "neutre", "indifférente"], correct: 1 }
+            ],
+            b1: [
+                { question: "Article : 'Malgré la crise, l'économie croissance.' Le contexte est :", options: ["négatif", "positif", "neutre", "inconnu"], correct: 1 },
+                { question: "Argumentation : 'D'une part... d'autre part...' annonce :", options: ["conclusion", "opposition", "balance", "résumé"], correct: 2 },
+                { question: "Texte : 'Il était une fois...' C'est :", options: ["une histoire réelle", "un conte", "un article", "une lettre"], correct: 1 },
+                { question: "Avis arguments : 'Cependant, il faut reconnaître...' L'auteur :", options: ["est totalement d'accord", "tempère son avis", "change de sujet", "conclut"], correct: 1 },
+                { question: "Article de presse : 'Selon une étude...' La source est :", options: ["officielle", "scientifique", "populaire", "commerciale"], correct: 1 }
+            ]
         }
     };
 
-    /**
-     * Démarre un quiz spécifique.
-     * Pour l'instant, cette fonction affiche une alerte.
-     * Plus tard, elle pourrait rediriger vers une page de quiz avec les bonnes questions.
-     * @param {string} category - La catégorie du quiz (ex: 'grammaire')
-     * @param {string} level - Le niveau du quiz (ex: 'a1')
-     */
+    // ==========================================
+    // ÉTAT DE L'APPLICATION
+    // ==========================================
+    let currentQuestion = 0;
+    let answers = [];
+    let startTime = null;
+    let isQuizMode = false;
+    let currentQuizCategory = null;
+    let currentQuizLevel = null;
+
+    // Éléments du DOM
+    const levelTest = document.getElementById('level-test');
+    const questionsContainer = document.getElementById('questions-container');
+    const progressFill = document.getElementById('progress-fill');
+    const progressText = document.getElementById('progress-text');
+    const nextBtn = document.getElementById('next-btn');
+    const results = document.getElementById('results');
+    const quizMenu = document.getElementById('quiz-menu');
+
+    // ==========================================
+    // FONCTIONS PRINCIPALES
+    // ==========================================
+
+    // Initialisation au chargement
+    function init() {
+        showQuestion();
+    }
+
+    // Affiche la question actuelle
+    function showQuestion() {
+        const questions = isQuizMode ? quizDatabase[currentQuizCategory][currentQuizLevel] : levelTestQuestions;
+        const q = questions[currentQuestion];
+
+        const letters = ['A', 'B', 'C', 'D'];
+
+        let html = `
+                <div class="question-container active">
+                    <div class="question-number">Question ${currentQuestion + 1}</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options">
+            `;
+
+        q.options.forEach((option, index) => {
+            html += `
+                    <div class="option" data-index="${index}" onclick="selectOption(${index})">
+                        <span class="option-letter">${letters[index]}</span>
+                        <span>${option}</span>
+                    </div>
+                `;
+        });
+
+        html += `
+                    </div>
+                </div>
+            `;
+
+        questionsContainer.innerHTML = html;
+        updateProgress();
+    }
+
+    // Met à jour la barre de progression
+    function updateProgress() {
+        const questions = isQuizMode ? quizDatabase[currentQuizCategory][currentQuizLevel] : levelTestQuestions;
+        const progress = ((currentQuestion + 1) / questions.length) * 100;
+        progressFill.style.width = `${progress}%`;
+        progressText.textContent = `Question ${currentQuestion + 1} sur ${questions.length}`;
+    }
+
+    // Gère la sélection d'une réponse
+    function selectOption(index) {
+        const options = document.querySelectorAll('.option');
+        options.forEach(opt => opt.classList.remove('selected'));
+        options[index].classList.add('selected');
+        nextBtn.disabled = false;
+
+        answers[currentQuestion] = index;
+    }
+
+    // Gestion du clic sur "Suivant"
+    nextBtn.addEventListener('click', () => {
+        const questions = isQuizMode ? quizDatabase[currentQuizCategory][currentQuizLevel] : levelTestQuestions;
+
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            showQuestion();
+            nextBtn.disabled = true;
+        } else {
+            if (isQuizMode) {
+                showQuizResults();
+            } else {
+                showResults();
+            }
+        }
+    });
+
+    // Affiche les résultats du test de niveau
+    function showResults() {
+        const endTime = Date.now();
+        const timeTaken = Math.round((endTime - startTime) / 1000);
+
+        let correctCount = 0;
+        let levelScores = { a1: 0, a2: 0, b1: 0, b2: 0, c1: 0 };
+
+        levelTestQuestions.forEach((q, i) => {
+            if (answers[i] === q.correct) {
+                correctCount++;
+                levelScores[q.level]++;
+            }
+        });
+
+        // Algorithme de détermination du niveau
+        let determinedLevel = 'A1';
+        const maxScore = Math.max(...Object.values(levelScores));
+
+        if (levelScores.c1 >= 2 && maxScore === levelScores.c1) determinedLevel = 'C1';
+        else if (levelScores.b2 >= 2 && maxScore >= levelScores.b2) determinedLevel = 'B2';
+        else if (levelScores.b1 >= 2 && maxScore >= levelScores.b1) determinedLevel = 'B1';
+        else if (levelScores.a2 >= 2 && maxScore >= levelScores.a2) determinedLevel = 'A2';
+
+        const questions = levelTestQuestions.length;
+
+        document.getElementById('result-level').textContent = `Niveau ${determinedLevel}`;
+        document.getElementById('result-score').textContent = `Tu as obtenu ${correctCount}/${questions}`;
+        document.getElementById('total-answered').textContent = questions;
+        document.getElementById('correct-count').textContent = correctCount;
+        document.getElementById('total-time').textContent = timeTaken;
+        document.getElementById('determined-level').textContent = determinedLevel;
+
+        levelTest.classList.add('hidden');
+        results.classList.add('active');
+
+        // Lance l'animation de confettis
+        createConfetti();
+    }
+
+    // Affiche les résultats d'un quiz spécifique
+    function showQuizResults() {
+        const questions = quizDatabase[currentQuizCategory][currentQuizLevel];
+        let correctCount = 0;
+
+        questions.forEach((q, i) => {
+            if (answers[i] === q.correct) correctCount++;
+        });
+
+        const percentage = Math.round((correctCount / questions.length) * 100);
+
+        alert(`Quiz terminé !\n\nScore: ${correctCount}/${questions.length} (${percentage}%)\n\nNiveau: ${currentQuizLevel.toUpperCase()}`);
+
+        resetTest();
+    }
+
+    // Crée l'effet visuel de confettis
+    function createConfetti() {
+        const colors = ['#6366f1', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6'];
+
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDelay = Math.random() * 3 + 's';
+            confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            document.body.appendChild(confetti);
+        }
+
+        setTimeout(() => {
+            document.querySelectorAll('.confetti').forEach(c => c.remove());
+        }, 5000);
+    }
+
+    // Affiche le menu de sélection des quiz
+    function showQuizMenu() {
+        results.classList.remove('active');
+        quizMenu.classList.add('active');
+    }
+
+    // Démarre le test de niveau
+    function startLevelTest() {
+        isQuizMode = false;
+        currentQuestion = 0;
+        answers = new Array(levelTestQuestions.length).fill(null);
+        startTime = Date.now();
+
+        quizMenu.classList.remove('active');
+        results.classList.remove('active');
+        levelTest.classList.remove('hidden');
+
+        showQuestion();
+    }
+
+    // Démarre un quiz spécifique
     function startQuiz(category, level) {
         if (!quizDatabase[category] || !quizDatabase[category][level]) {
             alert('Ce quiz arrive bientôt !');
             return;
         }
 
-        // Logique future : rediriger vers une page qui prendra en charge le quiz
-        // window.location.href = `/quiz/start?category=${category}&level=${level}`;
-        alert(`Lancement du quiz : ${category.toUpperCase()} - ${level.toUpperCase()}\n(Fonctionnalité à implémenter)`);
+        isQuizMode = true;
+        currentQuizCategory = category;
+        currentQuizLevel = level;
+        currentQuestion = 0;
+        const questions = quizDatabase[category][level];
+        answers = new Array(questions.length).fill(null);
+
+        quizMenu.classList.remove('active');
+        results.classList.remove('active');
+        levelTest.classList.remove('hidden');
+
+        showQuestion();
+        nextBtn.disabled = true;
     }
+
+    // Réinitialise l'état du quiz
+    function resetTest() {
+        currentQuestion = 0;
+        answers = [];
+        isQuizMode = false;
+        currentQuizCategory = null;
+        currentQuizLevel = null;
+
+        levelTest.classList.add('hidden');
+        results.classList.remove('active');
+        quizMenu.classList.add('active');
+    }
+
+    // Lancement au chargement de la page
+    init();
 </script>
 </body>
 </html>
