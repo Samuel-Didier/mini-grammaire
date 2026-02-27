@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Technique - Ma Mini-Grammaire</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4a90e2;
+            --secondary: #2c3e50;
+            --bg: #f8f9fa;
+            --sidebar-width: 280px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--secondary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid #e1e4e8;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .sidebar h1 {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 0.5rem 0;
+            color: #666;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: #999;
+            margin: 1.5rem 0 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        /* Content */
+        .content {
+            margin-left: var(--sidebar-width);
+            padding: 3rem 4rem;
+            flex: 1;
+            max-width: 1000px;
+        }
+
+        section { margin-bottom: 4rem; }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e1e4e8;
+        }
+
+        h3 { margin: 1.5rem 0 1rem; color: var(--primary); }
+
+        p { line-height: 1.6; margin-bottom: 1rem; }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: #eef2f5;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25em 0.6em;
+            font-size: 0.75em;
+            font-weight: 700;
+            color: #fff;
+            background-color: var(--primary);
+            border-radius: 0.25rem;
+            vertical-align: text-top;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th { background: #f8f9fa; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<nav class="sidebar">
+    <h1>📘 Mini-Grammaire Docs</h1>
+    <div class="nav-links">
+        <a href="#intro">Introduction</a>
+        <a href="#architecture">Architecture</a>
+
+        <h3>Backend</h3>
+        <a href="#controllers">Contrôleurs</a>
+        <a href="#models">Modèles</a>
+        <a href="#routes">Routes</a>
+
+        <h3>Frontend</h3>
+        <a href="#views">Vues & Templates</a>
+        <a href="#assets">CSS & JS</a>
+
+        <h3>Base de données</h3>
+        <a href="#database">Schéma SQL</a>
+    </div>
+</nav>
+
+<main class="content">
+
+    <section id="intro">
+        <h2>Introduction</h2>
+        <p>Bienvenue dans la documentation technique du projet <strong>Ma Mini-Grammaire</strong>. Cette application web éducative aide les utilisateurs à améliorer leur français grâce à des outils interactifs.</p>
+        <p>Le projet est construit avec le micro-framework <strong>Fat-Free (F3)</strong> et suit une architecture <strong>MVC</strong> stricte.</p>
+    </section>
+
+    <section id="architecture">
+        <h2>Architecture</h2>
+        <p>La structure du projet sépare clairement la logique métier, l'accès aux données et l'affichage.</p>
+        <pre>
+/
+├── App/
+│   ├── Controllers/   # Logique de l'application
+│   └── Models/        # Accès à la base de données
+├── ui/
+│   ├── pages/         # Contenu des pages
+│   ├── partials/      # Éléments réutilisables (header, footer)
+│   └── layout.html    # Gabarit principal
+├── assets/            # CSS, JS, Images
+└── index.php          # Point d'entrée (Front Controller)
+        </pre>
+    </section>
+
+    <section id="controllers">
+        <h2>Contrôleurs</h2>
+        <p>Les contrôleurs gèrent les requêtes HTTP et préparent les données pour les vues.</p>
+
+        <h3>Auth.php</h3>
+        <p>Gère l'inscription, la connexion, la déconnexion et le profil utilisateur.</p>
+        <ul>
+            <li><code>login($f3)</code> : Traite le formulaire de connexion.</li>
+            <li><code>register($f3)</code> : Crée un nouvel utilisateur.</li>
+            <li><code>profil($f3)</code> : Affiche le tableau de bord utilisateur avec ses stats.</li>
+        </ul>
+
+        <h3>Page.php</h3>
+        <p>Gère l'affichage des pages statiques et la navigation principale.</p>
+        <ul>
+            <li><code>home($f3)</code> : Affiche le tableau de bord.</li>
+            <li><code>grammaire($f3)</code> : Affiche le tableau des codes.</li>
+            <li><code>testNiveau($f3)</code> : Affiche le test initial (avec vérification).</li>
+        </ul>
+
+        <h3>QuizController.php</h3>
+        <p>Gère la logique des quiz et la sauvegarde de la progression.</p>
+        <ul>
+            <li><code>saveLevel($f3)</code> : API pour sauvegarder le résultat du test (AJAX).</li>
+            <li><code>index($f3)</code> : Affiche le menu des quiz.</li>
+        </ul>
+    </section>
+
+    <section id="models">
+        <h2>Modèles</h2>
+        <p>Tous les modèles étendent <code>\DB\SQL\Mapper</code> pour faciliter le CRUD.</p>
+
+        <table>
+            <tr>
+                <th>Modèle</th>
+                <th>Table</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>User</code></td>
+                <td>users</td>
+                <td>Gestion des comptes utilisateurs.</td>
+            </tr>
+            <tr>
+                <td><code>Favori</code></td>
+                <td>favoris</td>
+                <td>Liaison entre utilisateurs et astuces favorites.</td>
+            </tr>
+            <tr>
+                <td><code>Progression</code></td>
+                <td>progression</td>
+                <td>Stockage des résultats de tests et niveaux.</td>
+            </tr>
+            <tr>
+                <td><code>Astuces</code></td>
+                <td>astuces</td>
+                <td>Contenu des astuces de grammaire.</td>
+            </tr>
+        </table>
+    </section>
+
+    <section id="routes">
+        <h2>Routes</h2>
+        <p>Toutes les routes sont définies dans <code>index.php</code> et préfixées par <code>/mini-grammaire</code>.</p>
+        <pre>
+GET  /                      -> Page->home
+GET  /login                 -> Auth->login
+POST /login                 -> Auth->login
+GET  /register              -> Auth->register
+POST /register              -> Auth->register
+GET  /profile               -> Auth->profil
+GET  /mini_grammaire        -> Page->grammaire
+GET  /astuces               -> AstucesController->getAstuces
+POST /favori/toggle/@id     -> FavorisController->toggle
+GET  /test-niveau           -> Page->testNiveau
+POST /quiz/save-level       -> QuizController->saveLevel
+        </pre>
+    </section>
+
+    <section id="views">
+        <h2>Vues & Templates</h2>
+        <p>Le moteur de template de F3 est utilisé pour le rendu dynamique.</p>
+        <ul>
+            <li><strong>Layout</strong> : <code>ui/layout.html</code> contient la structure HTML de base.</li>
+            <li><strong>Inclusion</strong> : <code>&lt;include href="partials/header.html" /&gt;</code></li>
+            <li><strong>Variables</strong> : <code>{{ @variable }}</code></li>
+            <li><strong>Conditions</strong> : <code>&lt;check if="..."&gt;</code></li>
+            <li><strong>Boucles</strong> : <code>&lt;repeat group="..." value="..."&gt;</code></li>
+        </ul>
+    </section>
+
+    <section id="assets">
+        <h2>Assets (CSS & JS)</h2>
+        <p>Les ressources statiques sont organisées par fonctionnalité.</p>
+
+        <h3>CSS</h3>
+        <ul>
+            <li><code>style.css</code> : Styles globaux et layout.</li>
+            <li><code>auth.css</code> : Styles des pages de connexion/inscription.</li>
+            <li><code>profile.css</code> : Styles de la page profil.</li>
+            <li><code>quiz.css</code> : Styles spécifiques aux quiz.</li>
+            <li><code>mini_grammaire.css</code> : Styles du tableau de codes.</li>
+        </ul>
+
+        <h3>JavaScript</h3>
+        <ul>
+            <li><code>quiz.js</code> : Logique complète du quiz (questions, progression, AJAX).</li>
+            <li><code>script_search.js</code> : Moteur de recherche pour la mini-grammaire.</li>
+        </ul>
+    </section>
+
+</main>
+
+</body>
+</html>

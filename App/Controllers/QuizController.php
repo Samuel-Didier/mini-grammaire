@@ -51,12 +51,12 @@ class QuizController
         $tpl = \Template::instance();
         // Initialiser la variable pour éviter l'erreur "Undefined variable"
         $f3->set('userLevel', null);
-        
+
          // Récupérer le niveau de l'utilisateur s'il est connecté
          if ($f3->exists('SESSION.user')) {
              $userModel = new User($f3->get('DB'));
              $user = $userModel->findByUsername($f3->get('SESSION.user'));
-             
+
              if ($user) {
                  $progressionModel = new Progression($f3->get('DB'));
                  $progression = $progressionModel->getByUser($user['id']);

@@ -6,8 +6,18 @@ use App\Models\Astuces;
 use App\Models\Favori;
 use App\Models\User;
 
+/**
+ * Controller for managing astuces-related functionalities.
+ */
 class AstucesController {
 
+    /**
+     * Retrieves the list of tips (astuces) from the database, processes the data to determine user-specific favorites,
+     * and renders the astuces page within a layout.
+     *
+     * @param \Base $f3 Framework instance used to handle configurations, sessions, and rendering.
+     * @return void Outputs the rendered layout to the response.
+     */
     public function getAstuces(\Base $f3) {
         $tpl = \Template::instance();
         // 1. Récupérer les données depuis le modèle

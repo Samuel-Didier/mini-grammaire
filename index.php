@@ -54,7 +54,7 @@ try {
     // Gestion des erreurs de connexion
     error_log('DB connection failed: ' . $e->getMessage());
     http_response_code(500);
-    exit('Erreur de connexion à la base de données. Code: 500');
+    exit('Erreur de connexion à la base de données. Code: 500 =>'.$e->getMessage());
 }
 
 // Rend la connexion DB accessible dans tout F3 via $f3->get('DB')
@@ -106,6 +106,10 @@ $f3->route('GET /test-niveau', 'App\Controllers\Page->testNiveau');
 $f3->route('POST /quiz/save-level', 'App\Controllers\QuizController->saveLevel');
 $f3->route('GET /quiz', 'App\Controllers\QuizController->index');
 //$f3->route('GET /quiz', 'App\Controllers\Page->quiz');
+// Documentation
+ $f3->route('GET /mini-grammaire/docs', function($f3) {
+     echo \Template::instance()->render('pages/documentation.html');
+ });
 
 // Routes génériques (si besoin)
 $f3->route('GET /generic', 'App\Controllers\Page->generic');

@@ -15,9 +15,8 @@ class FavorisController
     {
         // Vérifier si l'utilisateur est connecté
         if (!$f3->exists('SESSION.user')) {
-            header('Content-Type: application/json');
-            echo json_encode(['success' => false, 'message' => 'Non connecté']);
-            exit;
+            $f3->reroute('/login');
+            return;
         }
 
         $astuce_id = (int)$params['id'];

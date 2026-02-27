@@ -9,8 +9,8 @@
         <div class="tip-card">
             <h3>{{ @astuce.titre }}</h3>
             <p>{{ @astuce.description }}</p>
-            <button class="btn-favori {{ @astuce.is_favori ? 'active' : '' }}" onclick="toggleFavori({{ @astuce.id }}, this)" title="Ajouter aux favoris">
-                {{ @astuce.is_favori ? '❤️' : '🤍' }}
+            <button class="btn-favori " onclick="toggleFavori({{ @astuce.id }}, this)" title="Ajouter aux favoris">
+                🤍
             </button>
         </div>
     </repeat>

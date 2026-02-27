@@ -4,7 +4,26 @@ use App\Models\User;
 use App\Models\Favori;
 use App\Models\Progression; // Import du modèle Progression
 
+/**
+ * Classe Auth
+ *
+ * Cette classe gère l'authentification et la gestion des comptes utilisateurs,
+ * incluant la connexion, la déconnexion, l'inscription et l'affichage du profil.
+ *
+ * @package App\Controllers
+ */
 class Auth {
+
+    /**
+     * Gère la connexion des utilisateurs.
+     *
+     * Vérifie les identifiants (nom d'utilisateur ou adresse courriel et mot de passe)
+     * soumis via la méthode POST. En cas de succès, initialise la session utilisateur
+     * et redirige vers le profil. Sinon, affiche les erreurs sur la page de connexion.
+     *
+     * @param \Base $f3 L'instance du framework Fat-Free contenant les requêtes et variables globales.
+     * @return void
+     */
     public function login(\Base $f3)
     {
         $errors = [];
@@ -58,10 +77,32 @@ class Auth {
         $f3->set('content', $content);
         echo $tpl->render('layout.html');
     }
+
+    /**
+     * Gère la déconnexion de l'utilisateur.
+     *
+     * Détruit toutes les données de la session en cours et
+     * redirige l'utilisateur vers la page d'accueil.
+     *
+     * @param \Base $f3 L'instance du framework Fat-Free.
+     * @return void
+     */
     public function logout($f3) {
         $f3->clear('SESSION');
         $f3->reroute('/');
     }
+
+    /**
+     * Gère l'inscription de nouveaux utilisateurs.
+     *
+     * Traite les données soumises via la méthode POST (nom, prénom, nom d'utilisateur,
+     * courriel, mot de passe). Valide les données (unicité du nom d'utilisateur,
+     * longueur du mot de passe) et, en cas de succès, crée le compte,
+     * connecte automatiquement l'utilisateur et le redirige vers son profil.
+     *
+     * @param \Base $f3 L'instance du framework Fat-Free.
+     * @return void
+     */
     public function register(\Base $f3)
     {
         $tpl = \Template::instance();
@@ -134,6 +175,17 @@ class Auth {
         $f3->set('content', $content);
         echo $tpl->render('layout.html');
     }
+
+    /**
+     * Affiche le profil de l'utilisateur connecté.
+     *
+     * Vérifie si un utilisateur est bien connecté, sinon le redirige vers la page de connexion.
+     * Récupère ensuite ses données personnelles, ses favoris et sa progression
+     * (niveau et score) afin de les afficher sur la vue correspondante.
+     *
+     * @param \Base $f3 L'instance du framework Fat-Free.
+     * @return void
+     */
     public function profil($f3) {
         // 1. Vérification de l’authentification
         if (!$f3->exists('SESSION.user')) {
@@ -155,7 +207,7 @@ class Auth {
         // 4. Récupération de la progression (Niveau et Score)
         $progressionModel = new Progression($f3->get('DB'));
         $progression = $progressionModel->getByUser($data['id']);
-        
+
         $niveau = $progression ? $progression['niveau_global'] : 'Non évalué';
         $score = $progression ? $progression['score_test_initial'] . '/10' : '-';
 
@@ -180,6 +232,5 @@ class Auth {
         $f3->set('content', $content);
         echo $tpl->render('layout.html');
     }
-
 
 }
