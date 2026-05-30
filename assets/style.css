@@ -1,18 +1,26 @@
 /* =========================================
-   VARIABLES & RESET
+   VARIABLES GLOBALES
    ========================================= */
 :root {
     --bg-color: #f0f2f5;
     --text-color: #2c3e50;
+    --text-light: #7f8c8d;
     --white: #ffffff;
+    --border-color: #e2e8f0;
+
+    /* Palette d'accents */
     --blue-accent: #4a90e2;
     --green-accent: #50e3c2;
     --orange-accent: #ff9f43;
     --purple-accent: #9b59b6;
     --red-accent: #e74c3c;
+
     --shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
+/* =========================================
+   RESET & BASE
+   ========================================= */
 * {
     margin: 0;
     padding: 0;
@@ -26,10 +34,11 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    line-height: 1.6;
 }
 
 /* =========================================
-   NAVIGATION
+   NAVIGATION (Navbar)
    ========================================= */
 .navbar {
     background-color: var(--white);
@@ -37,25 +46,75 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
 }
 
-.logo {
-    font-weight: 600;
+.navbar .logo {
+    font-weight: 700;
     font-size: 1.2rem;
     color: var(--blue-accent);
+    text-decoration: none;
 }
 
-.user-profile {
-    font-size: 0.9rem;
-    cursor: pointer;
-    padding: 5px 10px;
+.navbar .logo a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 15px;
+    background-color: var(--bg-color);
     border-radius: 20px;
-    background-color: #f0f2f5;
-    white-space: nowrap;
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.user-profile-btn:hover { background-color: #e1e4e8; }
+
+.logout-btn {
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background 0.2s;
+    color: var(--text-color);
+}
+
+.logout-btn:hover {
+    background-color: #ffebee;
+    color: var(--red-accent);
+}
+
+.login-btn {
+    text-decoration: none;
+    color: white;
+    background-color: var(--blue-accent);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.login-btn:hover {
+    background-color: #357abd;
 }
 
 /* =========================================
@@ -79,30 +138,24 @@ body {
 }
 
 .dashboard-header p {
-    color: #7f8c8d;
+    color: var(--text-light);
 }
 
 .back-link {
     display: inline-flex;
     align-items: center;
-    margin-bottom: 20px;
+    gap: 0.4rem;
     color: var(--text-color);
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.2s;
+    opacity: 0.7;
+    margin-bottom: 1.5rem;
+    transition: opacity 0.2s;
 }
-
-.back-link:hover {
-    color: var(--blue-accent);
-}
-
-.back-link span {
-    margin-right: 5px;
-    font-size: 1.2rem;
-}
+.back-link:hover { opacity: 1; color: var(--blue-accent); }
 
 /* =========================================
-   COMPOSANT : ASTUCE DU JOUR
+   COMPOSANT : ASTUCE DU JOUR (Dashboard)
    ========================================= */
 .daily-tip-banner {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -115,7 +168,7 @@ body {
 }
 
 .tip-content h3 {
-    font-size: 1rem;
+    font-size: 0.9rem;
     opacity: 0.9;
     margin-bottom: 0.5rem;
     text-transform: uppercase;
@@ -125,7 +178,7 @@ body {
 .tip-content p {
     font-size: 1.1rem;
     font-weight: 500;
-    padding-right: 30px;
+    padding-right: 40px;
 }
 
 .refresh-tip {
@@ -135,11 +188,11 @@ body {
     background: rgba(255,255,255,0.2);
     border: none;
     color: white;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: transform 0.3s, background 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -191,290 +244,18 @@ body {
 
 .dash-card p {
     font-size: 0.9rem;
-    color: #7f8c8d;
+    color: var(--text-light);
     line-height: 1.4;
 }
 
-/* Couleurs des cartes */
 .dash-card.blue { border-top-color: var(--blue-accent); }
 .dash-card.blue .icon { color: var(--blue-accent); }
-
 .dash-card.green { border-top-color: var(--green-accent); }
 .dash-card.green .icon { color: var(--green-accent); }
-
 .dash-card.orange { border-top-color: var(--orange-accent); }
 .dash-card.orange .icon { color: var(--orange-accent); }
-
 .dash-card.purple { border-top-color: var(--purple-accent); }
 .dash-card.purple .icon { color: var(--purple-accent); }
-
-/* =========================================
-   COMPOSANT : TABLEAU & RECHERCHE (table.html)
-   ========================================= */
-.table-container {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    overflow-x: auto;
-}
-
-.search-box {
-    width: 100%;
-    padding: 12px 20px;
-    margin-bottom: 20px;
-    border: 2px solid #e1e4e8;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-family: 'Poppins', sans-serif;
-    transition: border-color 0.3s;
-}
-
-.search-box:focus {
-    border-color: var(--blue-accent);
-    outline: none;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    min-width: 800px;
-}
-
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-    vertical-align: top;
-}
-
-th {
-    background-color: #f8f9fa;
-    color: var(--blue-accent);
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 0.5px;
-    position: sticky;
-    top: 0;
-}
-
-tr:hover {
-    background-color: #f1f7fd;
-}
-
-/* Codes couleurs pour les catégories du tableau */
-.code-g { color: var(--red-accent); font-weight: bold; }
-.code-p { color: #f39c12; font-weight: bold; }
-.code-s { color: #3498db; font-weight: bold; }
-.code-u { color: var(--purple-accent); font-weight: bold; }
-.code-v { color: #2ecc71; font-weight: bold; }
-
-/* =========================================
-   COMPOSANT : GRILLE D'ASTUCES
-   ========================================= */
-.tips-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-}
-
-.tip-card {
-    background: var(--white);
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    border-left: 4px solid var(--green-accent);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.tip-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-}
-
-.tip-card h3 {
-    font-size: 1.1rem;
-    color: var(--green-accent);
-    margin-bottom: 0.5rem;
-}
-
-.tip-card p {
-    font-size: 0.9rem;
-    color: #555;
-    line-height: 1.5;
-}
-
-/* =========================================
-   COMPOSANT : AUTHENTIFICATION (Login/Register)
-   ========================================= */
-.auth-container {
-    max-width: 400px;
-    margin: 50px auto;
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    text-align: center;
-}
-
-.auth-header h2 {
-    margin-bottom: 1rem;
-}
-
-.auth-header h2.login { color: var(--blue-accent); }
-.auth-header h2.register { color: var(--green-accent); }
-.auth-header h2.forgot { color: var(--orange-accent); }
-
-.form-group {
-    margin-bottom: 1.5rem;
-    text-align: left;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: var(--text-color);
-}
-
-.form-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-family: 'Poppins', sans-serif;
-}
-
-.btn-primary {
-    width: 100%;
-    padding: 12px;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.btn-primary.login { background-color: var(--blue-accent); }
-.btn-primary.login:hover { background-color: #357abd; }
-
-.btn-primary.register { background-color: var(--green-accent); }
-.btn-primary.register:hover { background-color: #3acfae; }
-
-.btn-primary.forgot { background-color: var(--orange-accent); }
-.btn-primary.forgot:hover { background-color: #e67e22; }
-
-.auth-footer {
-    margin-top: 1.5rem;
-    font-size: 0.9rem;
-}
-
-.auth-footer a {
-    text-decoration: none;
-}
-
-.auth-footer a:hover {
-    text-decoration: underline;
-}
-
-/* =========================================
-   COMPOSANT : PROFIL UTILISATEUR
-   ========================================= */
-.profile-container {
-    max-width: 600px;
-    margin: 0 auto;
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-}
-
-.profile-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #eee;
-}
-
-.avatar {
-    width: 80px;
-    height: 80px;
-    background-color: var(--blue-accent);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    font-weight: bold;
-    margin-right: 20px;
-}
-
-.user-info h2 {
-    margin-bottom: 5px;
-}
-
-.user-info p {
-    color: #7f8c8d;
-}
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.stat-card {
-    background-color: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    text-align: center;
-}
-
-.stat-number {
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--blue-accent);
-    display: block;
-}
-
-.stat-label {
-    font-size: 0.9rem;
-    color: #7f8c8d;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 1rem;
-}
-
-.btn {
-    padding: 10px 20px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    text-align: center;
-    flex: 1;
-}
-
-.btn-edit {
-    background-color: #f0f2f5;
-    color: var(--text-color);
-}
-
-.btn-logout {
-    background-color: #ffebee;
-    color: #c62828;
-}
-
-.btn:hover {
-    opacity: 0.9;
-}
 
 /* =========================================
    FOOTER
@@ -482,7 +263,7 @@ tr:hover {
 footer {
     text-align: center;
     padding: 2rem;
-    color: #95a5a6;
+    color: var(--text-light);
     font-size: 0.8rem;
     margin-top: auto;
 }
@@ -491,30 +272,110 @@ footer {
    RESPONSIVE MEDIA QUERIES
    ========================================= */
 
-/* Tablettes (max 768px) */
+/* Mobiles (max 768px) */
 @media screen and (max-width: 768px) {
-    .navbar { padding: 1rem; }
-    .main-container { padding: 1rem; }
-    .dashboard-header h1 { font-size: 1.5rem; }
-    .daily-tip-banner { padding: 1.2rem; }
-    .tip-content p { font-size: 1rem; }
-    .dashboard-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-}
-
-/* Mobiles (max 480px) */
-@media screen and (max-width: 480px) {
     .navbar {
         flex-direction: column;
+        padding: 0.8rem 1rem;
         gap: 10px;
-        text-align: center;
     }
-    .dashboard-header { text-align: center; }
-    .dashboard-grid { grid-template-columns: 1fr; }
+    .navbar .logo {
+        font-size: 1.1rem;
+    }
+    .nav-actions {
+        width: 100%;
+        justify-content: center;
+        gap: 10px;
+    }
+    .user-profile-btn .user-name {
+        display: none; /* Masque le nom d'utilisateur sur petit écran */
+    }
+    .main-container {
+        padding: 1rem;
+    }
+    .dashboard-header h1 {
+        font-size: 1.5rem;
+    }
+    .daily-tip-banner {
+        padding: 1rem;
+    }
+    .tip-content p {
+        font-size: 1rem;
+        padding-right: 30px;
+    }
+    .refresh-tip {
+        top: 1rem;
+        right: 1rem;
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+    }
     .dash-card {
+        padding: 1.5rem;
         align-items: center;
         text-align: center;
-        padding: 1.5rem;
     }
-    .table-container { padding: 1rem; }
-    th, td { padding: 10px; font-size: 0.9rem; }
+    .dash-card .icon {
+        font-size: 2rem;
+    }
+    .dash-card h2 {
+        font-size: 1.1rem;
+    }
+    .dash-card p {
+        font-size: 0.85rem;
+    }
+    .back-link {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Très petits écrans (max 480px) */
+@media screen and (max-width: 480px) {
+    .main-container {
+        padding: 0.5rem;
+    }
+    .hero-banner { /* Si utilisé sur d'autres pages */
+        padding: 2rem 1rem;
+    }
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+    .hero-content p {
+        font-size: 0.9rem;
+    }
+    .cta-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    .tip-card-standalone {
+        padding: 1rem;
+    }
+    .tip-card-standalone h3 {
+        font-size: 0.8rem;
+    }
+    .tip-card-standalone p {
+        font-size: 0.9rem;
+    }
+    .refresh-tip-btn {
+        padding: 4px 10px;
+        font-size: 0.8rem;
+    }
+    .features-grid {
+        gap: 1rem;
+    }
+    .feature-card {
+        padding: 2rem 1.5rem;
+    }
+    .feature-icon {
+        font-size: 2.5rem;
+    }
+    .feature-card h3 {
+        font-size: 1.1rem;
+    }
+    .feature-card p {
+        font-size: 0.8rem;
+    }
 }

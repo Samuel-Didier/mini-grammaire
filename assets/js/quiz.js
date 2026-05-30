@@ -1,4 +1,14 @@
-// Quiz Data
+/**
+ * GESTION DU QUIZ ET DU TEST DE NIVEAU
+ * Ce script gère l'affichage des questions, la progression,
+ * le calcul du score et l'envoi des résultats au serveur.
+ */
+
+// ==========================================
+// DONNÉES DU QUIZ
+// ==========================================
+
+// Questions pour le test de niveau initial
 const levelTestQuestions = [
     // A1 Level (Questions 1-2)
     {
@@ -67,12 +77,14 @@ const levelTestQuestions = [
     }
 ];
 
-// State
+// ==========================================
+// ÉTAT DE L'APPLICATION
+// ==========================================
 let currentQuestion = 0;
 let answers = [];
 let startTime = null;
 
-// DOM Elements
+// Éléments du DOM
 const levelTest = document.getElementById('level-test');
 const questionsContainer = document.getElementById('questions-container');
 const progressFill = document.getElementById('progress-fill');
@@ -80,7 +92,13 @@ const progressText = document.getElementById('progress-text');
 const nextBtn = document.getElementById('next-btn');
 const results = document.getElementById('results');
 
-// Initialize
+// ==========================================
+// FONCTIONS PRINCIPALES
+// ==========================================
+
+/**
+ * Initialise le quiz si les éléments sont présents sur la page.
+ */
 function initQuiz() {
     if (!levelTest) return; // Ne rien faire si on n'est pas sur la page du quiz
 
@@ -99,7 +117,9 @@ function initQuiz() {
     });
 }
 
-// Show current question
+/**
+ * Affiche la question actuelle et ses options.
+ */
 function showQuestion() {
     const q = levelTestQuestions[currentQuestion];
     const letters = ['A', 'B', 'C', 'D'];
@@ -125,14 +145,19 @@ function showQuestion() {
     updateProgress();
 }
 
-// Update progress bar
+/**
+ * Met à jour la barre de progression visuelle.
+ */
 function updateProgress() {
     const progress = ((currentQuestion + 1) / levelTestQuestions.length) * 100;
     progressFill.style.width = `${progress}%`;
     progressText.textContent = `Question ${currentQuestion + 1} sur ${levelTestQuestions.length}`;
 }
 
-// Select option
+/**
+ * Gère la sélection d'une option par l'utilisateur.
+ * @param {number} index - L'index de l'option choisie.
+ */
 function selectOption(index) {
     const options = document.querySelectorAll('.option');
     options.forEach(opt => opt.classList.remove('selected'));
@@ -141,7 +166,9 @@ function selectOption(index) {
     answers[currentQuestion] = index;
 }
 
-// Show results and save to DB
+/**
+ * Calcule les résultats, affiche le résumé et prépare l'envoi au serveur.
+ */
 function showResults() {
     const endTime = Date.now();
     const timeTaken = Math.round((endTime - startTime) / 1000);
@@ -156,11 +183,11 @@ function showResults() {
         }
     });
 
-    // Determine level
+    // Algorithme de détermination du niveau
     let determinedLevel = 'A1';
     const maxScore = Math.max(...Object.values(levelScores));
 
-    if (levelScores.c1 >= 2 && maxScore === levelScores.c1) determinedLevel = 'C1';
+    if (levelScores.c1 >= 2 && maxScore >= levelScores.c1) determinedLevel = 'C1';
     else if (levelScores.b2 >= 2 && maxScore >= levelScores.b2) determinedLevel = 'B2';
     else if (levelScores.b1 >= 2 && maxScore >= levelScores.b1) determinedLevel = 'B1';
     else if (levelScores.a2 >= 2 && maxScore >= levelScores.a2) determinedLevel = 'A2';
@@ -185,7 +212,11 @@ function showResults() {
     results.classList.add('active');
 }
 
-// Fonction pour sauvegarder et rediriger
+/**
+ * Envoie les résultats au serveur via AJAX et redirige l'utilisateur.
+ * @param {string} level - Le niveau déterminé (ex: 'B1').
+ * @param {number} score - Le nombre de bonnes réponses.
+ */
 function saveAndContinue(level, score) {
     const resultsButton = document.querySelector('#results .btn-primary');
     resultsButton.disabled = true;
@@ -217,5 +248,5 @@ function saveAndContinue(level, score) {
     });
 }
 
-// Initialize on load
+// Lancement au chargement de la page
 document.addEventListener('DOMContentLoaded', initQuiz);

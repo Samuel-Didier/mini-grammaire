@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/profile.css"/>
+
+<br>
+<a href="/" class="back-link" style="margin-left: 50px"><span>←</span> Retour au tableau de bord</a>
+<br>
+
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="avatar">{{ substr(@client.prenom, 0, 1) }}{{ substr(@client.nom, 0, 1) }}</div>
+        <div class="user-info">
+            <h2>{{ @client.prenom }} {{ @client.nom }}</h2>
+            <p>{{ @client.email }}</p>
+            <p style="font-size: 0.8rem; color: #aaa;">Membre depuis le {{ date('d/m/Y', strtotime(@client.create_at)) }}</p>
+        </div>
+    </div>
+
+    <h3>Ma Progression</h3>
+    <div class="stats-grid">
+        <!-- Carte Favoris Cliquable -->
+        <a href="/mes-favoris" class="stat-card favoris-link" title="Accéder à mes favoris">
+            <div class="card-icon">❤️</div>
+            <span class="stat-number">{{ @favorisCount }}</span>
+            <span class="stat-label">Astuces favorites</span>
+            <div class="card-arrow">→</div>
+        </a>
+
+        <div class="stat-card">
+            <span class="stat-number">{{ @score }}</span>
+            <span class="stat-label">Score Test Initial</span>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-number">{{ @niveau }}</span>
+            <span class="stat-label">Niveau Actuel</span>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-number">5</span>
+            <span class="stat-label">Jours consécutifs</span>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a href="/profile/edit" class="btn btn-edit">Modifier mes infos</a>
+        <a href="/logout" class="btn btn-logout">Se déconnecter</a>
+    </div>
+</div>

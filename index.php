@@ -1,125 +1,109 @@
 <?php
+/**
+ * FRONT CONTROLLER - Point d'entrée de l'application
+ * 
+ * Ce fichier initialise le framework Fat-Free (F3), configure l'environnement,
+ * établit la connexion à la base de données et définit toutes les routes.
+ */
 
-// Charger l'autoloader de Composer
+// Charger l'autoloader de Composer pour gérer les dépendances
 require __DIR__ . '/vendor/autoload.php';
 
 use App\Models\User;
 use Dotenv\Dotenv;
 
-// Chemin du répertoire parent (pour accéder aux fichiers .env)
+// --- CONFIGURATION DE L'ENVIRONNEMENT ---
 $env = __DIR__;
 
-// Choix du fichier .env selon l'environnement
+// Chargement du fichier .env approprié (local ou production)
 if (file_exists($env . '/.env.mini-gram.local')) {
-    // Environnement local (développement)
     $dotenv = Dotenv::createImmutable($env, '.env.mini-gram.local');
 } else {
-    // Environnement de production
     $dotenv = Dotenv::createImmutable($env, '.env.mini-gram');
 }
-
-// Charge les variables sans erreur si le fichier n'existe pas
 $dotenv->safeLoad();
 
-// Initialiser Fat-Free Framework
+// Initialisation de l'instance F3
 $f3 = \Base::instance();
-// Démarrage natif de session PHP avant tout accès F3
+
+// --- GESTION DE LA SESSION ---
+// Démarrage natif de la session PHP
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+// Synchronisation de la session PHP avec la variable SESSION de F3
 $f3->set('SESSION', $_SESSION);
 
-// ═══════════════════════════════════════════════════════════════════════════
-// 6) CONNEXION À LA BASE DE DONNÉES MYSQL
-// ═══════════════════════════════════════════════════════════════════════════
-
-// Configuration sécurisée de PDO
+// --- CONNEXION BASE DE DONNÉES ---
 $pdoOptions = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,  // Lance des exceptions en cas d'erreur
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,        // Retourne des tableaux associatifs
-    PDO::ATTR_EMULATE_PREPARES   => false,                   // Utilise les vraies requêtes préparées
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
 ];
 
-// Récupération des credentials depuis les variables d'environnement
-// Exemple de DSN : mysql:host=localhost;port=3306;dbname=logement;charset=utf8mb4
 $dsn  = $_ENV['DB_DSN']  ?? '';
 $user = $_ENV['DB_USER'] ?? '';
 $pass = $_ENV['DB_PASS'] ?? '';
 
 try {
-    // Création de la connexion PDO via le wrapper DB\SQL de Fat-Free
     $db = new DB\SQL($dsn, $user, $pass, $pdoOptions);
-
 } catch (Throwable $e) {
-    // Gestion des erreurs de connexion
     error_log('DB connection failed: ' . $e->getMessage());
     http_response_code(500);
-    exit('Erreur de connexion à la base de données. Code: 500 =>'.$e->getMessage());
+    exit('Erreur de connexion à la base de données. Code: 500');
 }
 
-// Rend la connexion DB accessible dans tout F3 via $f3->get('DB')
+// Enregistrement de la connexion DB dans F3 pour y accéder partout
 $f3->set('DB', $db);
-// -------------------------------------------------------
-// 6) Auth
-// -------------------------------------------------------
+
+// --- CONFIGURATION F3 ---
+$f3->set('DEBUG', 3); // Niveau de débogage (3 = maximum)
+$f3->set('UI', 'ui/'); // Dossier des vues
+
+// --- DÉFINITION DES ROUTES ---
+
+// Authentification
 $f3->route(['GET /login','POST /login'], 'App\Controllers\Auth->login');
 $f3->route('GET /logout', 'App\Controllers\Auth->logout');
-// -------------------------------------------------------
-// 7) Zone protégée (profil)
-// -------------------------------------------------------
-$f3->route('GET /profile', 'App\Controllers\Auth->profil');
-
-// Configuration de base
-$f3->set('DEBUG', 3);
-$f3->set('UI', 'ui/');
-
-// Définition des routes de l'application
-// Chaque route pointe vers une méthode du contrôleur App\Controllers\Page
-
-// Route pour la page d'accueil (dashboard)
-$f3->route('GET /', 'App\Controllers\Page->home');
-
-// Routes pour l'authentification
-//$f3->route('GET /login', 'App\Controllers\Page->login');
 $f3->route('GET|POST /register', 'App\Controllers\Auth->register');
 $f3->route('GET /forgot-password', 'App\Controllers\Page->forgotPassword');
+
+// Pages principales
+$f3->route('GET /', 'App\Controllers\Page->home');
+$f3->route('GET /profile', 'App\Controllers\Auth->profil');
+$f3->route('GET /profile/edit', 'App\Controllers\Auth->editProfile'); // Route pour l'édition du profil
+$f3->route('POST /profile/update', 'App\Controllers\Auth->updateProfile'); // Route pour la mise à jour du profil
 $f3->route('GET /conditions', 'App\Controllers\Page->condition');
 
-// Route pour le profil utilisateur
-//$f3->route('GET /profile', 'App\Controllers\Page->profile');
-
-// Route pour la mini-grammaire (tableau)
+// Fonctionnalités
 $f3->route('GET /mini_grammaire', 'App\Controllers\Page->grammaire');
-
-// Route pour la page des astuces
-//$f3->route('GET /astuces', 'App\Controllers\Page->astuces');
+//$f3->route('POST /minigrammaire/update-field', 'App\Controllers\MiniGrammaireController->updateCodeField'); // Mise à jour Mini-Grammaire
+$f3->route('POST /update-field', 'App\Controllers\MiniGrammaireController->updateCodeField'); // Mise à jour Mini-Grammaire
 $f3->route('GET /astuces', 'App\Controllers\AstucesController->getAstuces');
+$f3->route('GET /astuces/add', 'App\Controllers\AstucesController->addAstuces'); // Route pour afficher le formulaire d'ajout d'astuce
+$f3->route('POST /astuces/save', 'App\Controllers\AstucesController->save'); // Route pour sauvegarder la nouvelle astuce
+$f3->route('GET /api/astuces', 'App\Controllers\AstucesApiController->getJsonAstuces'); // API Astuces
 
-// Routes pour les favoris
+// Favoris
 $f3->route('POST /favori/toggle/@id', 'App\Controllers\FavorisController->toggle');
 $f3->route('GET /mes-favoris', 'App\Controllers\FavorisController->mesFavoris');
 
-// Route pour le test de niveau
+// Quiz et Test de niveau
 $f3->route('GET /test-niveau', 'App\Controllers\Page->testNiveau');
-
-// Routes pour les quiz
 $f3->route('POST /quiz/save-level', 'App\Controllers\QuizController->saveLevel');
 $f3->route('GET /quiz', 'App\Controllers\QuizController->index');
-//$f3->route('GET /quiz', 'App\Controllers\Page->quiz');
-// Documentation
- $f3->route('GET /mini-grammaire/docs', function($f3) {
-     echo \Template::instance()->render('pages/documentation.html');
- });
 
-// Routes génériques (si besoin)
+// Pages génériques
 $f3->route('GET /generic', 'App\Controllers\Page->generic');
 $f3->route('GET /elements', 'App\Controllers\Page->elements');
-//$f3->route('GET /api/astuces', 'TipController->getTips');
 
+// Documentation
+$f3->route('GET /docs', function($f3) {
+    echo \Template::instance()->render('pages/documentation.html');
+});
 
+// Gestion des erreurs (404, 500, etc.)
 $f3->set('ONERROR', 'App\Controllers\Error->handle');
-
-
 
 // Lancer l'application
 $f3->run();

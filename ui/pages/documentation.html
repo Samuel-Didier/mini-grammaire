@@ -179,7 +179,7 @@
         <p>Les contrôleurs gèrent les requêtes HTTP et préparent les données pour les vues.</p>
 
         <h3>Auth.php</h3>
-        <p>Gère l'inscription, la connexion, la déconnexion et le profil utilisateur.</p>
+        <p>Gère l'inscription, la connexion, la déconnexion et l'affichage du `profil` (avec calcul des stats).</p>
         <ul>
             <li><code>login($f3)</code> : Traite le formulaire de connexion.</li>
             <li><code>register($f3)</code> : Crée un nouvel utilisateur.</li>
@@ -280,7 +280,7 @@ POST /quiz/save-level       -> QuizController->saveLevel
 
         <h3>JavaScript</h3>
         <ul>
-            <li><code>quiz.js</code> : Logique complète du quiz (questions, progression, AJAX).</li>
+            <li><code>quiz.js</code> : Logique complète du quiz (questions, progression, résultats, AJAX).</li>
             <li><code>script_search.js</code> : Moteur de recherche pour la mini-grammaire.</li>
         </ul>
     </section>

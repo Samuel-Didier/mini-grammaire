@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/auth.css"/>
+
+<div class="auth-container">
+    <div class="auth-header">
+        <h2 class="login">Modifier mon Profil</h2>
+        <p>Mettez à jour vos informations personnelles.</p>
+    </div>
+
+    <form action="/profile/update" method="POST">
+        <div class="form-group">
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" name="nom" value="{{ @client.nom }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="prenom">Prénom</label>
+            <input type="text" id="prenom" name="prenom" value="{{ @client.prenom }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" id="username" name="username" value="{{ @client.username }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Adresse Email</label>
+            <input type="email" id="email" name="email" value="{{ @client.email }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Nouveau Mot de passe (laisser vide pour ne pas changer)</label>
+            <input type="password" id="password" name="password" placeholder="Nouveau mot de passe">
+        </div>
+
+        <div class="form-group">
+            <label for="confirm_password">Confirmer le nouveau mot de passe</label>
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirmer le nouveau mot de passe">
+        </div>
+
+        <check if="{{ isset(@errors) && count(@errors) > 0 }}">
+            <div style="color: var(--red-accent); margin-bottom: 1rem; text-align: left;">
+                <repeat group="{{ @errors }}" value="{{ @error }}">
+                    <p>{{ @error }}</p>
+                </repeat>
+            </div>
+        </check>
+
+        <button type="submit" class="btn-primary login">Enregistrer les modifications</button>
+    </form>
+
+    <div class="auth-footer">
+        <a href="/profile" style="color: var(--blue-accent);">← Retour au Profil</a>
+    </div>
+</div>

@@ -1,0 +1,213 @@
+<!-- Utilisation du partial Hero pour la page d'accueil -->
+<set hero_show_buttons="{{ true }}" />
+<include href="partials/hero.html" />
+
+<!-- Section Astuce du Moment (Dynamique) -->
+<section class="daily-tip-section">
+    <div class="tip-card-standalone">
+        <h3>💡 L'Astuce du Moment</h3>
+        <p id="tip-text">Chargement de l'astuce...</p>
+        <button onclick="window.newTip()" class="refresh-tip-btn">Nouvelle astuce 🔄</button>
+    </div>
+</section>
+
+<!-- Grille des fonctionnalités principales -->
+<section class="features-grid">
+    <div class="feature-card">
+        <div class="feature-icon">📖</div>
+        <h3>Mini-Grammaire</h3>
+        <p>Une base de données des fautes les plus courantes pour ne plus jamais les commettre.</p>
+        <a href="/mini_grammaire" class="feature-link">Consulter →</a>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">✨</div>
+        <h3>Astuces Pratiques</h3>
+        <p>Des moyens mnémotechniques simples pour retenir les règles complexes du français.</p>
+        <a href="/astuces" class="feature-link">Voir les astuces →</a>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">📝</div>
+        <h3>Quiz & Exercices</h3>
+        <p>Testez vos connaissances immédiatement après avoir appris une nouvelle règle.</p>
+        <a href="/quiz" class="feature-link">S'entraîner →</a>
+    </div>
+</section>
+
+<style>
+    /* Styles pour la grille du dashboard (Hero est géré par le partial) */
+    .daily-tip-section {
+        margin-bottom: 4rem;
+    }
+
+    .tip-card-standalone {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid #50e3c2;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+    }
+
+    .refresh-tip-btn {
+        margin-top: 1rem;
+        background: none;
+        border: 1px solid #e2e8f0;
+        padding: 5px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.2s;
+    }
+
+    .refresh-tip-btn:hover {
+        background: #f0f2f5;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .feature-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s ease;
+        text-align: left;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .feature-card h3 {
+        margin-bottom: 1rem;
+        color: #2c3e50;
+    }
+
+    .feature-card p {
+        color: #7f8c8d;
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .feature-link {
+        color: #4a90e2;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    /* Responsive adjustments for dashboard */
+    @media (max-width: 768px) {
+        .daily-tip-section {
+            margin-bottom: 1.5rem;
+        }
+        .tip-card-standalone {
+            padding: 1.5rem;
+        }
+        .tip-card-standalone h3 {
+            font-size: 0.9rem;
+        }
+        .tip-card-standalone p {
+            font-size: 1rem;
+        }
+        .refresh-tip-btn {
+            padding: 4px 12px;
+            font-size: 0.9rem;
+        }
+        .features-grid {
+            grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+            gap: 1.5rem;
+        }
+        .feature-card {
+            padding: 2rem;
+            text-align: center;
+        }
+        .feature-card .feature-icon {
+            font-size: 2.5rem;
+        }
+        .feature-card h3 {
+            font-size: 1.2rem;
+        }
+        .feature-card p {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .daily-tip-section {
+            margin-bottom: 1rem;
+        }
+        .tip-card-standalone {
+            padding: 1rem;
+        }
+        .tip-card-standalone h3 {
+            font-size: 0.8rem;
+        }
+        .tip-card-standalone p {
+            font-size: 0.9rem;
+        }
+        .refresh-tip-btn {
+            padding: 4px 10px;
+            font-size: 0.8rem;
+        }
+        .features-grid {
+            gap: 1rem;
+        }
+        .feature-card {
+            padding: 1.5rem;
+        }
+        .feature-card .feature-icon {
+            font-size: 2rem;
+        }
+        .feature-card h3 {
+            font-size: 1.1rem;
+        }
+        .feature-card p {
+            font-size: 0.8rem;
+        }
+    }
+</style>
+
+<script type="module">
+    import { getAstuces } from '{{ @BASE }}/assets/js/apiAstuces.js';
+
+    let allAstuces = [];
+
+    async function loadAstuces() {
+        allAstuces = await getAstuces();
+        if (allAstuces.length > 0) {
+            displayRandomTip();
+        } else {
+            document.getElementById('tip-text').textContent = "Aucune astuce disponible pour le moment.";
+        }
+    }
+
+    function displayRandomTip() {
+        if (allAstuces.length > 0) {
+            const randomIndex = Math.floor(Math.random() * allAstuces.length);
+            const randomTip = allAstuces[randomIndex];
+            document.getElementById('tip-text').textContent = randomTip.description;
+        }
+    }
+
+    // Rendre newTip globalement accessible
+    window.newTip = function() {
+        displayRandomTip();
+    };
+
+    // Charger les astuces au démarrage
+    loadAstuces();
+</script>

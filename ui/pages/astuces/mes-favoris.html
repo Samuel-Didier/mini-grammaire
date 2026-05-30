@@ -1,0 +1,112 @@
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/astuces.css"/>
+<set hero_title="Mes Astuces Favorites ❤️" />
+<set hero_subtitle="Retrouvez ici toutes les astuces que vous avez mises en favoris." />
+<include href="partials/hero.html" />
+<style>
+    /* Conteneur pour centrer le bouton */
+    .favoris-btn-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Style spécifique pour le bouton voir les favoris */
+    .btn-voir-favoris {
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        /* Couleurs par défaut (S'harmonise avec ton style actuel) */
+        background-color: #f1f5f9;
+        color: #334155;
+        border: 1px solid #e2e8f0;
+
+        /* Transition pour que le changement de couleur soit fluide */
+        transition: all 0.2s ease-in-out;
+    }
+
+    /* L'effet au survol (Hover) */
+    .btn-voir-favoris:hover {
+        background-color: var(--green-accent); /* Utilise ta variable de couleur */
+        color: white; /* Le texte passe en blanc pour rester lisible */
+        border-color: var(--green-accent);
+        transform: translateY(-2px); /* Léger effet de soulèvement mécanique */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+</style>
+<header class="dashboard-header">
+<!--    <h1>Mes Astuces Favorites ❤️</h1>-->
+<!--    <p>Retrouvez ici toutes les astuces que vous avez sauvegardées.</p>-->
+<!--    <br>-->
+    <a href="/" class="back-link" style="margin-left: 50px; margin-bottom: 0;"><span>←</span> Retour au tableau de bord</a>
+
+    <div class="favoris-btn-container">
+        <a href="/astuces" class="btn-primary btn-voir-favoris">
+            Voir les autres astuces
+        </a>
+    </div>
+</header>
+
+<check if="{{ @count == 0 }}">
+    <div style="text-align: center; padding: 3rem;">
+        <p>Vous n'avez pas encore de favoris.</p>
+        <a href="/astuces" class="btn-primary" style="text-decoration: none; display: inline-block; margin-top: 1rem; padding: 10px 20px; border-radius: 30px;">Découvrir les astuces</a>
+    </div>
+</check>
+
+<div class="tips-grid">
+    <repeat group="{{ @favoris }}" value="{{ @astuce }}">
+        <div class="tip-card">
+            <div class="tip-content">
+                <h3>{{ @astuce.titre }}</h3>
+                <p>{{ @astuce.description }}</p>
+            </div>
+            <!-- Bouton déjà actif car on est dans les favoris -->
+            <button class="btn-favori active" onclick="toggleFavori({{ @astuce.id }}, this)" title="Retirer des favoris">
+                <svg class="heart-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 17.5 3 20.58 3 23 5.42 23 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
+            </button>
+        </div>
+    </repeat>
+</div>
+
+<script>
+function toggleFavori(id, btn) {
+    // Animation immédiate
+    btn.classList.add('popping');
+
+    fetch('/favori/toggle/' + id, {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            if (data.action === 'removed') {
+                // Animation de disparition de la carte
+                const card = btn.closest('.tip-card');
+                card.style.transition = 'all 0.3s ease';
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.9)';
+
+                setTimeout(() => {
+                    card.remove();
+                    // Si plus de favoris, recharger pour afficher le message vide
+                    if (document.querySelectorAll('.tip-card').length === 0) {
+                        location.reload();
+                    }
+                }, 300);
+            }
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => console.error('Erreur:', error));
+}
+</script>

@@ -4,18 +4,9 @@ namespace App\Controllers;
 
 use App\Models\User;
 use App\Models\Progression;
+use App\Models\MiniGrammaire;
 
 class Page {
-//    public function generic(\Base $f3)
-//    {
-//        $tpl = \Template::instance();
-//        $content = $tpl->render('pages/generic.html');
-//        $f3->set('title', 'Generic');
-//        $f3->set('content', $content);
-//        echo $tpl->render('layout.html');
-//    }
-
-
 
     // Page d'accueil (Dashboard)
     public function home(\Base $f3)
@@ -107,7 +98,10 @@ class Page {
                 $userRole = $user['role'];
             }
         }
-        
+        $miniGrammaireModel = new MiniGrammaire($f3->get('DB'));
+        $codesGroupedByCategory = $miniGrammaireModel->getAllGroupedByCategory();
+        $f3->set('codes', $codesGroupedByCategory);
+
         $f3->set('userRole', $userRole);
         $content = $tpl->render('pages/mini_grammaire.html');
         $f3->set('title', 'Mini-Grammaire');

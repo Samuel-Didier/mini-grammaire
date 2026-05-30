@@ -1,0 +1,112 @@
+<!-- Section Héros Réutilisable -->
+<header class="hero-banner">
+    <div class="hero-content">
+        <h1>{{ @hero_title ?: 'Maîtrisez le français sans effort 🇫🇷' }}</h1>
+        <p>{{ @hero_subtitle ?: 'Identifiez vos erreurs, comprenez les règles et pratiquez avec nos quiz interactifs.' }}</p>
+
+        <check if="{{ isset(@hero_show_buttons) && @hero_show_buttons }}">
+            <div class="hero-buttons">
+                <a href="/mini_grammaire" class="cta-button">Explorer la Grammaire</a>
+                <a href="/test-niveau" class="cta-button secondary">Passer le test de niveau</a>
+            </div>
+        </check>
+    </div>
+</header>
+
+<style>
+    .hero-banner {
+        background: linear-gradient(135deg, #4a90e2 0%, #50e3c2 100%);
+        color: white;
+        padding: 4rem 2rem;
+        border-radius: 20px;
+        text-align: center;
+        margin-bottom: 3rem;
+        box-shadow: 0 10px 30px rgba(74, 144, 226, 0.15);
+    }
+
+    .hero-content h1 {
+        font-size: 2.8rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto 2rem;
+        opacity: 0.9;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .cta-button {
+        display: inline-block;
+        padding: 12px 30px;
+        background-color: white;
+        color: #4a90e2;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        background-color: #f8f9fa;
+    }
+
+    .cta-button.secondary {
+        background-color: transparent;
+        border: 2px solid white;
+        color: white;
+    }
+
+    .cta-button.secondary:hover {
+        background-color: white;
+        color: #4a90e2;
+    }
+
+    /* Responsive adjustments for hero banner */
+    @media (max-width: 768px) {
+        .hero-banner {
+            padding: 3rem 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .hero-content h1 {
+            font-size: 2.2rem;
+        }
+        .hero-content p {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .hero-buttons {
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .cta-button {
+            width: 100%;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-banner {
+            padding: 2rem 1rem;
+            border-radius: 15px;
+        }
+        .hero-content h1 {
+            font-size: 1.8rem;
+        }
+        .hero-content p {
+            font-size: 0.9rem;
+        }
+    }
+</style>

@@ -36,7 +36,7 @@ class Auth {
             $user = $userModel->findByUsername($username);
             $email= $userModel->findByMail($username);
             if ($user == null && $email == null) {
-                $errors[] = "Le nom d'utilisateur et l'adresse courriel n'existe pas";
+                $errors[] = "Le nom d'utilisateur et l'adresse courriel sont incorrects";
             }else {
                 if ($user!=null)
                 {
@@ -72,7 +72,7 @@ class Auth {
         $f3->set('errors', $errors);
 
         $tpl = \Template::instance();
-        $content = $tpl->render('pages/login.html');
+        $content = $tpl->render('pages/auth/login.html');
         $f3->set('title', 'Login');
         $f3->set('content', $content);
         echo $tpl->render('layout.html');
@@ -171,7 +171,7 @@ class Auth {
         // --- Données pour la vue ---
         $f3->set('users', $users);
         $f3->set('title', "S'inscrire");
-        $content = $tpl->render('pages/register.html');
+        $content = $tpl->render('pages/auth/register.html');
         $f3->set('content', $content);
         echo $tpl->render('layout.html');
     }
@@ -186,7 +186,7 @@ class Auth {
      * @param \Base $f3 L'instance du framework Fat-Free.
      * @return void
      */
-    public function profil($f3) {
+    public function profil(\Base $f3) {
         // 1. Vérification de l’authentification
         if (!$f3->exists('SESSION.user')) {
             $f3->reroute('/login');
@@ -227,10 +227,143 @@ class Auth {
         // 6. Rendu de la page
         $tpl = \Template::instance();
         $f3->set('title', 'Mon Profil');
-        $content = $tpl->render('pages/profile.html'); // Utilisation de profile.html
+        $content = $tpl->render('pages/auth/profile.html'); // Utilisation de profile.html
 
         $f3->set('content', $content);
         echo $tpl->render('layout.html');
     }
+    /**
+     * Affiche le formulaire d'édition du profil de l'utilisateur connecté.
+     *
+     * @param \Base $f3 L'instance du framework Fat-Free.
+     * @return void
+     */
+    public function editProfile(\Base $f3) {
+        // 1. Vérification de l’authentification
+        if (!$f3->exists('SESSION.user')) {
+            $f3->reroute('/mini-grammaire/login');
+            return;
+        }
+
+        $userModel = new User($f3->get('DB'));
+        $userSession = $f3->get('SESSION.user');
+
+        // 2. Récupération des données complètes du client pour pré-remplir le formulaire
+        $clientData = $userModel->findData($userSession);
+
+        if (!$clientData) {
+            $f3->reroute('/mini-grammaire/logout'); // Si l'utilisateur n'est pas trouvé en DB, déconnecter
+            return;
+        }
+
+        // 3. Préparation des variables pour le template
+        $f3->set('client', $clientData);
+        $f3->set('title', 'Modifier mon Profil');
+
+        $tpl = \Template::instance();
+
+        $content = $tpl->render('pages/auth/profile_edit.html'); // Utilisation de profile.html
+
+        $f3->set('content', $content);
+        echo $tpl->render('layout.html');
+    }
+
+    /**
+     * Traite la soumission du formulaire de modification du profil.
+     * Met à jour les informations de l'utilisateur en base de données.
+     *
+     * @param \Base $f3 L'instance du framework Fat-Free.
+     * @return void
+     */
+    public function updateProfile(\Base $f3) {
+        // 1. Vérification de l’authentification
+        if (!$f3->exists('SESSION.user_id')) { // Utiliser user_id pour plus de robustesse
+            $f3->reroute('/mini-grammaire/login');
+            return;
+        }
+
+        $userModel = new User($f3->get('DB'));
+        $userId = $f3->get('SESSION.user_id');
+        $errors = [];
+        $successMessage = '';
+
+        if ($f3->get('VERB') === 'POST') {
+            $nom = trim($f3->get('POST.nom'));
+            $prenom = trim($f3->get('POST.prenom'));
+            $username = trim($f3->get('POST.username'));
+            $email = trim($f3->get('POST.email'));
+            $password = $f3->get('POST.password');
+            $confirm_password = $f3->get('POST.confirm_password');
+
+            $updateData = [
+                'nom' => $nom,
+                'prenom' => $prenom,
+                'username' => $username,
+                'email' => $email
+            ];
+
+            // Validation simple
+            if (empty($nom)) $errors[] = 'Le nom est requis.';
+            if (empty($prenom)) $errors[] = 'Le prénom est requis.';
+            if (empty($username)) $errors[] = 'Le nom d\'utilisateur est requis.';
+            if (empty($email)) $errors[] = 'L\'adresse email est requise.';
+
+            // Vérifier l'unicité du nom d'utilisateur et de l'email si modifiés
+            $currentUser = $userModel->getById($userId);
+            if ($currentUser['username'] !== $username) {
+                if ($userModel->findByUsername($username)) {
+                    $errors[] = 'Ce nom d\'utilisateur est déjà pris.';
+                }
+            }
+            if ($currentUser['email'] !== $email) {
+                if ($userModel->findByMail($email)) {
+                    $errors[] = 'Cette adresse email est déjà utilisée.';
+                }
+            }
+
+            // Gestion du mot de passe
+            if (!empty($password)) {
+                if (strlen($password) < 8) {
+                    $errors[] = 'Le mot de passe doit contenir au moins 8 caractères.';
+                } elseif ($password !== $confirm_password) {
+                    $errors[] = 'Les mots de passe ne correspondent pas.';
+                } else {
+                    $updateData['password'] = password_hash($password, PASSWORD_DEFAULT);
+                }
+            }
+
+            if (empty($errors)) {
+                $updateSuccess = $userModel->updateUser($userId, $updateData);
+
+                if ($updateSuccess) {
+                    // Mettre à jour le nom d'utilisateur en session si modifié
+                    if ($f3->get('SESSION.user') !== $username) {
+                        $f3->set('SESSION.user', $username);
+                    }
+                    $successMessage = 'Votre profil a été mis à jour avec succès.';
+                    $f3->set('SESSION.flash', ['type' => 'success', 'message' => $successMessage]);
+                    $f3->reroute('/profile');
+                    return;
+                } else {
+                    $errors[] = 'Une erreur est survenue lors de la mise à jour.';
+                }
+            }
+        }
+
+        // Si des erreurs ou pas de POST, réafficher le formulaire avec les données et erreurs
+        $clientData = $userModel->getById($userId); // Récupérer les données à jour ou les dernières valides
+        $f3->set('client', $clientData);
+        $f3->set('errors', $errors);
+        $f3->set('successMessage', $successMessage); // Pour afficher un message si besoin
+        $f3->set('title', 'Modifier mon Profil');
+        $f3->set('content', \Template::instance()->render('pages/auth/profile_edit.html'));
+        $tpl = \Template::instance();
+
+        $content = $tpl->render('profile_edit.html'); // Utilisation de profile.html
+
+        $f3->set('content', $content);
+        echo $tpl->render('layout.html');
+    }
+
 
 }

@@ -1,0 +1,34 @@
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/auth.css"/>
+
+<div class="auth-container">
+    <div class="auth-header">
+        <h2 class="register">Ajouter une Nouvelle Astuce</h2>
+        <p>Remplissez les champs pour créer une nouvelle astuce.</p>
+    </div>
+
+    <form action="/astuces/save" method="POST">
+        <div class="form-group">
+            <label for="titre">Titre de l'astuce</label>
+            <input type="text" id="titre" name="titre" value="{{ @old_titre ?: '' }}" required placeholder="Ex: Distinction a / à">
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description de l'astuce</label>
+            <textarea id="description" name="description" rows="5" required placeholder="Ex: 'a' sans accent est le verbe avoir... ">{{ @old_description ?: '' }}</textarea>
+        </div>
+
+        <check if="{{ isset(@errors) && count(@errors) > 0 }}">
+            <div style="color: var(--red-accent); margin-bottom: 1rem; text-align: left;">
+                <repeat group="{{ @errors }}" value="{{ @error }}">
+                    <p>{{ @error }}</p>
+                </repeat>
+            </div>
+        </check>
+
+        <button type="submit" class="btn-primary register">Ajouter l'astuce</button>
+    </form>
+
+    <div class="auth-footer">
+        <a href="/astuces" style="color: var(--green-accent);">← Retour aux Astuces</a>
+    </div>
+</div>

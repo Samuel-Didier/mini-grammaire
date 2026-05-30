@@ -1,22 +1,24 @@
 export async function getAstuces() {
     try {
-        // 1. Appel de l'URL PHP (ajuste l'adresse selon ton dossier Laragon)
-        const response = await fetch('http://mini-grammaire.test/astuces/api/astuces');
+        // Appel de la nouvelle route API pour les astuces
+        const response = await fetch('/api/astuces');
 
-        // 2. Conversion du texte JSON en tableau d'objets JS
-        const data = await response.json();
-
-        // 3. Utilisation des données (ex: affichage dans la console)
-        console.log("Données reçues :", data);
-
-        // Exemple : Accéder au titre du premier élément
-        if(data.length > 0) {
-            console.log("Premier titre :", data[0].titre);
+        // Vérifier si la réponse est OK (statut 200)
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP: ${response.status}`);
         }
 
+        // Conversion du texte JSON en tableau d'objets JS
+        const data = await response.json();
+
+        // Utilisation des données (ex: affichage dans la console)
+        console.log("Données reçues de l'API Astuces :", data);
+
+        // Retourne les données pour qu'elles puissent être utilisées par l'appelant
+        return data;
+
     } catch (error) {
-        console.error("Erreur lors de la récupération :", error);
+        console.error("Erreur lors de la récupération des astuces via l'API :", error);
+        return []; // Retourne un tableau vide en cas d'erreur
     }
 }
-
-getAstuces();

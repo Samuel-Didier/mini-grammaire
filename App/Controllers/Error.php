@@ -20,7 +20,7 @@ final class Error
         $view = \Template::instance();
 // Choix du fragment (404 dédié, sinon générique)
         $fragment = ($code === 404) ? 'pages/404.html' :
-            'pages/error.html';
+            'pages/error/error.html';
 // Variables exposées à la vue
         $f3->set('title', "$code – $status");
         $f3->set('error_code', $code);

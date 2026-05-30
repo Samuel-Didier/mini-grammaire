@@ -1,0 +1,267 @@
+<!-- Utilisation du partial Hero pour la page des astuces -->
+<set hero_title="Toutes nos Astuces ✨" />
+<set hero_subtitle="Explorez nos conseils pour maîtriser les subtilités du français." />
+<include href="partials/hero.html" />
+<!--<link rel="stylesheet" href="{{ @BASE }}/assets/astuces.css"/> &lt;!&ndash; Style principal &ndash;&gt;-->
+<style>
+    /* =========================================
+   STYLES SPÉCIFIQUES AUX ASTUCES ET FAVORIS
+   ========================================= */
+
+    .tips-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .tip-card {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 1.5rem;
+        background: var(--white);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        border-left: 4px solid var(--green-accent); /* Couleur d'accent pour les astuces */
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .tip-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    .tip-content {
+        padding-right: 1rem;
+        flex: 1;
+    }
+
+    .tip-card h3 {
+        font-size: 1.1rem;
+        color: var(--green-accent); /* Couleur d'accent pour les titres d'astuces */
+        margin-bottom: 0.5rem;
+    }
+
+    .tip-card p {
+        font-size: 0.9rem;
+        color: #555;
+        line-height: 1.5;
+    }
+
+    /* Bouton Favori Moderne */
+    .btn-favori {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: white;
+        border: 1px solid #f0f0f0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        flex-shrink: 0; /* Empêche le bouton de s'écraser */
+    }
+
+    .btn-favori:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        border-color: #e2e8f0;
+    }
+
+    /* Icône SVG */
+    .heart-svg {
+        width: 22px;
+        height: 22px;
+        stroke: #94a3b8; /* Gris par défaut */
+        stroke-width: 2;
+        fill: transparent;
+        transition: all 0.3s ease;
+    }
+
+    /* État Actif (Cœur rouge) */
+    .btn-favori.active {
+        background: #fff0f0;
+        border-color: #ffcdd2;
+    }
+
+    .btn-favori.active .heart-svg {
+        stroke: #e53935;
+        fill: #e53935; /* Remplissage rouge */
+        filter: drop-shadow(0 2px 4px rgba(229, 57, 53, 0.3));
+    }
+
+    /* Animation "Pop" */
+    .btn-favori.popping {
+        animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes pop {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.3); }
+        100% { transform: scale(1); }
+    }
+
+    /* Responsive adjustments for astuces */
+    @media (max-width: 768px) {
+        .tips-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .tip-card {
+            padding: 1.2rem;
+        }
+        .tip-card h3 {
+            font-size: 1rem;
+        }
+        .tip-card p {
+            font-size: 0.85rem;
+        }
+        .btn-favori {
+            width: 38px;
+            height: 38px;
+        }
+        .btn-favori .heart-svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .tips-grid {
+            grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+            gap: 0.8rem;
+        }
+        .tip-card {
+            padding: 1rem;
+        }
+        .tip-card h3 {
+            font-size: 0.9rem;
+        }
+        .tip-card p {
+            font-size: 0.8rem;
+        }
+        .btn-favori {
+            /* Correction ici : suppression de top et right obsolètes en Flexbox */
+            width: 35px;
+            height: 35px;
+        }
+        .btn-favori .heart-svg {
+            width: 18px;
+            height: 18px;
+        }
+    }
+
+    /* Conteneur pour centrer le bouton */
+    .favoris-btn-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Style spécifique pour le bouton voir les favoris */
+    .btn-voir-favoris {
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        /* Couleurs par défaut (S'harmonise avec ton style actuel) */
+        background-color: #f1f5f9;
+        color: #334155;
+        border: 1px solid #e2e8f0;
+
+        /* Transition pour que le changement de couleur soit fluide */
+        transition: all 0.2s ease-in-out;
+    }
+
+    /* L'effet au survol (Hover) */
+    .btn-voir-favoris:hover {
+        background-color: var(--green-accent); /* Utilise ta variable de couleur */
+        color: white; /* Le texte passe en blanc pour rester lisible */
+        border-color: var(--green-accent);
+        transform: translateY(-2px); /* Léger effet de soulèvement mécanique */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+</style>
+<a href="/" class="back-link" style="margin-left: 50px; margin-bottom: 0;"><span>←</span> Retour au tableau de bord</a>
+
+<header class="dashboard-header" style="margin-left: 30px">
+    <div class="favoris-btn-container">
+        <a href="/mes-favoris" class="btn-primary btn-voir-favoris">
+            Voir mes astuces favorites ❤️
+        </a>
+        <check if="{{ isset(@userRole) && @userRole == 'admin' }}">
+            <a href="/astuces/add" class="btn-primary" style="margin-left: 1rem; text-decoration: none; padding: 10px 20px; border-radius: 8px; background-color: var(--blue-accent);">
+                + Ajouter une astuce
+            </a>
+        </check>
+    </div>
+</header>
+<div class="tips-grid">
+    <repeat group="{{ @astuces }}" value="{{ @astuce }}">
+        <div class="tip-card">
+            <div class="tip-content">
+                <h3>{{ @astuce.titre }}</h3>
+                <p>{{ @astuce.description }}</p>
+            </div>
+            <button class="btn-favori {{ @astuce.is_favori ? 'active' : '' }}" onclick="toggleFavori({{ @astuce.id }}, this)" title="{{ @astuce.is_favori ? 'Retirer des favoris' : 'Ajouter aux favoris' }}">
+                <svg class="heart-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 17.5 3 20.58 3 23 5.42 23 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
+            </button>
+        </div>
+    </repeat>
+</div>
+
+<script>
+    const IS_CONNECTED = {{ isset(@SESSION.user_id) ? 'true' : 'false' }};
+function toggleFavori(id, btn) {
+    //  Vérification de la connexion
+    if (!IS_CONNECTED) {
+        // Redirige vers ta route de connexion (ex: /login ou /connexion)
+        window.location.href = '/login';
+        return; // On arrête l'exécution ici
+    }
+    // Ajoute une classe pour l'animation
+    btn.classList.add('popping');
+
+    fetch('/favori/toggle/' + id, {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            if (data.action === 'added') {
+                btn.classList.add('active');
+                btn.title = "Retirer des favoris";
+            } else {
+                btn.classList.remove('active');
+                btn.title = "Ajouter aux favoris";
+            }
+        } else {
+            if (data.error === 'AUTH_REQUIRED') {
+                // Ici, c'est le JavaScript qui change physiquement la page de l'utilisateur
+                window.location.href = '/login';
+            } else {
+                alert(data.message || 'Une erreur est survenue.');
+            }
+        }
+    })
+    .catch(error => console.error('Erreur:', error))
+    .finally(() => {
+        // Retire la classe après l'animation pour qu'elle puisse se rejouer
+        setTimeout(() => {
+            btn.classList.remove('popping');
+        }, 400);
+    });
+}
+</script>
+

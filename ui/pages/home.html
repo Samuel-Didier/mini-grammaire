@@ -33,7 +33,8 @@
     <div class="tip-content">
       <h3>💡 Astuce du jour : </h3>
       <p id="tip-text">Chargement de l'astuce...</p>
-      <button onclick="newTip()" class="refresh-tip" title="Nouvelle astuce">🔄</button>
+      <button onclick="newTip()" id="btn-refresh-tip" class="refresh-tip" title="Nouvelle astuce">🔄</button>
+<!--      <button  id="btn-refresh-tip" class="refresh-tip" title="Nouvelle astuce">🔄</button>-->
     </div>
   </section>
 
@@ -74,6 +75,54 @@
 
 
 
-<script src="../../assets/js/script.js"></script>
+<script type="module" src="{{ @BASE }}/assets/js/script.js"></script>
+<script type="module">
+
+
+  // import { getAstuces } from "{{ @BASE }}/assets/js/apiAstuces";
+  //
+  // async function newTip() {
+  //   const tips = await getAstuces();
+  //
+  //   const tipElement = document.getElementById('tip-text');
+  //   const tipTitle = document.querySelector('.tip-content h3');
+  //   const refreshBtn = document.querySelector('.refresh-tip');
+  //
+  //   // Vérifier si l'élément existe sur la page actuelle
+  //   if (!tipElement) return;
+  //
+  //   // Animation du bouton de rafraîchissement
+  //   if (refreshBtn) {
+  //     refreshBtn.style.transform = "rotate(360deg)";
+  //     setTimeout(() => {
+  //       refreshBtn.style.transform = "rotate(0deg)";
+  //     }, 300);
+  //   }
+  //
+  //   // Animation de fondu du texte
+  //   tipElement.style.opacity = 0;
+  //
+  //   setTimeout(() => {
+  //     const randomIndex = Math.floor(Math.random() * tips.length);
+  //     tipTitle.textContent = `💡 Astuce du jour : ${tips[randomIndex].titre}`;
+  //     tipElement.textContent = tips[randomIndex].description;
+  //     tipElement.style.opacity = 1;
+  //     console.log(tips[randomIndex])
+  //   }, 200);
+  // }
+  // window.newTip = newTip;
+  // window.getAstuces = getAstuces;
+  // // const astuce = {{ isset(@astuce) ? json_encode(@astuce) : 'null' }};
+  // //
+  // // // On vérifie si ton modèle a trouvé l'astuce
+  // // if (astuce && typeof astuce === 'object' && Object.keys(astuce).length > 0) {
+  // //   console.log("L'astuce pigée par le modèle est :", astuce);
+  // //
+  // //   // Tu peux l'afficher dans ton HTML avec JS
+  // //   document.getElementById('tip-text').textContent = astuce.titre;
+  // // } else {
+  // //   console.log("Le modèle a retourné null pour cet ID aléatoire.");
+  // // }
+</script>
 </body>
 </html>

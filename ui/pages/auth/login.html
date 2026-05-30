@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Ma Mini-Grammaire</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        :root {
+            --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+            --heading-font: "Raleway", sans-serif;
+            --background-color: #ffffff;
+            --default-color: #323b3b;
+            --heading-color: #163535;
+            --accent-color: #2c7a7b;
+            --surface-color: #ffffff;
+            --contrast-color: #ffffff;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--default-color);
+            font-family: var(--default-font);
+        }
+
+        .register-container {
+            max-width: 450px;
+            margin-top: 50px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            background-color: var(--surface-color);
+        }
+
+        h2 {
+            color: var(--heading-color);
+            font-family: var(--heading-font);
+            font-weight: 700;
+        }
+
+        .form-control {
+            color: var(--default-color);
+            background-color: var(--surface-color);
+            border-color: color-mix(in srgb, var(--default-color), transparent 80%);
+            border-radius: 8px;
+            padding: 12px;
+            transition: 0.3s;
+        }
+
+        /* --- AJOUT POUR L'ICÔNE --- */
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
+            color: color-mix(in srgb, var(--default-color), transparent 50%);
+            display: flex;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .toggle-password:hover {
+            color: var(--accent-color);
+        }
+
+        .toggle-password svg {
+            width: 20px;
+            height: 20px;
+        }
+        /* -------------------------- */
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--contrast-color);
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: color-mix(in srgb, var(--accent-color), black 10%);
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        /* Styles pour masquer/afficher les formulaires */
+        .form-hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<main class="main">
+    <section id="hero" class="hero section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 register-container">
+                    <!-- Formulaire de Connexion -->
+                    <div id="login-form">
+                        <h2 class="text-center mb-4">Connectez-vous</h2>
+                        <form method="post" action="/login" autocomplete="off">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nom d'utilisateur / Adresse Email</label>
+                                <input type="text" class="form-control" id="username" name="username"
+                                       placeholder="Entrez votre nom d'utilisateur" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Mot de passe</label>
+                                <div class="password-wrapper">
+                                    <input type="password" class="form-control" id="password" name="password"
+                                           placeholder="Minimum 8 caractères" required style="padding-right: 45px;">
+
+                                    <div class="toggle-password" id="togglePassword">
+                                        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <check if="{{ @errors }}">
+                                <ul class="mb-3">
+                                    <repeat group="{{ @errors }}" value="{{ @err }}">
+                                        <span style="color: red">{{ @err }}</span> <br>
+                                    </repeat>
+                                </ul>
+                            </check>
+
+                            <button type="submit" class="btn btn-primary w-100 mt-3">Se connecter</button>
+
+                            <p class="text-center mt-4">
+                                <a href="#" id="forgot-password-link">Mot de passe oublié?</a>
+                            </p>
+                            <p class="text-center mt-4">
+                                Pas de compte ? <a href="/register">Inscrivez-vous ici</a>
+                            </p>
+                        </form>
+                    </div>
+
+                    <!-- Formulaire Mot de passe oublié -->
+                    <div id="forgot-password-form" class="form-hidden">
+                        <h2 class="text-center mb-4">Mot de passe oublié ?</h2>
+                        <form method="post" action="/forgot-password-process" autocomplete="off">
+                            <div class="mb-3">
+                                <label for="forgot-email" class="form-label">Adresse Email</label>
+                                <input type="email" class="form-control" id="forgot-email" name="email"
+                                       placeholder="Entrez votre adresse email" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 mt-3">Envoyer le lien de réinitialisation</button>
+                            <p class="text-center mt-4">
+                                <a href="#" id="back-to-login-link">← Retour à la connexion</a>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    const passwordInput = document.getElementById('password');
+    const toggleBtn = document.getElementById('togglePassword');
+    const eyeIcon = document.getElementById('eye-icon');
+
+    // Chemins SVG pour Oeil ouvert et Oeil barré
+    const eyeOpenPath = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+    const eyeClosedPath = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />`;
+
+    toggleBtn.addEventListener('click', function () {
+        const isPassword = passwordInput.getAttribute('type') === 'password';
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+
+        // Change l'icône SVG
+        eyeIcon.innerHTML = isPassword ? eyeClosedPath : eyeOpenPath;
+    });
+
+    // Logique de basculement des formulaires
+    const loginForm = document.getElementById('login-form');
+    const forgotPasswordForm = document.getElementById('forgot-password-form');
+    const forgotPasswordLink = document.getElementById('forgot-password-link');
+    const backToLoginLink = document.getElementById('back-to-login-link');
+
+    forgotPasswordLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        loginForm.classList.add('form-hidden');
+        forgotPasswordForm.classList.remove('form-hidden');
+    });
+
+    backToLoginLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        forgotPasswordForm.classList.add('form-hidden');
+        loginForm.classList.remove('form-hidden');
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

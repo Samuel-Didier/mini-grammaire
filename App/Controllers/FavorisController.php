@@ -13,10 +13,18 @@ class FavorisController
      */
     public function toggle(\Base $f3, $params)
     {
+        header('Content-Type: application/json');
+
         // Vérifier si l'utilisateur est connecté
         if (!$f3->exists('SESSION.user')) {
-            $f3->reroute('/login');
-            return;
+//            $f3->reroute('/login');
+//            return;
+            echo json_encode([
+                'success' => false,
+                'error' => 'AUTH_REQUIRED',
+                'message' => 'Vous devez être connecté pour effectuer cette action.'
+            ]);
+            exit;
         }
 
         $astuce_id = (int)$params['id'];
@@ -82,7 +90,7 @@ class FavorisController
         $f3->set('count', count($favoris));
         $f3->set('title', 'Mes Astuces Favorites');
 
-        $content = $tpl->render('pages/mes-favoris.html');
+        $content = $tpl->render('pages/astuces/mes-favoris.html');
 
         // Rendu
         $f3->set('content', $content);

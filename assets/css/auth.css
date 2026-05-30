@@ -1,0 +1,84 @@
+/* =========================================
+   COMPOSANT : AUTHENTIFICATION (Login/Register)
+   ========================================= */
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+.auth-header h2 {
+    margin-bottom: 1rem;
+}
+
+.auth-header h2.login { color: var(--blue-accent); }
+.auth-header h2.register { color: var(--green-accent); }
+.auth-header h2.forgot { color: var(--orange-accent); }
+
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-primary.login { background-color: var(--blue-accent); }
+.btn-primary.login:hover { background-color: #357abd; }
+
+.btn-primary.register { background-color: var(--green-accent); }
+.btn-primary.register:hover { background-color: #3acfae; }
+
+.btn-primary.forgot { background-color: var(--orange-accent); }
+.btn-primary.forgot:hover { background-color: #e67e22; }
+
+.auth-footer {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.auth-footer a {
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .auth-container {
+        margin: 20px auto;
+        padding: 1.5rem;
+    }
+    .auth-header h2 {
+        font-size: 1.5rem;
+    }
+}
