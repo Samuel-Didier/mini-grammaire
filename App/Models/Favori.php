@@ -91,20 +91,23 @@ class Favori extends \DB\SQL\Mapper
 
     /**
      * Récupère toutes les astuces favorites d'un utilisateur.
+     * Refactorisé pour utiliser les champs virtuels et l'ORM F3.
      * 
      * @param int $userId ID de l'utilisateur
      * @return array|null Tableau des astuces favorites avec leurs détails
      */
     public function getFavorisByUser(int $userId): ?array
     {
-        return $this->db->exec("
-            SELECT 
-                a.id,
-                a.titre,
-                a.description
-            FROM favoris f
-            INNER JOIN astuces a ON f.astuces_id = a.id
-            WHERE f.user_id = ?
-            ORDER BY f.id DESC", [$userId]);
+        // Définition de champs virtuels pour inclure les détails de l'astuce via une jointure
+        $this->titre = 'SELECT titre FROM astuces WHERE astuces.id = favoris.astuces_id';
+        $this->description = 'SELECT description FROM astuces WHERE astuces.id = favoris.astuces_id';
+        
+        $favoris = $this->select(
+            'astuces_id as id, titre, description',
+            ['user_id = ?', $userId],
+            ['order' => 'id DESC']
+        );
+
+        return $favoris ? array_map(fn($f) => $f->cast(), $favoris) : null;
     }
 }
