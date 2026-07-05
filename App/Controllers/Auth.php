@@ -26,7 +26,7 @@ class Auth extends BaseController {
         $errors = [];
 
         if ($f3->get('VERB') === 'POST') {
-            $identifier = trim($f3->get('POST.username')); // username ou email
+            $identifier = trim($f3->get('POST.username')); // nom d'utilisateur ou courriel
             $password = $f3->get('POST.password');
             
             $userModel = new User($f3->get('DB'));
