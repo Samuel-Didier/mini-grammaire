@@ -2,8 +2,16 @@
 
 namespace App\Models;
 
+/**
+ * Modèle de progression utilisant le Mapper SQL de Fat-Free Framework.
+ */
 class Progression extends \DB\SQL\Mapper
 {
+    /**
+     * Initialise le Mapper pour la table 'progression'.
+     *
+     * @param \DB\SQL|null $db Instance de la base de données.
+     */
     public function __construct(?\DB\SQL $db = null)
     {
         $this->db = $db ?: \Base::instance()->get('DB');
@@ -11,44 +19,32 @@ class Progression extends \DB\SQL\Mapper
     }
 
     /**
-     * Enregistre le résultat du test de niveau
-     * @param int $userId
-     * @param string $niveau
-     * @param int $score
-     * @return bool
+     * Enregistre le résultat du test de niveau en utilisant la logique du Mapper.
+     *
+     * @param int $userId Identifiant de l'utilisateur.
+     * @param string $niveau Niveau global obtenu.
+     * @param int $score Score du test initial.
+     * @return bool|null Retourne le résultat de la sauvegarde.
      */
-    public function saveTestResult(int $userId, string $niveau, int $score): bool
+    public function saveTestResult(int $userId, string $niveau, int $score)
     {
-        try {
-            $this->db->begin();
-            $this->db->exec(
-                'INSERT INTO progression (user_id, niveau_global, score_test_initial, date_test) VALUES (:user_id, :niveau_global, :score_test_initial, :date_test)',
-                [
-                   ':user_id' => $userId,
-                    ':niveau_global' => $niveau,
-                    ':score_test_initial' => $score,
-                    ':date_test' => date('Y-m-d H:i:s')
-                ]
-            );
-            $id = (int)$this->db->lastInsertId();
-            $this->db->commit();
-            return $id;
-        } catch (\PDOException $e) {
-            $this->db->rollback();
-            throw $e;
-        }
+        $this->reset();
+        $this->user_id = $userId;
+        $this->niveau_global = $niveau;
+        $this->score_test_initial = $score;
+        $this->date_test = date('Y-m-d H:i:s');
+        return $this->save();
     }
 
     /**
-     * Récupère la progression d'un utilisateur
-     * @param int $userId
-     * @return array|false
+     * Récupère la progression d'un utilisateur en utilisant la logique du Mapper.
+     *
+     * @param int $userId Identifiant de l'utilisateur.
+     * @return array|null Retourne les données de progression ou null.
      */
     public function getByUser(int $userId)
     {
-        return $this->db->exec(
-            "SELECT * FROM `progression` WHERE ? LIMIT 1",
-            [$userId]
-        )[0] ?? null;
+        $this->load(['user_id = ?', $userId]);
+        return $this->dry() ? null : $this->cast();
     }
 }
