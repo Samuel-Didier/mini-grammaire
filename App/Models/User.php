@@ -1,130 +1,60 @@
 <?php
-
 namespace App\Models;
 
-/**
- * Modèle Utilisateur
- * Gère les interactions avec la table 'users'.
- */
-class User extends \DB\SQL\Mapper
-{
-    /**
-     * Constructeur
-     * @param \DB\SQL|null $db Instance de connexion DB
-     */
-    public function __construct(?\DB\SQL $db = null)
-    {
-        $this->db = $db ?: \Base::instance()->get('DB');
-        parent::__construct($this->db, 'users');
+class User extends \DB\SQL\Mapper {
+    public function __construct(\DB\SQL $db) {
+        // Initialisation du Mapper avec la table 'users'
+        parent::__construct($db, 'users');
     }
 
     /**
-     * Trouve un utilisateur par son ID.
-     * @param int $id
-     * @return array|null
+     * Récupère un utilisateur par son ID
+     * Utilise le Mapper natif de F3 (plus sécurisé et propre que du SQL brut)
+     * Le passage de SQL brut au Mapper permet une meilleure abstraction de la base de données,
+     * simplifie la gestion des types et réduit le risque d'erreurs de syntaxe manuelle.
      */
-    public function getById(int $id)
-    {
+    public function getById(int $id) {
         $this->load(['id = ?', $id]);
         return $this->dry() ? null : $this->cast();
     }
 
     /**
-     * Trouve un utilisateur par son nom d'utilisateur.
-     * @param string $username
-     * @return array|null
+     * Recherche un utilisateur par son nom d'utilisateur
+     * Remplace la requête SQL manuelle par l'équivalent Mapper natif
+     * Le Mapper gère automatiquement la protection contre les injections SQL via le binding interne.
      */
-    public function findByUsername(string $username)
-    {
-        return $this->db->exec(
-            "SELECT * FROM users WHERE username = ? LIMIT 1",
-            [$username]
-        )[0] ?? null;
+    public function findByUsername(string $username) {
+        $this->load(['username = ?', $username]);
+        return $this->dry() ? null : $this->cast();
     }
 
     /**
-     * Trouve un utilisateur par son email.
-     * @param string $email
-     * @return array|null
+     * Recherche un utilisateur par son adresse email
+     * Sécurisé nativement contre les injections SQL grâce au mécanisme de binding de F3
      */
-    public function findByMail(string $email)
-    {
-        return $this->db->exec(
-            "SELECT * FROM users WHERE email = ? LIMIT 1",
-            [$email]
-        )[0] ?? null;
+    public function findByMail(string $email) {
+        $this->load(['email = ?', $email]);
+        return $this->dry() ? null : $this->cast();
     }
 
     /**
-     * Récupère les données d'un utilisateur (cast en tableau).
-     * @param string $user Username
-     * @return array|false
+     * Enregistre un nouvel utilisateur
+     * Remplace la requête INSERT SQL brute. On remet à zéro le mapper,
+     * on assigne les valeurs aux colonnes comme des propriétés de l'objet, puis save().
+     * L'utilisation de save() assure que l'objet mapper est synchronisé avec la base
+     * sans avoir à écrire manuellement des requêtes d'insertion complexes.
      */
-    public function findData($user)
-    {
-        $this->load(array('username = ?', $user));
-        if ($this->dry()) {
-            return false;
-        }
-        return $this->cast();
-    }
-
-    /**
-     * Enregistre un nouvel utilisateur.
-     * @param string $name Nom
-     * @param string $name2 Prénom
-     * @param string $password Mot de passe haché
-     * @param string $email Email
-     * @param string $username Nom d'utilisateur
-     * @param string $role Rôle (défaut: 'etudiant')
-     * @return int ID du nouvel utilisateur
-     */
-    public function register(string $name, string $name2, string $password, string $email, string $username, string $role = 'etudiant'): int
-    {
-        try {
-            $this->db->begin();
-            $this->db->exec(
-                'INSERT INTO users (nom, prenom, password, email, username, role, create_at) VALUES (:nom, :prenom, :password, :email, :username, :role, NOW())',
-                [
-                    ':nom' => $name,
-                    ':prenom' => $name2,
-                    ':password' => $password,
-                    ':email' => $email,
-                    ':username' => $username,
-                    ':role' => $role
-                ]
-            );
-            $id = (int)$this->db->lastInsertId();
-            $this->db->commit();
-            return $id;
-        } catch (\PDOException $e) {
-            $this->db->rollback();
-            throw $e;
-        }
-    }
-
-    /**
-     * Met à jour les informations d'un utilisateur.
-     * @param int $id L'ID de l'utilisateur à mettre à jour.
-     * @param array $data Un tableau associatif des champs à mettre à jour (ex: ['nom' => 'NouveauNom']).
-     * @return bool True si la mise à jour a réussi, false sinon.
-     */
-    public function updateUser(int $id, array $data): bool
-    {
-        $this->load(['id = ?', $id]); // Charge l'utilisateur par son ID
-        if ($this->dry()) {
-            return false; // Utilisateur non trouvé
-        }
-
-        // Met à jour les champs fournis dans $data
-        foreach ($data as $key => $value) {
-            // Vérifie si le champ existe dans le mapper pour éviter d'ajouter des colonnes inexistantes
-            if ($this->exists($key)) {
-                $this->set($key, $value);
-            }
-        }
-        
-        $this->save(); // Sauvegarde les modifications
-        return true;
+    public function register($nom, $prenom, $password, $email, $username, $role = 'etudiant') {
+        $this->reset(); // Nettoie l'état du mapper pour une nouvelle insertion
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+        // Hachage sécurisé du mot de passe
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        $this->email = $email;
+        $this->username = $username;
+        $this->role = $role;
+        $this->create_at = date('Y-m-d H:i:s');
+        $this->save(); // Insère automatiquement en base de données
+        return $this->id; // Retourne l'ID généré
     }
 }
