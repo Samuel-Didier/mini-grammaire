@@ -10,8 +10,8 @@ class User extends \DB\SQL\Mapper {
     /**
      * Récupère un utilisateur par son ID
      * Utilise le Mapper natif de F3 (plus sécurisé et propre que du SQL brut)
-     * Le passage de SQL brut au Mapper permet une meilleure abstraction de la base de données,
-     * simplifie la gestion des types et réduit le risque d'erreurs de syntaxe manuelle.
+     * La transition du SQL brut vers le Mapper permet une meilleure abstraction de la base de données,
+     * simplifie la gestion des types et réduit les risques d'erreurs de syntaxe manuelle.
      */
     public function getById(int $id) {
         $this->load(['id = ?', $id]);
@@ -21,7 +21,7 @@ class User extends \DB\SQL\Mapper {
     /**
      * Recherche un utilisateur par son nom d'utilisateur
      * Remplace la requête SQL manuelle par l'équivalent Mapper natif
-     * Le Mapper gère automatiquement la protection contre les injections SQL via le binding interne.
+     * Le Mapper gère automatiquement la protection contre les injections SQL via le mécanisme de binding interne.
      */
     public function findByUsername(string $username) {
         $this->load(['username = ?', $username]);
@@ -41,7 +41,7 @@ class User extends \DB\SQL\Mapper {
      * Enregistre un nouvel utilisateur
      * Remplace la requête INSERT SQL brute. On remet à zéro le mapper,
      * on assigne les valeurs aux colonnes comme des propriétés de l'objet, puis save().
-     * L'utilisation de save() assure que l'objet mapper est synchronisé avec la base
+     * L'utilisation de save() garantit que l'objet mapper est synchronisé avec la base de données
      * sans avoir à écrire manuellement des requêtes d'insertion complexes.
      */
     public function register($nom, $prenom, $password, $email, $username, $role = 'etudiant') {
