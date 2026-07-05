@@ -8,53 +8,48 @@ use App\Models\User;
 
 /**
  * Contrôleur Astuces
- * Gère l'affichage de la liste des astuces et l'ajout de nouvelles astuces.
+ * Gère l'affichage, l'ajout et l'enregistrement des astuces en utilisant le RBAC centralisé.
  */
-class AstucesController {
+class AstucesController extends BaseController {
 
     /**
      * Récupère toutes les astuces et les affiche.
-     * Vérifie également si chaque astuce est en favori pour l'utilisateur connecté.
      *
      * @param \Base $f3 Instance du framework
      */
     public function getAstuces(\Base $f3) {
-        // --- Vérification de l'authentification ---
-        // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
+        $tpl = \Template::instance();
+
+        // Vérification de l'authentification : rediriger si non connecté
         if (!$f3->exists('SESSION.user')) {
             $f3->reroute('/login');
-            return; // Arrêter l'exécution du contrôleur
+            return;
         }
-        // --- Fin de la vérification ---
 
-        $tpl = \Template::instance();
-        $userModel = new User($f3->get('DB'));
-        $user = $userModel->findByUsername($f3->get('SESSION.user'));
-        $userRole = $user['role'] ?? 'etudiant'; // Récupérer le rôle de l'utilisateur
+        $user = $f3->get('user');
+        $userRole = $f3->get('userRole');
 
-        // 1. Récupérer toutes les astuces depuis le modèle
+        // 1. Récupérer toutes les astuces
         $astucesModel = new Astuces($f3->get('DB'));
         $allAstuces = $astucesModel->getAll();
 
-        // 2. Initialiser la propriété 'is_favori' pour toutes les astuces à false par défaut
+        // 2. Initialiser et vérifier les favoris si l'utilisateur existe
         foreach ($allAstuces as &$astuce) {
             $astuce['is_favori'] = false;
         }
-        unset($astuce); // Détruire la référence pour éviter des modifications inattendues
+        unset($astuce);
 
-        // 3. Si l'utilisateur est connecté, mettre à jour 'is_favori' pour les astuces favorites
-        // (Cette partie est maintenant garantie d'être exécutée car on a redirigé si non connecté)
-        if ($user) { // Double vérification, au cas où la session.user existerait mais pas l'utilisateur en DB
+        if ($user) {
             $favoriModel = new Favori($f3->get('DB'));
             foreach ($allAstuces as &$astuce) {
                 $astuce['is_favori'] = $favoriModel->isFavori($user['id'], $astuce['id']);
             }
-            unset($astuce); // Détruire la référence
+            unset($astuce);
         }
 
-        // 4. Passer les données à la vue
+        // 3. Passer les données à la vue
         $f3->set('astuces', $allAstuces);
-        $f3->set('userRole', $userRole); // Passer le rôle à la vue
+        $f3->set('userRole', $userRole);
         $f3->set('title', 'Astuces de Français');
         $f3->set('content', $tpl->render('pages/astuces/astuces.html'));
 
@@ -63,30 +58,17 @@ class AstucesController {
 
     /**
      * Affiche le formulaire d'ajout d'une nouvelle astuce.
-     * Seuls les administrateurs peuvent accéder à cette page.
+     * Accès restreint aux administrateurs.
      *
      * @param \Base $f3 L'instance du framework.
-     * @return void
      */
     public function addAstuces(\Base $f3) {
-        // 1. Vérification de l'authentification et du rôle (Admin uniquement)
-        if (!$f3->exists('SESSION.user_id')) {
-            $f3->reroute('/login');
-            return;
-        }
-
         $tpl = \Template::instance();
 
-        $userModel = new User($f3->get('DB'));
-        $user = $userModel->getById($f3->get('SESSION.user_id'));
+        // Utilisation de la logique RBAC centralisée
+        $this->requireRole($f3, 'admin');
 
-        if (!$user || $user['role'] !== 'admin') {
-            $f3->set('SESSION.flash', ['type' => 'error', 'message' => 'Accès refusé. Seuls les administrateurs peuvent ajouter des astuces.']);
-            $f3->reroute('/astuces');
-            return;
-        }
-
-        // 2. Préparation de la vue
+        // Préparation de la vue
         $f3->set('title', 'Ajouter une Astuce');
         $f3->set('old_titre', '');
         $f3->set('old_description', '');
@@ -96,30 +78,17 @@ class AstucesController {
     }
 
     /**
-     * Traite la soumission du formulaire d'ajout d'astuce et l'enregistre en base de données.
-     * Seuls les administrateurs peuvent effectuer cette action.
+     * Enregistre une nouvelle astuce.
+     * Accès restreint aux administrateurs.
      *
      * @param \Base $f3 L'instance du framework.
-     * @return void
      */
     public function save(\Base $f3) {
-        // 1. Vérification de l'authentification et du rôle (Admin uniquement)
-        if (!$f3->exists('SESSION.user_id')) {
-            $f3->reroute('/login');
-            return;
-        }
         $tpl = \Template::instance();
 
-        $userModel = new User($f3->get('DB'));
-        $user = $userModel->getById($f3->get('SESSION.user_id'));
+        // Utilisation de la logique RBAC centralisée
+        $this->requireRole($f3, 'admin');
 
-        if (!$user || $user['role'] !== 'admin') {
-            $f3->set('SESSION.flash', ['type' => 'error', 'message' => 'Accès refusé. Seuls les administrateurs peuvent ajouter des astuces.']);
-            $f3->reroute('/astuces');
-            return;
-        }
-
-        // 2. Traitement du formulaire POST
         if ($f3->get('VERB') === 'POST') {
             $titre = trim($f3->get('POST.titre'));
             $description = trim($f3->get('POST.description'));
@@ -140,13 +109,11 @@ class AstucesController {
                     error_log('Erreur DB ajout astuce: ' . $e->getMessage());
                 }
             }
-            // Si erreurs, les passer à la vue pour réafficher le formulaire
             $f3->set('errors', $errors);
             $f3->set('old_titre', $titre);
             $f3->set('old_description', $description);
         }
 
-        // 3. Rendu du formulaire (en cas d'erreur ou de premier affichage)
         $f3->set('title', 'Ajouter une Astuce');
         $f3->set('content', $tpl->render('pages/astuces/astuces_add.html'));
 
