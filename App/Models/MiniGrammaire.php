@@ -5,11 +5,14 @@ namespace App\Models;
 /**
  * Modèle MiniGrammaire
  * Gère les interactions avec la table 'mini_grammaire_codes'.
+ * Étend \DB\SQL\Mapper pour utiliser l'ORM de Fat-Free Framework.
  */
 class MiniGrammaire extends \DB\SQL\Mapper
 {
     /**
      * Constructeur
+     * Initialise la connexion et mappe la table 'mini_grammaire_codes'.
+     * 
      * @param \DB\SQL|null $db Instance de connexion DB
      */
     public function __construct(?\DB\SQL $db = null)
@@ -20,23 +23,33 @@ class MiniGrammaire extends \DB\SQL\Mapper
 
     /**
      * Récupère tous les codes de mini-grammaire, regroupés par catégorie.
-     * @return array Tableau associatif des codes, clés par catégorie.
+     * Refactorisé pour utiliser le Mapper et un tri moderne.
+     * 
+     * @return array Tableau associatif des codes, groupés par catégorie.
      */
     public function getAllGroupedByCategory(): array
     {
-        // Correction du tri pour gérer les codes alphanumériques (ex: G1, G10, G2)
-        // Trie d'abord par catégorie, puis par la longueur du code, puis par le code lui-même.
-        $codes = $this->db->exec('SELECT * FROM mini_grammaire_codes ORDER BY category, LENGTH(code), code');
+        // Utilisation du Mapper pour charger tous les enregistrements
+        // Tri par catégorie, longueur du code (pour le tri naturel), puis code
+        $items = $this->find(
+            null,
+            ['order' => 'category ASC, LENGTH(code) ASC, code ASC']
+        );
         
         $groupedCodes = [];
-        foreach ($codes as $code) {
-            $groupedCodes[$code['category']][] = $code;
+        if ($items) {
+            foreach ($items as $item) {
+                $data = $item->cast();
+                $groupedCodes[$data['category']][] = $data;
+            }
         }
+        
         return $groupedCodes;
     }
 
     /**
      * Met à jour un champ spécifique (detail ou example) pour un code donné.
+     * 
      * @param int $id L'ID du code à mettre à jour.
      * @param string $field Le nom du champ à mettre à jour ('detail' ou 'example').
      * @param string $value La nouvelle valeur du champ.
@@ -44,7 +57,7 @@ class MiniGrammaire extends \DB\SQL\Mapper
      */
     public function updateField(int $id, string $field, string $value): bool
     {
-        // Valider que le champ est bien 'detail' ou 'example' pour éviter les injections SQL
+        // Validation stricte des champs autorisés
         if (!in_array($field, ['detail', 'example'])) {
             return false;
         }
@@ -57,7 +70,7 @@ class MiniGrammaire extends \DB\SQL\Mapper
                 return true;
             }
         } catch (\PDOException $e) {
-            // Log l'erreur ou la gérer
+            // Journalisation de l'erreur
             error_log("Erreur de mise à jour du champ {$field} pour l'ID {$id}: " . $e->getMessage());
         }
         return false;
