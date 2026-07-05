@@ -4,119 +4,100 @@ namespace App\Models;
 
 /**
  * Modèle Favori
- * Gère les favoris des utilisateurs pour les logements
+ * Gère les favoris des utilisateurs pour les astuces.
+ * Étend \DB\SQL\Mapper pour utiliser les fonctionnalités ORM du framework.
  * Table : favoris (id, user_id, astuces_id)
  */
-class Favori
+class Favori extends \DB\SQL\Mapper
 {
-    private \DB\SQL $db;
     /**
      * Constructeur
-     * Initialise la connexion à la base de données et mappe la table 'favoris'
+     * Initialise la connexion à la base de données et mappe la table 'favoris'.
      * 
      * @param \DB\SQL|null $db Instance de connexion DB (optionnel)
      */
     public function __construct(?\DB\SQL $db = null)
     {
-        // Récupère la connexion DB depuis F3 si non fournie
-        $this->db = $db ?: \Base::instance()->get('DB');
-        
+        $db = $db ?: \Base::instance()->get('DB');
+        parent::__construct($db, 'favoris');
     }
 
     /**
-     * Vérifie si un logement est déjà dans les favoris de l'utilisateur
+     * Vérifie si une astuce est déjà dans les favoris de l'utilisateur.
      * 
-     * @param int $user_id ID de l'utilisateur
-     * @param int $astuce_id ID du logement
+     * @param int $userId ID de l'utilisateur
+     * @param int $astuceId ID de l'astuce
      * @return bool True si le favori existe, False sinon
      */
-    public function isFavori(int $user_id, int $astuce_id): bool
+    public function isFavori(int $userId, int $astuceId): bool
     {
-        try {
-            $result = $this->db->exec(
-                'SELECT id FROM favoris WHERE user_id = :user_id AND astuces_id = :astuces_id',
-                [ ':user_id' => $user_id,
-                   ':astuces_id' => $astuce_id]);
-            if ($result) {
-                return true;
-            }
-            return false;
-        } catch (\PDOException $e) {
-            // Pas de transaction ici, donc pas de rollback
-            throw $e;
-        }
+        $this->load(['user_id = ? AND astuces_id = ?', $userId, $astuceId]);
+        return !$this->dry();
     }
 
     /**
-     * Ajoute un logement aux favoris de l'utilisateur
+     * Ajoute une astuce aux favoris de l'utilisateur.
      * 
-     * @param int $user_id ID de l'utilisateur
-     * @param int $astuce_id ID du logement
+     * @param int $userId ID de l'utilisateur
+     * @param int $astuceId ID de l'astuce
      * @return bool True si ajouté, False si déjà existant
      */
-    public function add(int $user_id, int $astuce_id): bool
+    public function add(int $userId, int $astuceId): bool
     {
-        // Évite les doublons : ne rien faire si déjà en favori
-        if ($this->isFavori($user_id, $astuce_id)) {
+        if ($this->isFavori($userId, $astuceId)) {
             return false;
         }
 
-        // Insertion dans la table favoris
-        $this->db->exec(
-            'INSERT INTO favoris (user_id, astuces_id) VALUES (?, ?)',
-            [$user_id, $astuce_id]
-        );
+        $this->reset();
+        $this->user_id = $userId;
+        $this->astuces_id = $astuceId;
+        $this->save();
         return true;
     }
 
     /**
-     * Retire un logement des favoris de l'utilisateur
+     * Retire une astuce des favoris de l'utilisateur.
      * 
-     * @param int $user_id ID de l'utilisateur
-     * @param int $astuce_id ID du logement
-     * @return bool True si supprimé
+     * @param int $userId ID de l'utilisateur
+     * @param int $astuceId ID de l'astuce
+     * @return bool True si l'opération a été tentée
      */
-    public function remove(int $user_id, int $astuce_id): bool
+    public function remove(int $userId, int $astuceId): bool
     {
-        // Suppression de l'entrée dans la table favoris
-        $this->db->exec(
-            'DELETE FROM favoris WHERE user_id = ? AND astuces_id = ?',
-            [$user_id, $astuce_id]
-        );
+        $this->load(['user_id = ? AND astuces_id = ?', $userId, $astuceId]);
+        if (!$this->dry()) {
+            $this->erase();
+        }
         return true;
     }
 
     /**
-     * Toggle : Ajoute OU retire un favori selon l'état actuel
+     * Bascule l'état de favori : Ajoute OU retire selon l'état actuel.
      * 
-     * @param int $user_id ID de l'utilisateur
-     * @param int $astuce_id ID du logement
+     * @param int $userId ID de l'utilisateur
+     * @param int $astuceId ID de l'astuce
      * @return string 'added' si ajouté, 'removed' si retiré
      */
-    public function toggle(int $user_id, int $astuce_id): string
+    public function toggle(int $userId, int $astuceId): string
     {
-        // Si déjà en favori → on retire
-        if ($this->isFavori($user_id, $astuce_id)) {
-            $this->remove($user_id, $astuce_id);
+        if ($this->isFavori($userId, $astuceId)) {
+            $this->remove($userId, $astuceId);
             return 'removed';
-        } 
-        // Sinon → on ajoute
-        else {
-            $this->add($user_id, $astuce_id);
+        } else {
+            $this->add($userId, $astuceId);
             return 'added';
         }
     }
 
     /**
-     * Récupère tous les logements favoris d'un utilisateur
-     * Utilise INNER JOIN pour récupérer les détails complets du logement
+     * Récupère toutes les astuces favorites d'un utilisateur.
      * 
-     * @param int $user_id ID de l'utilisateur
-     * @return array Tableau des logements favoris avec leurs détails
+     * @param int $userId ID de l'utilisateur
+     * @return array|null Tableau des astuces favorites avec leurs détails
      */
-    public function getFavorisByUser(int $user_id): ?array
+    public function getFavorisByUser(int $userId): ?array
     {
-        $favoris = $this->db->exec( "
+        return $this->db->exec("
             SELECT 
                 a.id,
                 a.titre,
@@ -124,9 +105,6 @@ class Favori
             FROM favoris f
             INNER JOIN astuces a ON f.astuces_id = a.id
             WHERE f.user_id = ?
-            ORDER BY f.id DESC ", [$user_id]);
-        
-        // Exécute la requête et retourne un tableau de résultats
-        return $favoris;
+            ORDER BY f.id DESC", [$userId]);
     }
 }
