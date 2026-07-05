@@ -12,7 +12,7 @@ use App\Models\Progression; // Import du modèle Progression
  *
  * @package App\Controllers
  */
-class Auth {
+class Auth extends BaseController {
 
     /**
      * Gère la connexion des utilisateurs.
@@ -26,6 +26,7 @@ class Auth {
      */
     public function login(\Base $f3)
     {
+        $tpl = \Template::instance();
         $errors = [];
         if ($f3->get('VERB') === 'POST') {
             $username = trim($f3->get('POST.username'));
@@ -71,7 +72,6 @@ class Auth {
         }
         $f3->set('errors', $errors);
 
-        $tpl = \Template::instance();
         $content = $tpl->render('pages/auth/login.html');
         $f3->set('title', 'Login');
         $f3->set('content', $content);
@@ -187,6 +187,7 @@ class Auth {
      * @return void
      */
     public function profil(\Base $f3) {
+        $tpl = \Template::instance();
         // 1. Vérification de l’authentification
         if (!$f3->exists('SESSION.user')) {
             $f3->reroute('/login');
@@ -225,7 +226,6 @@ class Auth {
         }
 
         // 6. Rendu de la page
-        $tpl = \Template::instance();
         $f3->set('title', 'Mon Profil');
         $content = $tpl->render('pages/auth/profile.html'); // Utilisation de profile.html
 
@@ -239,6 +239,7 @@ class Auth {
      * @return void
      */
     public function editProfile(\Base $f3) {
+        $tpl = \Template::instance();
         // 1. Vérification de l’authentification
         if (!$f3->exists('SESSION.user')) {
             $f3->reroute('/mini-grammaire/login');
@@ -260,7 +261,6 @@ class Auth {
         $f3->set('client', $clientData);
         $f3->set('title', 'Modifier mon Profil');
 
-        $tpl = \Template::instance();
 
         $content = $tpl->render('pages/auth/profile_edit.html'); // Utilisation de profile.html
 
@@ -276,6 +276,7 @@ class Auth {
      * @return void
      */
     public function updateProfile(\Base $f3) {
+        $tpl = \Template::instance();
         // 1. Vérification de l’authentification
         if (!$f3->exists('SESSION.user_id')) { // Utiliser user_id pour plus de robustesse
             $f3->reroute('/mini-grammaire/login');
@@ -356,8 +357,7 @@ class Auth {
         $f3->set('errors', $errors);
         $f3->set('successMessage', $successMessage); // Pour afficher un message si besoin
         $f3->set('title', 'Modifier mon Profil');
-        $f3->set('content', \Template::instance()->render('pages/auth/profile_edit.html'));
-        $tpl = \Template::instance();
+        $f3->set('content', $tpl->render('pages/auth/profile_edit.html'));
 
         $content = $tpl->render('profile_edit.html'); // Utilisation de profile.html
 

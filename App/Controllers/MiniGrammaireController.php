@@ -9,7 +9,7 @@ use App\Models\User; // Pour vérifier le rôle de l'utilisateur
  * Contrôleur MiniGrammaireController
  * Gère les opérations CRUD pour les codes de mini-grammaire.
  */
-class MiniGrammaireController
+class MiniGrammaireController extends BaseController
 {
     /**
      * Met à jour un champ (détail ou exemple) d'un code de mini-grammaire.
@@ -22,16 +22,13 @@ class MiniGrammaireController
     {
         header('Content-Type: application/json');
 
-        // 1. Vérifier l'authentification et les permissions
-        if (!$f3->exists('SESSION.user_id')) {
-            echo json_encode(['success' => false, 'message' => 'Authentification requise.']);
-            exit;
-        }
-
-        $userModel = new User($f3->get('DB'));
-        $user = $userModel->getById($f3->get('SESSION.user_id')); // Supposons une méthode getById
-
-        if (!$user || $user['role'] === 'etudiant') { // Seuls les non-étudiants peuvent modifier
+        // 1. Vérifier l'authentification et les permissions via BaseController
+        // Seuls les rôles différents de 'etudiant' peuvent modifier (ex: 'admin', 'professeur')
+        // On suppose ici que le rôle requis est 'admin' ou qu'on utilise requireRole pour bloquer les étudiants.
+        // Puisque BaseController::requireRole redirige, et que c'est une requête AJAX, 
+        // nous allons plutôt utiliser le hive F3 set par beforeroute.
+        
+        if ($f3->get('userRole') === 'etudiant' || $f3->get('userRole') === 'invite') {
             echo json_encode(['success' => false, 'message' => 'Permission refusée.']);
             exit;
         }
