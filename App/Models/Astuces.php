@@ -4,7 +4,7 @@ namespace App\Models;
 
 /**
  * Modèle Astuces
- * Gère les interactions avec la table 'astuces'.
+ * Gère les interactions avec la table 'astuces' en utilisant le Mapper F3.
  */
 class Astuces extends \DB\SQL\Mapper
 {
@@ -20,60 +20,48 @@ class Astuces extends \DB\SQL\Mapper
 
     /**
      * Récupère toutes les astuces de la base de données.
+     * Utilise le Mapper find() et cast().
      * @return array Liste des astuces
      */
     public function getAll()
     {
-        try {
-            $astuces = $this->db->exec('SELECT * FROM astuces');
-            return $astuces;
-        } catch (\PDOException $e) {
+        $results = $this->find();
+        if (!$results) {
             return [];
         }
+        return array_map(function($astuce) {
+            return $astuce->cast();
+        }, $results);
     }
 
     /**
      * Récupère une astuce spécifique par son ID.
+     * Utilise le Mapper load().
      * @param int $id L'ID de l'astuce à récupérer.
      * @return array|null L'astuce trouvée sous forme de tableau associatif, ou null si non trouvée.
      */
     public function getAstuce(int $id)
     {
-        try {
-            $astuces = $this->db->exec('SELECT * FROM astuces where id = :id', [':id' => $id]);
-            if (!empty($astuces)) {
-                return $astuces[0]; // Correction: retourne le premier élément (index 0)
-            }
-            return null; // Retourne null si aucune astuce n'est trouvée
-        } catch (\PDOException $e) {
-            error_log("Erreur lors de la récupération de l'astuce ID {$id}: " . $e->getMessage());
-            return null; // Retourne null en cas d'erreur
+        $this->load(['id = ?', $id]);
+        if ($this->dry()) {
+            return null;
         }
+        return $this->cast();
     }
 
     /**
      * Ajoute une nouvelle astuce à la base de données.
+     * Utilise le Mapper reset() et save().
      * @param string $titre Le titre de l'astuce.
      * @param string $description La description de l'astuce.
      * @return int L'ID de la nouvelle astuce insérée.
      */
     public function addAstuce(string $titre, string $description): int
     {
-        try {
-            $this->db->begin();
-            $this->db->exec(
-                'INSERT INTO astuces (titre, description) VALUES (:titre, :description)',
-                [
-                    ':titre' => $titre,
-                    ':description' => $description
-                ]
-            );
-            $id = (int)$this->db->lastInsertId();
-            $this->db->commit();
-            return $id;
-        } catch (\PDOException $e) {
-            $this->db->rollback();
-            throw $e;
-        }
+        $this->reset();
+        $this->titre = $titre;
+        $this->description = $description;
+        $this->save();
+        return (int)$this->id;
     }
 }
