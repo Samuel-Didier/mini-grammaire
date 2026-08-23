@@ -5,43 +5,29 @@ namespace App\Models;
 /**
  * Modèle Favori
  * Gère les favoris des utilisateurs pour les astuces.
- * Étend \DB\SQL\Mapper pour utiliser les fonctionnalités ORM du framework.
+ * Étend \\DB\SQL\Mapper pour utiliser les fonctionnalités ORM du framework.
  * Table : favoris (id, user_id, astuces_id)
  */
-class Favori extends \DB\SQL\Mapper
+class Favori extends \\DB\SQL\Mapper
 {
     /**
      * Constructeur
      * Initialise la connexion à la base de données et mappe la table 'favoris'.
-     * 
-     * @param \DB\SQL|null $db Instance de connexion DB (optionnel)
+     *
+     * @param \\DB\SQL|null $db Instance de connexion DB (optionnel)
      */
-    public function __construct(?\DB\SQL $db = null)
+    public function __construct(?\\DB\SQL $db = null)
     {
-        $db = $db ?: \Base::instance()->get('DB');
+        $db = $db ?: \\Base::instance()->get('DB');
         parent::__construct($db, 'favoris');
     }
 
-    /**
-     * Vérifie si une astuce est déjà dans les favoris de l'utilisateur.
-     * 
-     * @param int $userId ID de l'utilisateur
-     * @param int $astuceId ID de l'astuce
-     * @return bool True si le favori existe, False sinon
-     */
     public function isFavori(int $userId, int $astuceId): bool
     {
         $this->load(['user_id = ? AND astuces_id = ?', $userId, $astuceId]);
         return !$this->dry();
     }
 
-    /**
-     * Ajoute une astuce aux favoris de l'utilisateur.
-     * 
-     * @param int $userId ID de l'utilisateur
-     * @param int $astuceId ID de l'astuce
-     * @return bool True si ajouté, False si déjà existant
-     */
     public function add(int $userId, int $astuceId): bool
     {
         if ($this->isFavori($userId, $astuceId)) {
@@ -55,13 +41,6 @@ class Favori extends \DB\SQL\Mapper
         return true;
     }
 
-    /**
-     * Retire une astuce des favoris de l'utilisateur.
-     * 
-     * @param int $userId ID de l'utilisateur
-     * @param int $astuceId ID de l'astuce
-     * @return bool True si l'opération a été tentée
-     */
     public function remove(int $userId, int $astuceId): bool
     {
         $this->load(['user_id = ? AND astuces_id = ?', $userId, $astuceId]);
@@ -71,43 +50,39 @@ class Favori extends \DB\SQL\Mapper
         return true;
     }
 
-    /**
-     * Bascule l'état de favori : Ajoute OU retire selon l'état actuel.
-     * 
-     * @param int $userId ID de l'utilisateur
-     * @param int $astuceId ID de l'astuce
-     * @return string 'added' si ajouté, 'removed' si retiré
-     */
     public function toggle(int $userId, int $astuceId): string
     {
         if ($this->isFavori($userId, $astuceId)) {
             $this->remove($userId, $astuceId);
             return 'removed';
-        } else {
-            $this->add($userId, $astuceId);
-            return 'added';
         }
+
+        $this->add($userId, $astuceId);
+        return 'added';
     }
 
     /**
-     * Récupère toutes les astuces favorites d'un utilisateur.
-     * Refactorisé pour utiliser les champs virtuels et l'ORM F3.
-     * 
+     * Récupère les favoris avec les champs de la table astuces.
+     *
+     * Les propriétés virtuelles titre/description ne sont pas des colonnes de
+     * favoris. Les déclarer sur le Mapper puis les inclure dans select() fait
+     * générer un SELECT titre FROM favoris, ce qui provoque SQLSTATE[42S22].
+     * La jointure explicite garantit que les champs proviennent d'astuces.
+     *
      * @param int $userId ID de l'utilisateur
-     * @return array|null Tableau des astuces favorites avec leurs détails
+     * @return array Tableau des astuces favorites avec leurs détails
      */
-    public function getFavorisByUser(int $userId): ?array
+    public function getFavorisByUser(int $userId): array
     {
-        // Définition de champs virtuels pour inclure les détails de l'astuce via une jointure
-        $this->titre = 'SELECT titre FROM astuces WHERE astuces.id = favoris.astuces_id';
-        $this->description = 'SELECT description FROM astuces WHERE astuces.id = favoris.astuces_id';
-        
-        $favoris = $this->select(
-            'astuces_id as id, titre, description',
-            ['user_id = ?', $userId],
-            ['order' => 'id DESC']
+        $rows = $this->db->exec(
+            'SELECT f.id, f.user_id, f.astuces_id, a.titre, a.description
+             FROM favoris AS f
+             INNER JOIN astuces AS a ON a.id = f.astuces_id
+             WHERE f.user_id = ?
+             ORDER BY f.id DESC',
+            [$userId]
         );
 
-        return $favoris ? array_map(fn($f) => $f->cast(), $favoris) : null;
+        return is_array($rows) ? $rows : [];
     }
 }
