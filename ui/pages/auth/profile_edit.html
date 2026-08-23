@@ -1,5 +1,13 @@
 <link rel="stylesheet" href="{{ @BASE }}/assets/css/auth.css"/>
 
+<style>
+    .password-wrapper { position: relative; display: flex; align-items: center; }
+    .password-wrapper input { width: 100%; padding-right: 45px; }
+    .toggle-password { position: absolute; right: 15px; cursor: pointer; color: var(--text-light, #687070); display: flex; align-items: center; z-index: 10; background: none; border: 0; padding: 0; }
+    .toggle-password:hover { color: var(--blue-accent, #2c7a7b); }
+    .toggle-password svg { width: 20px; height: 20px; }
+</style>
+
 <div class="auth-container">
     <div class="auth-header">
         <h2 class="login">Modifier mon Profil</h2>
@@ -7,48 +15,33 @@
     </div>
 
     <form action="/profile/update" method="POST">
-        <div class="form-group">
-            <label for="nom">Nom</label>
-            <input type="text" id="nom" name="nom" value="{{ @client.nom }}" required>
-        </div>
+        <div class="form-group"><label for="nom">Nom</label><input type="text" id="nom" name="nom" value="{{ @client.nom }}" required></div>
+        <div class="form-group"><label for="prenom">Prénom</label><input type="text" id="prenom" name="prenom" value="{{ @client.prenom }}" required></div>
+        <div class="form-group"><label for="username">Nom d'utilisateur</label><input type="text" id="username" name="username" value="{{ @client.username }}" required></div>
+        <div class="form-group"><label for="email">Adresse Email</label><input type="email" id="email" name="email" value="{{ @client.email }}" required></div>
 
-        <div class="form-group">
-            <label for="prenom">Prénom</label>
-            <input type="text" id="prenom" name="prenom" value="{{ @client.prenom }}" required>
-        </div>
+        <div class="form-group"><label for="password">Nouveau Mot de passe (laisser vide pour ne pas changer)</label><div class="password-wrapper"><input type="password" id="password" name="password" placeholder="Nouveau mot de passe"><button type="button" class="toggle-password" data-target="password" aria-label="Afficher le mot de passe"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path class="eye-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path class="eye-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7z"/></svg></button></div></div>
+        <div class="form-group"><label for="confirm_password">Confirmer le nouveau mot de passe</label><div class="password-wrapper"><input type="password" id="confirm_password" name="confirm_password" placeholder="Confirmer le nouveau mot de passe"><button type="button" class="toggle-password" data-target="confirm_password" aria-label="Afficher le mot de passe"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path class="eye-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path class="eye-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button></div></div>
 
-        <div class="form-group">
-            <label for="username">Nom d'utilisateur</label>
-            <input type="text" id="username" name="username" value="{{ @client.username }}" required>
-        </div>
-
-        <div class="form-group">
-            <label for="email">Adresse Email</label>
-            <input type="email" id="email" name="email" value="{{ @client.email }}" required>
-        </div>
-
-        <div class="form-group">
-            <label for="password">Nouveau Mot de passe (laisser vide pour ne pas changer)</label>
-            <input type="password" id="password" name="password" placeholder="Nouveau mot de passe">
-        </div>
-
-        <div class="form-group">
-            <label for="confirm_password">Confirmer le nouveau mot de passe</label>
-            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirmer le nouveau mot de passe">
-        </div>
-
-        <check if="{{ isset(@errors) && count(@errors) > 0 }}">
-            <div style="color: var(--red-accent); margin-bottom: 1rem; text-align: left;">
-                <repeat group="{{ @errors }}" value="{{ @error }}">
-                    <p>{{ @error }}</p>
-                </repeat>
-            </div>
-        </check>
-
+        <check if="{{ isset(@errors) && count(@errors) > 0 }}"><div style="color: var(--red-accent); margin-bottom: 1rem; text-align: left;"><repeat group="{{ @errors }}" value="{{ @error }}"><p>{{ @error }}</p></repeat></div></check>
         <button type="submit" class="btn-primary login">Enregistrer les modifications</button>
     </form>
-
-    <div class="auth-footer">
-        <a href="/profile" style="color: var(--blue-accent);">← Retour au Profil</a>
-    </div>
+    <div class="auth-footer"><a href="/profile" style="color: var(--blue-accent);">← Retour au Profil</a></div>
 </div>
+
+<script>
+(function () {
+    var openPath = '<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />';
+    var closedPath = '<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />';
+    document.addEventListener('click', function (event) {
+        var button = event.target.closest('.toggle-password');
+        if (!button) return;
+        var input = document.getElementById(button.getAttribute('data-target'));
+        var svg = button.getElementsByTagName('svg')[0];
+        var visible = input.getAttribute('type') === 'password';
+        input.setAttribute('type', visible ? 'text' : 'password');
+        svg.innerHTML = visible ? closedPath : openPath;
+        button.setAttribute('aria-label', visible ? 'Masquer le mot de passe' : 'Afficher le mot de passe');
+    });
+}());
+</script>
