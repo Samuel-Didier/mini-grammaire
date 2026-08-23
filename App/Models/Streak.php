@@ -5,7 +5,6 @@ namespace App\Models;
 use DateTimeImmutable;
 use DateTimeInterface;
 
-/** Gestion atomique de la série quotidienne et des gels disponibles. */
 class Streak
 {
     private \DB\SQL $db;
@@ -15,35 +14,34 @@ class Streak
         $this->db = $db;
     }
 
-    /**
-     * Enregistre l'activité du jour et retourne streak/freezes/gel_utilise.
-     * Une journée manquée peut être couverte par un gel; le gel conserve la série.
-     */
     public function recordActivity(int $userId, ?DateTimeInterface $today = null): array
     {
-        $today = $today ? DateTimeImmutable::createFromInterface($today) : new DateTimeImmutable('today');
-        $user = $this->db->exec(
+        $today = $today
+            ? DateTimeImmutable::createFromInterface($today)
+            : new DateTimeImmutable('today');
+
+        $rows = $this->db->exec(
             'SELECT streak_count, last_activity_date, streak_freezes_available FROM users WHERE id = ?',
             [$userId]
         );
-        if (empty($user)) {
+        if (empty($rows)) {
             throw new \RuntimeException('Utilisateur introuvable.');
         }
 
-        $row = $user[0];
+        $row = $rows[0];
         $streak = (int)($row['streak_count'] ?? 0);
         $freezes = (int)($row['streak_freezes_available'] ?? 0);
-        $last = $row['last_activity_date'] ?? null;
+        $lastDate = $row['last_activity_date'] ?? null;
         $freezeUsed = false;
 
-        if (!$last) {
+        if (!$lastDate) {
             $streak = 1;
         } else {
-            $diff = (int)(new DateTimeImmutable($last))->diff($today)->format('%r%a');
+            $diff = (int)(new DateTimeImmutable($lastDate))->diff($today)->format('%r%a');
             if ($diff === 1) {
                 $streak++;
             } elseif ($diff === 0) {
-                // Activité déjà enregistrée aujourd'hui.
+                // Activité déjà comptabilisée aujourd'hui.
             } elseif ($diff === 2 && $freezes > 0) {
                 $freezes--;
                 $freezeUsed = true;
@@ -58,5 +56,22 @@ class Streak
         );
 
         return ['streak' => $streak, 'freezes' => $freezes, 'freeze_used' => $freezeUsed];
+    }
+
+    public function getStreakInfo(int $userId): array
+    {
+        $rows = $this->db->exec(
+            'SELECT streak_count, last_activity_date, streak_freezes_available FROM users WHERE id = ?',
+            [$userId]
+        );
+        if (empty($rows)) {
+            throw new \RuntimeException('Utilisateur introuvable.');
+        }
+
+        return [
+            'streak' => (int)($rows[0]['streak_count'] ?? 0),
+            'freezes' => (int)($rows[0]['streak_freezes_available'] ?? 0),
+            'last_activity_date' => $rows[0]['last_activity_date'] ?? null,
+        ];
     }
 }
