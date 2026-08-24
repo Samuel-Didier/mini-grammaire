@@ -5,20 +5,20 @@ namespace App\Models;
 /**
  * Modèle Favori
  * Gère les favoris des utilisateurs pour les astuces.
- * Étend \\DB\SQL\Mapper pour utiliser les fonctionnalités ORM du framework.
+ * Étend \DB\SQL\Mapper pour utiliser les fonctionnalités ORM du framework.
  * Table : favoris (id, user_id, astuces_id)
  */
-class Favori extends \\DB\SQL\Mapper
+class Favori extends \DB\SQL\Mapper
 {
     /**
      * Constructeur
      * Initialise la connexion à la base de données et mappe la table 'favoris'.
      *
-     * @param \\DB\SQL|null $db Instance de connexion DB (optionnel)
+     * @param \DB\SQL|null $db Instance de connexion DB (optionnel)
      */
-    public function __construct(?\\DB\SQL $db = null)
+    public function __construct(?\DB\SQL $db = null)
     {
-        $db = $db ?: \\Base::instance()->get('DB');
+        $db = $db ?: \Base::instance()->get('DB');
         parent::__construct($db, 'favoris');
     }
 
