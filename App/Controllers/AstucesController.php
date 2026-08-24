@@ -20,11 +20,7 @@ class AstucesController extends BaseController {
     public function getAstuces(\Base $f3) {
         $tpl = \Template::instance();
 
-        // Vérification de l'authentification : rediriger si non connecté
-        if (!$f3->exists('SESSION.user')) {
-            $f3->reroute('/login');
-            return;
-        }
+
 
         $user = $f3->get('user');
         $userRole = $f3->get('userRole');
@@ -65,6 +61,11 @@ class AstucesController extends BaseController {
     public function addAstuces(\Base $f3) {
         $tpl = \Template::instance();
 
+        // Vérification de l'authentification : rediriger si non connecté
+        if (!$f3->exists('SESSION.user')) {
+            $f3->reroute('/login');
+            return;
+        }
         // Utilisation de la logique RBAC centralisée
         $this->requireRole($f3, 'admin');
 
