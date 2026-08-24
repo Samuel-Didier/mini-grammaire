@@ -40,6 +40,11 @@ class Page {
     public function testNiveau(\Base $f3)
     {
         $tpl = \Template::instance();
+        // Vérification de l'authentification : rediriger si non connecté
+        if (!$f3->exists('SESSION.user')) {
+            $f3->reroute('/login');
+            return;
+        }
         $content = $tpl->render('pages/test_niveau.html');
         $f3->set('title', 'Test de Niveau');
         $f3->set('content', $content);

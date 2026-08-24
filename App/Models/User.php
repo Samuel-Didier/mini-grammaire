@@ -3,14 +3,14 @@ namespace App\Models;
 
 /**
  * Modèle User
- * 
+ *
  * Cette classe gère les interactions avec la table 'users' en utilisant le Mapper SQL de Fat-Free Framework.
  * Elle encapsule toute la logique métier liée aux utilisateurs, y compris l'authentification et l'inscription.
  */
 class User extends \DB\SQL\Mapper {
     /**
      * Constructeur de la classe User.
-     * 
+     *
      * @param \DB\SQL $db Instance de connexion à la base de données.
      */
     public function __construct(\DB\SQL $db) {
@@ -20,7 +20,7 @@ class User extends \DB\SQL\Mapper {
 
     /**
      * Récupère un utilisateur par son ID.
-     * 
+     *
      * @param int $id L'identifiant de l'utilisateur.
      * @return array|null Les données de l'utilisateur ou null s'il n'existe pas.
      */
@@ -31,7 +31,7 @@ class User extends \DB\SQL\Mapper {
 
     /**
      * Recherche un utilisateur par son nom d'utilisateur.
-     * 
+     *
      * @param string $username Le nom d'utilisateur à rechercher.
      * @return array|null Les données de l'utilisateur ou null s'il n'existe pas.
      */
@@ -42,7 +42,7 @@ class User extends \DB\SQL\Mapper {
 
     /**
      * Recherche un utilisateur par son adresse courriel.
-     * 
+     *
      * @param string $email L'adresse courriel à rechercher.
      * @return array|null Les données de l'utilisateur ou null s'il n'existe pas.
      */
@@ -53,9 +53,9 @@ class User extends \DB\SQL\Mapper {
 
     /**
      * Tente de connecter un utilisateur.
-     * 
+     *
      * Vérifie si l'identifiant (nom d'utilisateur ou courriel) existe et si le mot de passe correspond.
-     * 
+     *
      * @param string $identifier Le nom d'utilisateur ou l'adresse courriel.
      * @param string $password Le mot de passe en clair.
      * @return array|string Retourne les données de l'utilisateur en cas de succès, ou un message d'erreur.
@@ -63,7 +63,7 @@ class User extends \DB\SQL\Mapper {
     public function login(string $identifier, string $password) {
         // Recherche par nom d'utilisateur ou par courriel
         $this->load(['username = ? OR email = ?', $identifier, $identifier]);
-        
+
         if ($this->dry()) {
             return "Identifiants invalides : utilisateur non trouvé.";
         }
@@ -77,7 +77,7 @@ class User extends \DB\SQL\Mapper {
 
     /**
      * Enregistre un nouvel utilisateur après validation.
-     * 
+     *
      * @param array $data Les données d'inscription (nom, prenom, username, email, password).
      * @return array|array Retourne un tableau ['user' => data] en cas de succès, ou ['errors' => [...]] en cas d'échec.
      */
@@ -131,7 +131,7 @@ class User extends \DB\SQL\Mapper {
 
     /**
      * Met à jour le profil d'un utilisateur.
-     * 
+     *
      * @param int $id L'ID de l'utilisateur.
      * @param array $data Les données à mettre à jour.
      * @return array Retourne un tableau avec 'success' ou 'errors'.
@@ -143,7 +143,7 @@ class User extends \DB\SQL\Mapper {
         $errors = [];
         if (empty($data['nom'])) $errors[] = 'Le nom est requis.';
         if (empty($data['prenom'])) $errors[] = 'Le prénom est requis.';
-        
+
         // Vérification de l'unicité du username
         if ($this->username !== $data['username'] && $this->findByUsername($data['username'])) {
             $errors[] = 'Ce nom d\'utilisateur est déjà pris.';
@@ -180,11 +180,15 @@ class User extends \DB\SQL\Mapper {
 
     /**
      * Alias pour findByUsername afin de maintenir la compatibilité ou pour des besoins spécifiques.
-     * 
+     *
      * @param string $username Le nom d'utilisateur.
      * @return array|null
      */
-    public function findData(string $username) {
+    public function findData(?string $username) {
+        if (empty($username)) {
+            return null;
+        }
+
         return $this->findByUsername($username);
     }
 }
