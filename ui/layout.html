@@ -2,29 +2,20 @@
 <html lang="fr">
 <head>
     <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>{{ @title ?: 'Mon site' }}</title>
-    <link rel="stylesheet" href="{{ @BASE }}/assets/style.css"/> <!-- Style principal -->
+    <link rel="stylesheet" href="{{ @BASE }}/assets/style.css"/>
+    <link rel="stylesheet" href="{{ @BASE }}/assets/css/responsive.css"/>
     <link href="{{ @BASE }}/assets/images/icon_logo.jpg" rel="icon">
-
-<!--    <link rel="stylesheet" href="{{ @BASE }}/assets/css/quiz.css"/> &lt;!&ndash; Style du quiz &ndash;&gt;-->
-    <noscript>
-        <link rel="stylesheet" href="{{ @BASE }}/assets/css/noscript.css"/>
-    </noscript>
-    <!-- Mets ici tout autre <meta>, favicon, etc. du template -->
+    <noscript><link rel="stylesheet" href="{{ @BASE }}/assets/css/noscript.css"/></noscript>
 </head>
 <body class="landing is-preload">
-<!-- Page Wrapper -->
 <div id="page-wrapper">
-    <!-- Header / Nav -->
     <include href="partials/header.html"/>
-    <!-- Contenu de page -->
     {{ @content | raw }}
-    <!-- Footer -->
     <include href="partials/footer.html"/>
 </div>
-<!-- Scripts du template -->
-
 <script type="module" src="{{ @BASE }}/assets/js/script.js"></script>
-<script src="{{ @BASE }}/assets/js/quiz.js"></script> <!-- Ajout du script pour le quiz -->
+<script src="{{ @BASE }}/assets/js/quiz.js"></script>
 </body>
 </html>
