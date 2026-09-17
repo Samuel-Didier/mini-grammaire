@@ -56,4 +56,77 @@ class MiniGrammaireController extends BaseController
         }
         exit;
     }
+
+    /**
+     * Renomme un code parent et/ou change sa catégorie (toute la famille).
+     * Accessible via une requête AJAX (POST).
+     *
+     * @param \Base $f3 Instance du framework.
+     * @return void Retourne une réponse JSON.
+     */
+    public function updateParentCode(\Base $f3)
+    {
+        header('Content-Type: application/json');
+
+        if ($f3->get('userRole') === 'etudiant' || $f3->get('userRole') === 'invite') {
+            echo json_encode(['success' => false, 'message' => 'Permission refusée.']);
+            exit;
+        }
+
+        $data = json_decode($f3->get('BODY'), true);
+        $oldParent = $data['oldParent'] ?? null;
+        $newParent = $data['newParent'] ?? null;
+        $newCategory = $data['newCategory'] ?? null;
+
+        if (!$oldParent || !$newParent || !$newCategory) {
+            echo json_encode(['success' => false, 'message' => 'Données manquantes.']);
+            exit;
+        }
+
+        $miniGrammaireModel = new MiniGrammaire($f3->get('DB'));
+        $result = $miniGrammaireModel->updateParentGroup($oldParent, $newParent, $newCategory);
+
+        if (isset($result['success'])) {
+            echo json_encode(['success' => true, 'message' => 'Mise à jour réussie.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => implode(' ', $result['errors'] ?? ['Échec de la mise à jour.'])]);
+        }
+        exit;
+    }
+
+    /**
+     * Modifie un sous-code (code + description/règle). Accès AJAX (POST).
+     *
+     * @param \Base $f3 Instance du framework.
+     * @return void Retourne une réponse JSON.
+     */
+    public function updateCodeEntry(\Base $f3)
+    {
+        header('Content-Type: application/json');
+
+        if ($f3->get('userRole') === 'etudiant' || $f3->get('userRole') === 'invite') {
+            echo json_encode(['success' => false, 'message' => 'Permission refusée.']);
+            exit;
+        }
+
+        $data = json_decode($f3->get('BODY'), true);
+        $id = (int)($data['id'] ?? 0);
+        $code = $data['code'] ?? null;
+        $description = $data['description'] ?? null;
+
+        if (!$id || !$code) {
+            echo json_encode(['success' => false, 'message' => 'Données manquantes.']);
+            exit;
+        }
+
+        $miniGrammaireModel = new MiniGrammaire($f3->get('DB'));
+        $result = $miniGrammaireModel->updateCodeEntry($id, $code, $description ?? '');
+
+        if (isset($result['success'])) {
+            echo json_encode(['success' => true, 'message' => 'Mise à jour réussie.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => implode(' ', $result['errors'] ?? ['Échec de la mise à jour.'])]);
+        }
+        exit;
+    }
 }

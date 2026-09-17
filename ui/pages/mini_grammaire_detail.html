@@ -1,0 +1,87 @@
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/mini_grammaire.css"/>
+
+<div class="detail-container">
+    <a href="{{ @BASE }}/mini_grammaire" class="back-link"><span>←</span> Tous les codes</a>
+
+    <header class="detail-header {{ @categoryLetter }}">
+        <span class="detail-code badge-{{ @categoryLetter }}">{{ @parent }}</span>
+        <h1 class="detail-title">{{ @categoryName }}</h1>
+
+        <check if="{{ @canEdit }}">
+            <button type="button" class="header-edit-btn" title="Modifier le code ou la catégorie" onclick="toggleHeaderEdit(event, this)">✏️</button>
+            <div class="header-editor" data-parent="{{ @parent }}">
+                <input type="text" class="header-input-code" value="{{ @parent }}" maxlength="10">
+                <select class="header-input-category">
+                    <repeat group="{{ @allCategoryNames }}" value="{{ @catName }}">
+                        <option value="{{ @catName }}" <check if="{{ @catName == @categoryName }}">selected</check>>{{ @catName }}</option>
+                    </repeat>
+                </select>
+                <div class="header-editor-actions">
+                    <button type="button" class="detail-save-btn" onclick="saveParentEdit(event, this)">✓ Sauv.</button>
+                    <button type="button" class="detail-cancel-btn" onclick="cancelParentEdit(event, this)">✕</button>
+                </div>
+            </div>
+        </check>
+    </header>
+
+    <div class="rules-list">
+
+        <repeat group="{{ @codeEntries }}" value="{{ @entry }}">
+            <article class="rule-card">
+                <header class="rule-header {{ @categoryLetter }}">
+                    <span class="rule-code badge-{{ @categoryLetter }}">{{ @entry.code }}</span>
+                    <h2 class="rule-title">{{ @entry.description }}</h2>
+                    <check if="{{ @canEdit }}">
+                        <button type="button" class="entry-edit-btn" title="Modifier le code ou la règle" onclick="toggleEntryEdit(event, this)">✏️</button>
+                    </check>
+                </header>
+
+                <div class="entry-editor" data-id="{{ @entry.id }}">
+                    <input type="text" class="entry-input-code" value="{{ @entry.code }}" maxlength="10">
+                    <textarea class="entry-input-desc" rows="2" placeholder="Description de la règle...">{{ @entry.description }}</textarea>
+                    <div class="entry-editor-actions">
+                        <button type="button" class="detail-save-btn" onclick="saveEntryEdit(event, this)">✓ Sauv.</button>
+                        <button type="button" class="detail-cancel-btn" onclick="cancelEntryEdit(event, this)">✕</button>
+                    </div>
+                </div>
+
+                <div class="rule-body">
+                    <!-- Exemple fautif (champ `detail` de la BD) -->
+                    <div class="example-item incorrect">
+                        <span class="example-mark">✗</span>
+                        <span class="example-text">{{ @entry.detail ?: 'Aucun exemple fautif ajouté.' }}</span>
+                        <check if="{{ @canEdit }}">
+                            <button type="button" class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button>
+                        </check>
+                    </div>
+                    <div class="detail-editor" data-field="detail" data-id="{{ @entry.id }}">
+                        <textarea class="detail-input" rows="1" placeholder="Exemple fautif..." onkeydown="handleDetailKey(event, this)"></textarea>
+                        <div class="detail-editor-actions">
+                            <button type="button" class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button>
+                            <button type="button" class="detail-cancel-btn" onclick="cancelDetailEdit(event, this)">✕</button>
+                        </div>
+                    </div>
+
+                    <!-- Exemple corrigé (champ `example` de la BD) -->
+                    <div class="example-item correct">
+                        <span class="example-mark">✓</span>
+                        <span class="example-text">{{ @entry.example ?: 'Aucun exemple corrigé ajouté.' }}</span>
+                        <check if="{{ @canEdit }}">
+                            <button type="button" class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button>
+                        </check>
+                    </div>
+                    <div class="detail-editor" data-field="example" data-id="{{ @entry.id }}">
+                        <textarea class="detail-input" rows="1" placeholder="Exemple corrigé..." onkeydown="handleDetailKey(event, this)"></textarea>
+                        <div class="detail-editor-actions">
+                            <button type="button" class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button>
+                            <button type="button" class="detail-cancel-btn" onclick="cancelDetailEdit(event, this)">✕</button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </repeat>
+
+    </div>
+</div>
+
+<script src="{{ @BASE }}/assets/js/script_search.js"></script>

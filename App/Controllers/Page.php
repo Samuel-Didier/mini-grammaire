@@ -90,7 +90,7 @@ class Page {
         echo $tpl->render('layout.html');
     }
 
-    // Page de la mini-grammaire (tableau)
+    // Page de la mini-grammaire (liste des codes par catégorie)
     public function grammaire(\Base $f3)
     {
         $tpl = \Template::instance();
@@ -104,12 +104,75 @@ class Page {
             }
         }
         $miniGrammaireModel = new MiniGrammaire($f3->get('DB'));
-        $codesGroupedByCategory = $miniGrammaireModel->getAllGroupedByCategory();
-        $f3->set('codes', $codesGroupedByCategory);
+        $codesByCategory = $miniGrammaireModel->getParentCodesGroupedByCategory();
 
+        // Mappage des catégories vers les classes CSS existantes (g/p/s/u/v)
+        $letterMap = [
+            'Orthographe grammaticale' => 'g',
+            'Ponctuation et typographie' => 'p',
+            'Syntaxe' => 's',
+            "Orthographe d'usage" => 'u',
+            'Vocabulaire' => 'v',
+        ];
+
+        $categories = [];
+        foreach ($codesByCategory as $name => $codes) {
+            $categories[] = [
+                'name'   => $name,
+                'letter' => $letterMap[$name] ?? strtolower(substr($name, 0, 1)),
+                'codes'  => $codes,
+            ];
+        }
+        $f3->set('categories', $categories);
+        $f3->set('allCategoryNames', array_keys($letterMap));
         $f3->set('userRole', $userRole);
+        $f3->set('canEdit', $userRole !== 'etudiant' && $userRole !== 'invite');
         $content = $tpl->render('pages/mini_grammaire.html');
         $f3->set('title', 'Mini-Grammaire');
+        $f3->set('content', $content);
+        echo $tpl->render('layout.html');
+    }
+
+    // Page de détail d'un code de la mini-grammaire (sous-codes, règles, exemples)
+    public function grammaireDetail(\Base $f3, array $args)
+    {
+        $tpl = \Template::instance();
+        $parent = strtoupper($args['code'] ?? '');
+        $parent = preg_replace('/[^A-Z0-9]/', '', $parent);
+
+        $miniGrammaireModel = new MiniGrammaire($f3->get('DB'));
+        $codeEntries = $miniGrammaireModel->getByParentCode($parent);
+        if (empty($codeEntries)) {
+            $f3->reroute('/mini_grammaire');
+            return;
+        }
+        $categoryName = $codeEntries[0]['category'];
+
+        $userRole = 'etudiant';
+        if ($f3->exists('SESSION.user')) {
+            $userModel = new User($f3->get('DB'));
+            $user = $userModel->findByUsername($f3->get('SESSION.user'));
+            if ($user) {
+                $userRole = $user['role'];
+            }
+        }
+
+        $letterMap = [
+            'Orthographe grammaticale' => 'g',
+            'Ponctuation et typographie' => 'p',
+            'Syntaxe' => 's',
+            "Orthographe d'usage" => 'u',
+            'Vocabulaire' => 'v',
+        ];
+
+        $f3->set('codeEntries', $codeEntries);
+        $f3->set('parent', $parent);
+        $f3->set('categoryName', $categoryName);
+        $f3->set('categoryLetter', $letterMap[$categoryName] ?? strtolower(substr($categoryName, 0, 1)));
+        $f3->set('allCategoryNames', array_keys($letterMap));
+        $f3->set('canEdit', $userRole !== 'etudiant' && $userRole !== 'invite');
+        $content = $tpl->render('pages/mini_grammaire_detail.html');
+        $f3->set('title', 'Code ' . $parent . ' — Mini-Grammaire');
         $f3->set('content', $content);
         echo $tpl->render('layout.html');
     }

@@ -2,7 +2,7 @@
 
 /*
 
-	Copyright (c) 2009-2023 F3::Factory/Bong Cosca, All rights reserved.
+	Copyright (c) 2009-2026 F3::Factory/Bong Cosca, All rights reserved.
 
 	This file is part of the Fat-Free Framework (http://fatfreeframework.com).
 
@@ -119,7 +119,7 @@ final class Base extends Prefab implements ArrayAccess {
 	//@{ Framework details
 	const
 		PACKAGE='Fat-Free Framework',
-		VERSION='3.9.2-Release';
+		VERSION='3.9.3-Release';
 	//@}
 
 	//@{ HTTP status codes (RFC 2616)
@@ -974,8 +974,15 @@ final class Base extends Prefab implements ArrayAccess {
 						// skip inaccessible properties #350
 						if (!$it && !isset($arg->$key))
 							continue;
-						$arg->$key=$this->recursive(
-							$val,$func,array_merge($stack,[$arg]));
+						$value = $this->recursive(
+							$val, $func, array_merge($stack, [$arg])
+						);
+
+						if ($arg instanceof \ArrayObject) {
+							$arg[$key] = $value;
+						} else {
+							$arg->$key = $value;
+						}
 					}
 				}
 				return $arg;
@@ -3033,7 +3040,7 @@ class View extends Prefab {
 		}
 		if ($this->level<1 || $implicit) {
 			if (!$fw->CLI && $mime && !headers_sent() &&
-				!preg_grep ('/^Content-Type:/',headers_list()))
+				!preg_grep ('/^Content-Type:/i',headers_list()))
 				header('Content-Type: '.$mime.'; '.
 					'charset='.$fw->ENCODING);
 			if ($fw->ESCAPE && (!$mime ||

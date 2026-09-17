@@ -375,8 +375,11 @@ class Web extends Prefab {
 				return strlen($line);
 			}
 		);
-		curl_setopt($curl,CURLOPT_SSL_VERIFYHOST,2);
-		curl_setopt($curl,CURLOPT_SSL_VERIFYPEER,FALSE);
+        curl_setopt($curl,CURLOPT_SSL_VERIFYHOST,2);
+        curl_setopt($curl,CURLOPT_SSL_VERIFYPEER,TRUE);
+        if (isset($options['before_exec'])) {
+            call_user_func_array($options['before_exec'], [$curl,$headers]);
+        }
 		ob_start();
 		curl_exec($curl);
 		$err=curl_error($curl);
@@ -425,9 +428,12 @@ class Web extends Prefab {
 			stream_context_create(['http'=>$options]));
 		if (PHP_VERSION_ID >= 80500)
 			$headers=http_get_last_response_headers() ?: [];
-		else
-			$headers=isset($http_response_header)?
-				$http_response_header:[];
+		else {
+			$locals=get_defined_vars();
+			$headers=isset($locals['http_response_header']) &&
+				is_array($locals['http_response_header'])?
+				$locals['http_response_header']:[];
+		}
 		$err='';
 		if (is_string($body)) {
 			$match=NULL;

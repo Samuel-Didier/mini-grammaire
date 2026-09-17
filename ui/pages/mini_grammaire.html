@@ -1,24 +1,11 @@
 <!-- Utilisation du partial Hero pour la page de la mini-grammaire -->
 <set hero_title="Codes de Correction 📝" />
-<set hero_subtitle="Retrouvez la signification des codes utilisés pour corriger vos textes." />
+<set hero_subtitle="Cliquez sur un code pour voir ses règles et exemples." />
 <include href="partials/hero.html" />
 
 <!-- Inclusion du CSS spécifique -->
 <link rel="stylesheet" href="{{ @BASE }}/assets/css/mini_grammaire.css"/>
 
-<!-- Style conditionnel pour les permissions -->
-<check if="{{ isset(@userRole) && @userRole == 'etudiant' }}">
-    <style>
-        .detail-edit-btn, .detail-input, .detail-save-btn {
-            display: none !important;
-        }
-    </style>
-</check>
-
-<br>
-<a href="/" class="back-link" style="margin-left: 50px"><span>←</span> Retour au tableau de bord</a>
-<br>
-<!--<div class="main-container">-->
 <div style="margin:10px">
 
     <div class="search-wrap">
@@ -26,177 +13,34 @@
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
         <input type="text" id="searchInput"
-               placeholder="Rechercher un code (ex: G1) ou une erreur (ex: Accord)..."
+               placeholder="Rechercher un code (ex: G1, P10)..."
                oninput="searchFunction()">
     </div>
 
     <div id="noResults">Aucun résultat trouvé 🔍</div>
 
-<!--    <div class="categories-grid" id="grid" style="margin-left:250px; margin-right:250px;margin-top:20px;">-->
-    <div class="categories-grid" id="grid" style="margin-left:15%; margin-right:15%;margin-top:20px;">
+    <div class="codes-grid" id="grid" style="margin-top:20px;">
 
-        <repeat group="{{ @codes }}" key="{{ @categoryName }}" value="{{ @categoryCodes }}">
-            <div class="category-card" data-cat="{{ strtolower(substr(@categoryName, 0, 1)) }}">
-                <div class="card-header {{ strtolower(substr(@categoryName, 0, 1)) }}">{{ @categoryName }} ({{ strtoupper(substr(@categoryName, 0, 1)) }})</div>
+        <repeat group="{{ @categories }}" value="{{ @category }}">
+            <div class="code-category-card" data-cat="{{ @category.letter }}">
+                <div class="card-header {{ @category.letter }}">{{ @category.name }} ({{ strtoupper(@category.letter) }})</div>
                 <div class="card-body">
-                    <repeat group="{{ @categoryCodes }}" value="{{ @codeEntry }}">
-<!--                        <div class="code-row" data-code="{{ @codeEntry.code }}" data-desc="{{ @codeEntry.description }}">-->
-                        <div class="code-row" data-id="{{ @codeEntry.id }}" data-code="{{ @codeEntry.code }}" data-desc="{{ @codeEntry.description }}" onclick="toggleDetail(event, this)">
-                            <span class="code-badge badge-{{ strtolower(substr(@categoryName, 0, 1)) }}">{{ @codeEntry.code }}</span>
-                            <span class="code-desc">{{ @codeEntry.description }}</span>
-                            <span class="code-arrow" onclick="toggleDetail(event, this)" title="Voir le détail">▶</span>
-                        </div>
-<!--                        <div class="code-detail">-->
-                        <div class="code-detail" data-field="detail" data-id="{{ @codeEntry.id }}">
-                            <span class="detail-text">📌 {{ @codeEntry.detail ?: 'Aucun détail ajouté.' }}</span>
-                            <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button>
-                            <input class="detail-input" type="text" placeholder="Ajouter un détail..." onkeydown="handleDetailKey(event, this)" value="{{ @codeEntry.detail ?: '' }}"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button>
-                        </div>
-<!--                        <div class="code-detail">-->
-<!--                            <span class="detail-text">💡 {{ @codeEntry.example ?: 'Aucun exemple de détail ajouté.' }}</span>-->
-<!--                        <div class="code-detail" data-field="example" data-id="{{ @codeEntry.id }}">-->
-<!--                                <span class="detail-text">💡 {{ @codeEntry.example ?: 'Aucun exemple ajouté.' }}</span>-->
-<!--                            <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" title="Modifier">✏️</button>-->
-                        <div class="code-detail">
-                                <span class="detail-text">💡 {{ @codeEntry.example ?: 'Aucun exemple ajouté.' }}</span>
-                                <button class="detail-edit-btn" onclick="startDetailEdit(event, this)" data-field="example" title="Modifier">✏️</button>
-                                <input class="detail-input" type="text" placeholder="Ajouter un exemple..." onkeydown="handleDetailKey(event, this)" value="{{ @codeEntry.example ?: '' }}"><button class="detail-save-btn" onclick="saveDetail(event, this)">✓ Sauv.</button>
-                        </div>
+
+                    <repeat group="{{ @category.codes }}" value="{{ @code }}">
+                        <a class="code-chip badge-{{ @category.letter }}"
+                           data-code="{{ @code }}"
+                           href="{{ @BASE }}/mini_grammaire/{{ @code }}">
+                            <span class="code-chip-code">{{ @code }}</span>
+                            <span class="code-chip-category">{{ @category.name }}</span>
+                        </a>
                     </repeat>
+
                 </div>
             </div>
         </repeat>
 
+    </div>
 
-    </div><!-- /categories-grid -->
-</div><!-- /main-container -->
+</div>
 
-
-
-<!-- =====================================================
-     JAVASCRIPT — 3 fonctionnalités :
-       1. Toggle ouverture/fermeture d'une ligne au clic
-       2. Mode édition inline (✏️ → saisie → ✓ sauvegarder)
-       3. Recherche en temps réel sur code et description
-===================================================== -->
-<script>
-    /* ─────────────────────────────────────────────────
-   TOGGLE DU PANNEAU DÉTAIL au clic sur la flèche ▶
-   - Stoppe la propagation pour ne pas déclencher
-     d'autres événements sur la ligne parente
-   - Bascule la classe .expanded sur la .code-row
-   - CSS affiche/cache le .code-detail suivant via
-     le sélecteur adjacent : .code-row.expanded + .code-detail
-───────────────────────────────────────────────── */
-    function toggleDetail(e, arrow) {
-        e.stopPropagation();
-        const row = arrow.closest('.code-row');
-        row.classList.toggle('expanded');
-    }
-
-    /* Ouvrir l'édition du panneau détail */
-    function startDetailEdit(e, btn) {
-        e.stopPropagation();
-        const panel    = btn.closest('.code-detail');
-        const textSpan = panel.querySelector('.detail-text');
-        const input    = panel.querySelector('.detail-input');
-        input.value = textSpan.textContent.replace('📌 ', '').trim();
-        panel.classList.add('editing-detail');
-        input.focus();
-        input.select();
-    }
-
-    /* Sauvegarder le contenu du panneau détail */
-    function saveDetail(e, btn) {
-        e.stopPropagation();
-        const panel    = btn.closest('.code-detail');
-        const textSpan = panel.querySelector('.detail-text');
-        const input    = panel.querySelector('.detail-input');
-        const newVal   = input.value.trim();
-        if (newVal) {
-            textSpan.textContent = '📌 ' + newVal;
-        }
-        panel.classList.remove('editing-detail');
-    }
-
-    /* Raccourcis clavier dans le champ détail : Entrée = sauv., Échap = annuler */
-    function handleDetailKey(e, input) {
-        if (e.key === 'Enter') {
-            saveDetail(e, input);
-        } else if (e.key === 'Escape') {
-            e.stopPropagation();
-            input.closest('.code-detail').classList.remove('editing-detail');
-        }
-    }
-
-
-    /* ─────────────────────────────────────────────────
-       3. RECHERCHE EN TEMPS RÉEL — searchFunction()
-       Appelée à chaque frappe dans #searchInput (oninput).
-
-       Algorithme :
-       Pour chaque .category-card :
-         Pour chaque .code-row de la carte :
-           - Comparer le filtre avec data-code ET data-desc
-           - Si correspondance → visible + .highlight
-             (CSS ouvre automatiquement la description via .highlight)
-           - Sinon → .hidden (masqué)
-         Si aucune ligne visible dans la carte → masquer la carte
-       Si aucune ligne visible au total → afficher #noResults
-
-       Cas particulier : filtre vide → tout réafficher + fermer
-       les lignes ouvertes (retrait de .open et .highlight).
-    ───────────────────────────────────────────────── */
-    function searchFunction() {
-        const filter = document.getElementById("searchInput").value.toLowerCase().trim();
-        const cards  = document.querySelectorAll(".category-card");
-        let totalVisible = 0;
-
-        cards.forEach(card => {
-            const rows       = card.querySelectorAll(".code-row");
-            // Lire le texte du bandeau titre (ex: "Grammaire (G)")
-            const headerText = card.querySelector(".card-header").textContent.toLowerCase();
-
-            // Si le filtre correspond au titre de la catégorie → afficher TOUTES les lignes
-            const headerMatch = filter !== "" && headerText.includes(filter);
-
-            let cardVisible = 0;
-
-            rows.forEach(row => {
-                const code = row.dataset.code.toLowerCase();
-                const desc = row.dataset.desc.toLowerCase();
-
-                // Match si : filtre vide, header correspond, code correspond, ou desc correspond
-                const match = filter === "" || headerMatch || code.includes(filter) || desc.includes(filter);
-
-                if (match) {
-                    row.classList.remove("hidden");
-
-                    if (filter !== "" && !headerMatch) {
-                        // Surbrillance jaune seulement si c'est code/desc qui a matché
-                        row.classList.add("highlight");
-                    } else {
-                        // Pas de surbrillance si c'est le header ou filtre vide
-                        row.classList.remove("highlight");
-                    }
-
-                    cardVisible++;
-                    totalVisible++;
-                } else {
-                    row.classList.add("hidden");
-                    row.classList.remove("highlight");
-                }
-            });
-
-            card.style.display = cardVisible > 0 ? "" : "none";
-        });
-
-        document.getElementById("noResults").style.display =
-            totalVisible === 0 && filter !== "" ? "block" : "none";
-    }
-
-</script>
-
-</body>
-</html>
 <script src="{{ @BASE }}/assets/js/script_search.js"></script>

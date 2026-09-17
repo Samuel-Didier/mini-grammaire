@@ -179,6 +179,23 @@ class User extends \DB\SQL\Mapper {
     }
 
     /**
+     * Génère et enregistre un mot de passe temporaire pour un utilisateur.
+     *
+     * @param int $id L'identifiant de l'utilisateur.
+     * @return string|null Le mot de passe temporaire en clair, ou null si l'utilisateur n'existe pas.
+     */
+    public function resetPassword(int $id) {
+        $this->load(['id = ?', $id]);
+        if ($this->dry()) {
+            return null;
+        }
+        $temporary = bin2hex(random_bytes(6));
+        $this->password = password_hash($temporary, PASSWORD_DEFAULT);
+        $this->save();
+        return $temporary;
+    }
+
+    /**
      * Alias pour findByUsername afin de maintenir la compatibilité ou pour des besoins spécifiques.
      *
      * @param string $username Le nom d'utilisateur.

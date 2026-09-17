@@ -24,6 +24,15 @@ class Auth extends BaseController
             $errors[] = $r;
         }
         $f3->set('errors', $errors);
+
+        // Messages flash de réinitialisation de mot de passe
+        $forgot_success = $f3->get('SESSION.forgot_success');
+        $forgot_errors  = $f3->get('SESSION.forgot_errors');
+        $f3->clear('SESSION.forgot_success');
+        $f3->clear('SESSION.forgot_errors');
+        $f3->set('forgot_success', $forgot_success);
+        $f3->set('forgot_errors', $forgot_errors);
+
         $f3->set('title', 'Connexion');
         $f3->set('content', $tpl->render('pages/auth/login.html'));
         echo $tpl->render('layout.html');
@@ -33,6 +42,31 @@ class Auth extends BaseController
     {
         $f3->clear('SESSION');
         $f3->reroute('/');
+    }
+
+    public function forgotPasswordProcess(\Base $f3)
+    {
+        $errors = [];
+        if ($f3->get('VERB') === 'POST') {
+            $email = trim($f3->get('POST.email'));
+            if ($email === '') {
+                $errors[] = "L'adresse email est requise.";
+            } else {
+                $userModel = new User($f3->get('DB'));
+                $user = $userModel->findByMail($email);
+                if ($user) {
+                    $temporary = $userModel->resetPassword((int)$user['id']);
+                    if ($temporary !== null) {
+                        $f3->set('SESSION.forgot_success', 'Votre mot de passe temporaire : <strong>' . htmlspecialchars($temporary) . '</strong>. Connectez-vous puis changez-le dans votre profil.');
+                        $f3->reroute('/login');
+                        return;
+                    }
+                }
+                $errors[] = "Aucun compte ne correspond à cette adresse email.";
+            }
+        }
+        $f3->set('SESSION.forgot_errors', $errors);
+        $f3->reroute('/login');
     }
 
     public function register(\Base $f3)
@@ -81,6 +115,8 @@ class Auth extends BaseController
         $favorisCount = count((new Favori($db))->getFavorisByUser($id));
         $p = (new Progression($db))->getByUser($id);
         $f3->mset(['user' => $client['username'], 'client' => $client, 'favorisCount' => $favorisCount, 'niveau' => $p ? $p['niveau_global'] : 'Non évalué', 'score' => $p ? $p['score_test_initial'] . '/10' : '-', 'title' => 'Mon Profil']);
+        $initials = strtoupper(substr($client['prenom'] ?? '', 0, 1) . substr($client['nom'] ?? '', 0, 1)) ?: '👤';
+        $f3->set('initials', $initials);
         $f3->set('content', $tpl->render('pages/auth/profile.html'));
         echo $tpl->render('layout.html');
     }

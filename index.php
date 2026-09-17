@@ -67,6 +67,7 @@ $f3->route(['GET /login','POST /login'], 'App\Controllers\Auth->login');
 $f3->route('GET /logout', 'App\Controllers\Auth->logout');
 $f3->route('GET|POST /register', 'App\Controllers\Auth->register');
 $f3->route('GET /forgot-password', 'App\Controllers\Page->forgotPassword');
+$f3->route('POST /forgot-password-process', 'App\Controllers\Auth->forgotPasswordProcess');
 
 // Pages principales
 $f3->route('GET /', 'App\Controllers\Page->home');
@@ -77,8 +78,11 @@ $f3->route('GET /conditions', 'App\Controllers\Page->condition');
 
 // Fonctionnalités
 $f3->route('GET /mini_grammaire', 'App\Controllers\Page->grammaire');
+$f3->route('GET /mini_grammaire/@code', 'App\Controllers\Page->grammaireDetail');
 //$f3->route('POST /minigrammaire/update-field', 'App\Controllers\MiniGrammaireController->updateCodeField'); // Mise à jour Mini-Grammaire
 $f3->route('POST /update-field', 'App\Controllers\MiniGrammaireController->updateCodeField'); // Mise à jour Mini-Grammaire
+$f3->route('POST /update-parent-code', 'App\Controllers\MiniGrammaireController->updateParentCode'); // Renommage d'une famille
+$f3->route('POST /update-code-entry', 'App\Controllers\MiniGrammaireController->updateCodeEntry'); // Modification d'un sous-code
 $f3->route('GET /astuces', 'App\Controllers\AstucesController->getAstuces');
 $f3->route('GET /astuces/add', 'App\Controllers\AstucesController->addAstuces'); // Route pour afficher le formulaire d'ajout d'astuce
 $f3->route('POST /astuces/save', 'App\Controllers\AstucesController->save'); // Route pour sauvegarder la nouvelle astuce
