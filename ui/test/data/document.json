@@ -1,0 +1,1266 @@
+[
+  {
+    "code": "G1",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G1.1",
+    "regle": "Le déterminant s'accorde en genre et en nombre avec le nom.",
+    "exemple_fautif": "Le monde virtuel constitue, pour certains, un échappatoire à la vie réelle.",
+    "exemple_corrige": "Le monde virtuel constitue, pour certains, une échappatoire à la vie réelle."
+  },
+  {
+    "code": "G1",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G1.1",
+    "regle": "Le nom s'écrit au singulier ou au pluriel, au masculin ou au féminin, selon le contexte.",
+    "exemple_fautif": "À cette occasion, vous pourrez vous procurer gratuitement botte et mitaine.",
+    "exemple_corrige": "À cette occasion, vous pourrez vous procurer gratuitement bottes et mitaines."
+  },
+  {
+    "code": "G1",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G1.1",
+    "regle": "Le complément du nom s'accorde généralement en fonction du sens.",
+    "exemple_fautif": "J'ai six ans d'expériences dans le domaine de l'éducation à l'enfance.",
+    "exemple_corrige": "J'ai six ans d'expérience dans le domaine de l'éducation à l'enfance."
+  },
+  {
+    "code": "G1",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G1.1",
+    "regle": "L'adjectif s'accorde en genre et en nombre avec le mot qu'il qualifie.",
+    "exemple_fautif": "Conscient des impacts d'une tel tragédie, la communauté international a déployé des mesures d'aide exceptionnelle.",
+    "exemple_corrige": "Consciente des impacts d'une telle tragédie, la communauté internationale a déployé des mesures d'aide exceptionnelles."
+  },
+  {
+    "code": "G1",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G1.2",
+    "regle": "Accord particulier dans le groupe nominal (déterminants numéraux, noms composés, adjectifs de couleur).",
+    "exemple_fautif": "Les septs couleurs de l'arc-en-ciel : mythe ou réalité?",
+    "exemple_corrige": "Les sept couleurs de l'arc-en-ciel : mythe ou réalité?"
+  },
+  {
+    "code": "G1",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G1.2",
+    "regle": "Accord particulier dans le groupe nominal (déterminants numéraux, noms composés, adjectifs de couleur).",
+    "exemple_fautif": "Deux pauses-cafés sont prévues pour la journée.",
+    "exemple_corrige": "Deux pauses-café sont prévues pour la journée."
+  },
+  {
+    "code": "G2",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G2",
+    "regle": "Le pronom s'accorde généralement avec son antécédent.",
+    "exemple_fautif": "L'hémoglobine qu'elles contiennent se lie à l'oxygène pour acheminer cette dernière à toutes les cellules.",
+    "exemple_corrige": "L'hémoglobine qu'ils contiennent se lie à l'oxygène pour acheminer ce dernier à toutes les cellules."
+  },
+  {
+    "code": "G3",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G3.1",
+    "regle": "Le verbe conjugué à un temps simple s'accorde avec son sujet. (Trouver le sujet : Qu'est-ce qui ? / Qui est-ce qui ?)",
+    "exemple_fautif": "Une période de questions est prévue pour ceux d'entre vous qui désirez avoir plus d'informations.",
+    "exemple_corrige": "Une période de questions est prévue pour ceux d'entre vous qui désirent avoir plus d'informations."
+  },
+  {
+    "code": "G3",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G3.2",
+    "regle": "L'auxiliaire s'accorde avec le sujet du verbe.",
+    "exemple_fautif": "Le conférencier propose une analyse du manifeste Refus global qu'a rédigé les Automatistes en 1948.",
+    "exemple_corrige": "Le conférencier propose une analyse du manifeste Refus global qu'ont rédigé les Automatistes en 1948."
+  },
+  {
+    "code": "G3",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G3.3",
+    "regle": "La terminaison d'un verbe à un temps simple suit le modèle de conjugaison de son groupe (annexe I).",
+    "exemple_fautif": "L'accès à un système d'éducation universel et gratuit contribut à réduire les inégalités sociales.",
+    "exemple_corrige": "L'accès à un système d'éducation universel et gratuit contribue à réduire les inégalités sociales."
+  },
+  {
+    "code": "G3",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G3.4",
+    "regle": "Le verbe à l'infinitif est invariable (remplacable par « mordre ») et ne doit pas être confondu avec le participe passé.",
+    "exemple_fautif": "Nous nous intéresserons aux différentes façons de les mettres en pratique.",
+    "exemple_corrige": "Nous nous intéresserons aux différentes façons de les mettre en pratique."
+  },
+  {
+    "code": "G3",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G3.4",
+    "regle": "Le verbe à l'infinitif est invariable (remplacable par « mordre »).",
+    "exemple_fautif": "Il faudra augmenté la dose d'amlodipine de 2,5 mg.",
+    "exemple_corrige": "Il faudra augmenter la dose d'amlodipine de 2,5 mg."
+  },
+  {
+    "code": "G3",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G3.5",
+    "regle": "Le participe présent d'un verbe est invariable.",
+    "exemple_fautif": "Cette mesure concerne tous les gens visitants le Mexique régulièrement.",
+    "exemple_corrige": "Cette mesure concerne tous les gens visitant le Mexique régulièrement."
+  },
+  {
+    "code": "G4",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G4.1",
+    "regle": "La terminaison du participe passé dépend du groupe verbal (annexe II).",
+    "exemple_fautif": "Le concept de mixité sociale a été prit en compte dans le développement de ce nouveau quartier.",
+    "exemple_corrige": "Le concept de mixité sociale a été pris en compte dans le développement de ce nouveau quartier."
+  },
+  {
+    "code": "G4",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G4.2",
+    "regle": "Le participe passé employé seul s'accorde avec le mot qu'il accompagne (annexe III).",
+    "exemple_fautif": "Il sera question des produits financiers offert par les différentes institutions bancaires.",
+    "exemple_corrige": "Il sera question des produits financiers offerts par les différentes institutions bancaires."
+  },
+  {
+    "code": "G4",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G4.2",
+    "regle": "Le participe passé employé seul s'accorde avec le mot qu'il accompagne.",
+    "exemple_fautif": "Sorti en 1970, les films québécois Deux femmes en or et L'Initiation ont pour thème l'émancipation sexuelle des femmes.",
+    "exemple_corrige": "Sortis en 1970, les films québécois Deux femmes en or et L'Initiation ont pour thème l'émancipation sexuelle des femmes."
+  },
+  {
+    "code": "G4",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G4.3",
+    "regle": "Le participe passé avec l'auxiliaire être s'accorde avec le sujet (vraie aussi pour les verbes attributifs : demeurer, devenir, paraître, rester, sembler...).",
+    "exemple_fautif": "Si Elvis Presley et Chuck Berry sont constamment cité comme pionniers du rock américain, d'autres semblent disparu de la mémoire collective.",
+    "exemple_corrige": "Si Elvis Presley et Chuck Berry sont constamment cités comme pionniers du rock américain, d'autres semblent disparus de la mémoire collective."
+  },
+  {
+    "code": "G4",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G4.4",
+    "regle": "Le participe passé avec l'auxiliaire avoir : s'accorde avec le COD placé devant le verbe; demeure invariable si le COD est après le verbe ou si le verbe n'a pas de COD.",
+    "exemple_fautif": "La municipalité a investie massivement pour protéger les zones riveraines.",
+    "exemple_corrige": "La municipalité a investi massivement pour protéger les zones riveraines."
+  },
+  {
+    "code": "G4",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G4.4",
+    "regle": "Le participe passé avec l'auxiliaire avoir : s'accorde avec le COD placé devant le verbe.",
+    "exemple_fautif": "Les oiseaux qu'elle a vue sont probablement des aigrettes.",
+    "exemple_corrige": "Les oiseaux qu'elle a vus sont probablement des aigrettes."
+  },
+  {
+    "code": "G4",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G4.4",
+    "regle": "Le participe passé avec l'auxiliaire avoir : demeure invariable si le COD est après le verbe.",
+    "exemple_fautif": "Alice a parlée à Anna hier.",
+    "exemple_corrige": "Alice a parlé à Anna hier."
+  },
+  {
+    "code": "G4",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G4.5",
+    "regle": "Le participe passé d'un verbe essentiellement pronominal s'accorde avec le sujet.",
+    "exemple_fautif": "Vendredi après-midi, neuf étudiants se sont absenté.",
+    "exemple_corrige": "Vendredi après-midi, neuf étudiants se sont absentés."
+  },
+  {
+    "code": "G4",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G4.6",
+    "regle": "Le participe passé d'un verbe occasionnellement pronominal : s'accorde avec le COD placé devant le verbe; invariable sinon.",
+    "exemple_fautif": "Ils se sont partagés les heures de gymnase restantes.",
+    "exemple_corrige": "Ils se sont partagé les heures de gymnase restantes."
+  },
+  {
+    "code": "G4",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G4.7",
+    "regle": "Le participe passé obéit parfois à une règle particulière (auxiliaire avoir suivi d'un infinitif; employé comme préposition).",
+    "exemple_fautif": "Les tempêtes qu'il y a eues ont causé un ralentissement.",
+    "exemple_corrige": "Les tempêtes qu'il y a eu ont causé un ralentissement."
+  },
+  {
+    "code": "G5",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G5",
+    "regle": "Une erreur d'homophones se corrige par l'identification de sa catégorie grammaticale ou par un truc de substitution (annexe IV).",
+    "exemple_fautif": "Ce drame quelle cache depuis vingt ans sera-t-il enfin connu?",
+    "exemple_corrige": "Ce drame qu'elle cache depuis vingt ans sera-t-il enfin connu?"
+  },
+  {
+    "code": "G6",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G6.1",
+    "regle": "La conjonction (ou locution conjonctive) est invariable.",
+    "exemple_fautif": "Nous étions prêts, saufs que la panne d'électricité a compliqué beaucoup les choses.",
+    "exemple_corrige": "Nous étions prêts, sauf que la panne d'électricité a compliqué beaucoup les choses."
+  },
+  {
+    "code": "G6",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G6.2",
+    "regle": "L'adverbe, la locution adverbiale ou le mot employé comme adverbe est invariable.",
+    "exemple_fautif": "Ils travaillent ensembles depuis de nombreuses années.",
+    "exemple_corrige": "Ils travaillent ensemble depuis de nombreuses années."
+  },
+  {
+    "code": "G6",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G6.2",
+    "regle": "L'adverbe est invariable.",
+    "exemple_fautif": "La médiatisation du crime, en générale, concerne davantage les crimes graves.",
+    "exemple_corrige": "La médiatisation du crime, en général, concerne davantage les crimes graves."
+  },
+  {
+    "code": "G6",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G6.3",
+    "regle": "La préposition (ou locution prépositive) est invariable.",
+    "exemple_fautif": "Ils étaient assis derrières moi au concert.",
+    "exemple_corrige": "Ils étaient assis derrière moi au concert."
+  },
+  {
+    "code": "G6",
+    "categorie": "Orthographe grammaticale",
+    "sous_categorie": "G6.4",
+    "regle": "Certains noms propres sont invariables.",
+    "exemple_fautif": "Les Simards habitent une petite maison à Joliette.",
+    "exemple_corrige": "Les Simard habitent une petite maison à Joliette."
+  },
+  {
+    "code": "P1",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P1",
+    "regle": "Un marqueur de relation est généralement suivi d'une virgule en début de phrase, encadré de virgules en milieu de phrase et précédé d'une virgule en fin de phrase.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Tout compte fait, le libéralisme français s'est heurté à la tension entre liberté et égalité."
+  },
+  {
+    "code": "P1",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P1",
+    "regle": "Une virgule est généralement placée devant les coordonnants mais, car, puis, donc, etc.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Ce groupe de recherche a produit des travaux intéressants, mais ses subventions n'ont pas été renouvelées."
+  },
+  {
+    "code": "P1",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P1",
+    "regle": "Les coordonnants et, ou et ni ne sont généralement pas précédés d'une virgule.",
+    "exemple_fautif": "",
+    "exemple_corrige": "La loi prévoit qu'on ne peut ni vous obliger ni vous inciter à changer de pharmacie."
+  },
+  {
+    "code": "P1",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P1",
+    "regle": "Le complément de phrase (facultatif et déplaçable) est suivi d'une virgule en début de phrase, encadré de virgules en milieu de phrase et pas précédé d'une virgule en fin de phrase (sauf concession, restriction ou opposition).",
+    "exemple_fautif": "",
+    "exemple_corrige": "Dans la région du Saguenay-Lac-Saint-Jean, une grande majorité des terrains forestiers sont des forêts publiques."
+  },
+  {
+    "code": "P1",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P1",
+    "regle": "La virgule sépare les éléments d'une énumération, incluant etc.",
+    "exemple_fautif": "",
+    "exemple_corrige": "L'industrie forestière offre des possibilités de carrière dans plusieurs domaines : la récolte, l'aménagement et la transformation."
+  },
+  {
+    "code": "P1",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P1",
+    "regle": "La virgule sépare des phrases juxtaposées.",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "P1",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P1",
+    "regle": "La virgule est placée devant des éléments qui introduisent une explication, une précision, un commentaire ou un exemple.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Ce passage contient plusieurs noms de lieux, tels que Cape Cod, Québec et Niagara."
+  },
+  {
+    "code": "P1",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P1",
+    "regle": "Un élément mis en relief est encadré de virgules.",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "P1",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P1-Virgule fautive",
+    "regle": "Le verbe n'est pas séparé de son sujet par une virgule.",
+    "exemple_fautif": "Dans La Presse, une chroniqueuse critique, le tourisme humanitaire de manière virulente.",
+    "exemple_corrige": "Dans La Presse, une chroniqueuse critique le tourisme humanitaire de manière virulente."
+  },
+  {
+    "code": "P1",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P1-Virgule fautive",
+    "regle": "Le verbe n'est pas séparé de son complément direct ou indirect par une virgule.",
+    "exemple_fautif": "C'est l'histoire d'un vieil homme qui accroche, à un ordre social révolu depuis longtemps.",
+    "exemple_corrige": "C'est l'histoire d'un vieil homme qui accroche à un ordre social révolu depuis longtemps."
+  },
+  {
+    "code": "P1",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P1-Virgule fautive",
+    "regle": "La virgule est fautive lorsque le verbe est séparé de son modificateur (adverbe) ou que le nom ou l'adjectif est séparé d'un complément essentiel.",
+    "exemple_fautif": "Il est à noter qu'elle parle, très lentement, pour s'assurer d'être comprise.",
+    "exemple_corrige": "Il est à noter qu'elle parle très lentement pour s'assurer d'être comprise."
+  },
+  {
+    "code": "P2",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P2.1",
+    "regle": "Le point termine la phrase affirmative.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Le point termine la phrase affirmative."
+  },
+  {
+    "code": "P2",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P2.2",
+    "regle": "Le point d'exclamation termine la phrase exclamative.",
+    "exemple_fautif": "Que cette tempête a été dévastatrice.",
+    "exemple_corrige": "Que cette tempête a été dévastatrice!"
+  },
+  {
+    "code": "P2",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P2.3",
+    "regle": "Le point d'interrogation termine la phrase interrogative directe.",
+    "exemple_fautif": "Peut-on affirmer que les théories de Freud sont totalement discréditées aujourd'hui.",
+    "exemple_corrige": "Peut-on affirmer que les théories de Freud sont totalement discréditées aujourd'hui?"
+  },
+  {
+    "code": "P2",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P2.4",
+    "regle": "Les points de suspension marquent l'interruption d'un énoncé.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Je l'ai vu à ce moment... Je pense que... Mais peut-être..."
+  },
+  {
+    "code": "P3",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P3.1",
+    "regle": "Les deux-points introduisent une citation en discours rapporté direct.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Bertrand Gervais le note aussi : « L'imaginaire de la fin se déploie comme une pensée sur le temps, essentiellement en crise. »"
+  },
+  {
+    "code": "P3",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P3.2",
+    "regle": "Les deux-points introduisent une explication, une énumération ou un exemple.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Les feuilles de basilic ne doivent jamais être conservées dans des sachets en plastique : cela occasionne une moisissure prématurée."
+  },
+  {
+    "code": "P3",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P3-Deux-points fautifs",
+    "regle": "Les deux-points ne s'utilisent pas après des mots qui introduisent un exemple ou une énumération (comme, tel, tel que, soit, car...).",
+    "exemple_fautif": "Nous créerons ensemble toute la journée, soit : de 9 h à 16 h.",
+    "exemple_corrige": "Nous créerons ensemble toute la journée, soit de 9 h à 16 h."
+  },
+  {
+    "code": "P3",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P3-Deux-points fautifs",
+    "regle": "Les deux-points ne s'utilisent pas pour introduire une citation fusionnée.",
+    "exemple_fautif": "Il est mentionné que l'évêque porte une : « améthyste grosse comme une noix ».",
+    "exemple_corrige": "Il est mentionné que l'évêque porte une « améthyste grosse comme une noix »."
+  },
+  {
+    "code": "P4",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P4.1",
+    "regle": "Le point-virgule sépare deux phrases indépendantes étroitement liées par le sens.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Elle a gagné passablement d'argent pour cette seule journée; elle a touché plus de 680 dollars."
+  },
+  {
+    "code": "P4",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P4.2",
+    "regle": "Le point-virgule sépare les éléments d'une énumération verticale.",
+    "exemple_fautif": "",
+    "exemple_corrige": "L'assistant photographe devra participer aux séances photo; ajuster les réglages; sélectionner, redimensionner et renommer les photos; gérer les catalogues."
+  },
+  {
+    "code": "P5",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P5.1",
+    "regle": "Les guillemets français encadrent une citation ou tout mot tiré d'un texte.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Tout le monde connaît cette citation : « On ne voit bien qu'avec le cœur. »"
+  },
+  {
+    "code": "P5",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P5.2",
+    "regle": "Les guillemets français encadrent individuellement chaque mot ou expression d'un champ lexical ou chaque fragment énuméré.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Le texte évoque « barreaux », « filets » et « oiseaux » pour illustrer l'enfermement."
+  },
+  {
+    "code": "P5",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P5.3",
+    "regle": "Les guillemets français encadrent un mot appartenant à une langue étrangère, provenant d'un registre différent ou faisant l'objet d'une mise en évidence.",
+    "exemple_fautif": "",
+    "exemple_corrige": "La traduction de l'expression « to be confident » est la source d'erreurs fréquentes."
+  },
+  {
+    "code": "P5",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P5.4",
+    "regle": "Les guillemets anglais encadrent un passage déjà entre guillemets dans un extrait cité.",
+    "exemple_fautif": "",
+    "exemple_corrige": "« Leurs refus répétés ne remettaient nullement en question mon talent; au contraire, ils ne faisaient qu'accentuer l'impression que j'avais d'être \" difficile \". »"
+  },
+  {
+    "code": "P5",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P5-Deconseilles",
+    "regle": "La citation en retrait n'est généralement pas placée entre guillemets.",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "P6",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P6.1",
+    "regle": "Les crochets encadrent toute modification du texte cité.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Aragon écrit à propos d'un jeune homme qui « courai[t] les filles » (v. 25)."
+  },
+  {
+    "code": "P6",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P6.2",
+    "regle": "Les points de suspension entre crochets [...] indiquent des passages coupés d'un texte cité.",
+    "exemple_fautif": "",
+    "exemple_corrige": "« La voix du professeur se mit à bourdonner [...]. » (l. 10-12)"
+  },
+  {
+    "code": "P6",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P6.3",
+    "regle": "Les crochets sont utilisés pour intercaler un élément à l'intérieur ou à côté d'un passage entre parenthèses.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Plusieurs responsables de la FIFA (Jeffrey Webb [vice-président de la FIFA], Eugenio Figueredo) ont été arrêtés."
+  },
+  {
+    "code": "P6",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P6-Deconseilles",
+    "regle": "Les points de suspension entre crochets ne sont pas utilisés au début ni à la fin d'une citation fusionnée.",
+    "exemple_fautif": "Pour Nietzsche, « [...] Dieu est mort et avec lui sont morts ses blasphémateurs [...] », ce qui ouvre une autre dimension à la morale.",
+    "exemple_corrige": "Pour Nietzsche, « Dieu est mort et avec lui sont morts ses blasphémateurs », ce qui ouvre une autre dimension à la morale."
+  },
+  {
+    "code": "P7",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P7.1",
+    "regle": "Les parenthèses encadrent une explication, une précision ou un commentaire sans briser la structure de la phrase.",
+    "exemple_fautif": "",
+    "exemple_corrige": "La cathédrale Notre-Dame d'Amiens (inscrite depuis 1981 au patrimoine mondial de l'UNESCO) est représentative de l'architecture gothique."
+  },
+  {
+    "code": "P7",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P7.2",
+    "regle": "Les parenthèses d'alternative signifient qu'un mot peut s'écrire de deux façons ou qu'on peut choisir entre deux possibilités.",
+    "exemple_fautif": "",
+    "exemple_corrige": "La ville de Beijing (Pékin) est une des villes chinoises de plus de 20 millions d'habitants."
+  },
+  {
+    "code": "P7",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P7.3",
+    "regle": "La référence d'une citation est placée entre parenthèses dans le texte.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Beaudoin-Bégin rappelle : « Une langue ne disparaît pas quand elle s'éloigne de la norme prescriptive, elle disparaît quand elle n'est plus utilisée, point. » (p. 106)"
+  },
+  {
+    "code": "P8",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P8.1",
+    "regle": "Le tiret lie des numéros de vers, de lignes ou de pages qui se suivent dans une référence textuelle.",
+    "exemple_fautif": "",
+    "exemple_corrige": "(l. 40-43)"
+  },
+  {
+    "code": "P8",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P8.2",
+    "regle": "Le tiret signifie le changement d'interlocuteur dans un texte.",
+    "exemple_fautif": "",
+    "exemple_corrige": "— Est-ce que le monde est beau? — Cela lui arrive."
+  },
+  {
+    "code": "P8",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P8.3",
+    "regle": "Le tiret insère un passage dans une phrase, un peu comme le feraient des parenthèses.",
+    "exemple_fautif": "",
+    "exemple_corrige": "La maladie de Crohn — une maladie inflammatoire chronique du système digestif — peut entraîner plusieurs autres problèmes de santé."
+  },
+  {
+    "code": "P8",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P8.4",
+    "regle": "Autre emploi du tiret (à vérifier dans un ouvrage de référence).",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "P9",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P9.1",
+    "regle": "La barre oblique est principalement employée comme signe de division, de séparation ou d'opposition.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Les paronymes conjoncture/conjecture sont la cause de nombreuses erreurs."
+  },
+  {
+    "code": "P9",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P9.2",
+    "regle": "Les barres obliques séparent les vers consécutifs cités.",
+    "exemple_fautif": "",
+    "exemple_corrige": "« Selon que vous serez puissant ou misérable, / Les jugements de cour vous rendront blanc ou noir. »"
+  },
+  {
+    "code": "P10",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P10.1",
+    "regle": "La retranscription de la ponctuation du texte cité est fidèle au texte original.",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "P10",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P10.2",
+    "regle": "Les lettres majuscules et minuscules d'un texte cité doivent être respectées.",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "P10",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P10.3",
+    "regle": "La ponctuation finale d'une phrase ou d'un vers est généralement supprimée dans une citation fusionnée (sauf points de suspension, d'exclamation ou d'interrogation pertinents).",
+    "exemple_fautif": "La métaphore « Il était ivre, ivre de distances, ivre de départ. » rend compte du désir d'aventure.",
+    "exemple_corrige": "La métaphore « Il était ivre, ivre de distances, ivre de départ » rend compte du désir d'aventure."
+  },
+  {
+    "code": "P10",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P10.4",
+    "regle": "La ponctuation d'un passage coupé est conservée ou supprimée selon sa pertinence linguistique.",
+    "exemple_fautif": "",
+    "exemple_corrige": "« Elle dansait avec ivresse [...] dans une sorte de nuage de bonheur [...]. »"
+  },
+  {
+    "code": "P10",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P10.5",
+    "regle": "Dans une citation en discours rapporté direct, la ponctuation finale se place avant le guillemet fermant et il n'y a pas d'autre ponctuation finale.",
+    "exemple_fautif": "",
+    "exemple_corrige": "« Tu ne sais rien, Jon Snow. »"
+  },
+  {
+    "code": "P10",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P10.6",
+    "regle": "Dans une citation fusionnée, le point final se place à la toute fin de la phrase, après la référence.",
+    "exemple_fautif": "Selon Le Nouveau Petit Robert, le colonialisme est un système basé sur « l'occupation et l'exploitation de territoires dans l'intérêt du pays colonisateur. » (p. 467)",
+    "exemple_corrige": "Selon Le Nouveau Petit Robert, le colonialisme est un système basé sur « l'occupation et l'exploitation de territoires dans l'intérêt du pays colonisateur » (p. 467)."
+  },
+  {
+    "code": "P10",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P10.7",
+    "regle": "Dans une citation de vers, le dernier vers cité perd sa virgule, ses deux-points ou son point-virgule, et le point final se place après la référence.",
+    "exemple_fautif": "Dans le poème « À ma fille », Victor Hugo donne ce conseil : « Fais comme moi : vis du monde éloignée; » (v. 2)",
+    "exemple_corrige": "Dans le poème « À ma fille », Victor Hugo donne ce conseil : « Fais comme moi : vis du monde éloignée » (v. 2)."
+  },
+  {
+    "code": "P11",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P11.1",
+    "regle": "La majuscule s'emploie pour le premier mot d'une phrase, les noms propres, les périodes historiques, les titres d'œuvres, les noms de peuples, etc.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Platon, Aristote et Sénèque sont des philosophes de l'Antiquité. Les Grecs et les Romains de cette période ont jeté plusieurs des bases de la civilisation occidentale."
+  },
+  {
+    "code": "P11",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P11.2",
+    "regle": "La minuscule s'emploie pour les noms communs, les adjectifs, les mots qui suivent les deux-points, les courants littéraires, les religions, etc.",
+    "exemple_fautif": "Les Québécois raffolent des vins Italiens.",
+    "exemple_corrige": "Les Québécois raffolent des vins italiens."
+  },
+  {
+    "code": "P11",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P11.2",
+    "regle": "La minuscule s'emploie après les deux-points.",
+    "exemple_fautif": "Ces personnes sont non binaires : Elles s'identifient à la fois comme homme et femme.",
+    "exemple_corrige": "Ces personnes sont non binaires : elles s'identifient à la fois comme homme et femme."
+  },
+  {
+    "code": "P12",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P12.1",
+    "regle": "La voyelle finale d'un mot s'efface devant un mot commençant par une voyelle ou un h muet.",
+    "exemple_fautif": "Le temps, si il est clément, nous permettra de terminer la coupe de foin à temps.",
+    "exemple_corrige": "Le temps, s'il est clément, nous permettra de terminer la coupe de foin à temps."
+  },
+  {
+    "code": "P12",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P12.2",
+    "regle": "L'élision est interdite dans certains cas (à vérifier dans un ouvrage de référence).",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "P13",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P13",
+    "regle": "Les abréviations s'écrivent conformément à une convention d'écriture.",
+    "exemple_fautif": "Le 21ième siècle est déjà bien entamé.",
+    "exemple_corrige": "Le 21e siècle est déjà bien entamé."
+  },
+  {
+    "code": "P14",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P14.1",
+    "regle": "Le titre d'un ouvrage complet est souligné dans une rédaction manuscrite et inscrit en italique dans une rédaction sur traitement de texte.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Robert, dans son essai La stratégie de l'émotion, montre la prédominance de l'affectif."
+  },
+  {
+    "code": "P14",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P14.2",
+    "regle": "Le titre d'une partie d'ouvrage (article, chapitre, poème, chanson, nouvelle...) est placé entre guillemets français.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Je vous propose de lire l'article « En vacances avec Aristote » de Normand Baillargeon."
+  },
+  {
+    "code": "P15",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P15.1",
+    "regle": "Le guillemet ouvrant, la parenthèse ouvrante et le crochet ouvrant peuvent seuls commencer une ligne; tous les autres signes se retrouvent en fin de ligne.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Le cosmonaute Youri Gagarine a sa place dans l'histoire de la conquête de l'espace, mais aussi dans les astres : un cratère lunaire porte son nom."
+  },
+  {
+    "code": "P15",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P15.2",
+    "regle": "Le mot élidé ne peut pas être séparé du mot qui le suit.",
+    "exemple_fautif": "Nous devions atterrir en milieu d'après-midi, mais l'avion s' est finalement posé à 21 h.",
+    "exemple_corrige": "Nous devions atterrir en milieu d'après-midi, mais l'avion s'est finalement posé à 21 h."
+  },
+  {
+    "code": "P16",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P16.1",
+    "regle": "Les mots sont coupés selon leur prononciation, entre deux syllabes, à l'aide d'un trait d'union.",
+    "exemple_fautif": "Le magazine Forbes a annoncé que Jay-Z est le premier millia-rdnaire du rap.",
+    "exemple_corrige": "Le magazine Forbes a annoncé que Jay-Z est le premier milliar-daire du rap."
+  },
+  {
+    "code": "P16",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P16.2",
+    "regle": "Autre règle de coupure de mot (à vérifier dans un ouvrage de référence). Certaines coupures sont déconseillées, notamment la coupure du dernier mot d'un paragraphe.",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "P17",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P17.1",
+    "regle": "Le trait d'union unit le verbe et les pronoms qui le suivent dans une phrase impérative.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Une fois le mélange prêt, laissez-le refroidir au réfrigérateur pendant une heure."
+  },
+  {
+    "code": "P17",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P17.2",
+    "regle": "Le trait d'union unit le sujet et le verbe inversés dans une phrase interrogative.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Saviez-vous que le mot kakistocratie désigne « le pire gouvernement »?"
+  },
+  {
+    "code": "P17",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P17.3",
+    "regle": "Le trait d'union unit les particules adverbiales ci et là avec le nom ou le pronom qui les précède.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Ce jour-là, un effondrement des valeurs boursières a déclenché une crise économique mondiale."
+  },
+  {
+    "code": "P17",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P17-Trait fautif",
+    "regle": "Un trait d'union fautif doit être enlevé.",
+    "exemple_fautif": "Plusieurs d'entre-elles ont refusé de porter plainte.",
+    "exemple_corrige": "Plusieurs d'entre elles ont refusé de porter plainte."
+  },
+  {
+    "code": "P18",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P18.1",
+    "regle": "Les accents s'emploient ou non selon l'orthographe du mot.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Les lobbys religieux sont extrêmement puissants dans ce pays sud-asiatique."
+  },
+  {
+    "code": "P18",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P18.2",
+    "regle": "Le tréma s'emploie ou non selon l'orthographe du mot.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Il y avait plusieurs ambiguïtés dans le rapport du policier."
+  },
+  {
+    "code": "P18",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P18.3",
+    "regle": "La cédille se place sous le c devant les voyelles a, o, u pour que le c se prononce s.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Les accommodements sont parfois perçus comme des injustices."
+  },
+  {
+    "code": "P19",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P19.1",
+    "regle": "Les nombres inférieurs à 10 s'écrivent généralement en lettres (sauf tableaux, textes scientifiques, statistiques, techniques et langue commerciale).",
+    "exemple_fautif": "",
+    "exemple_corrige": "Veuillez fournir vos avis de cotisation des deux dernières années."
+  },
+  {
+    "code": "P19",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P19.2",
+    "regle": "Les règles d'espacement doivent être respectées dans une rédaction sur traitement de texte.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Le gouvernement rappelle que l'activité physique aide à prévenir les maladies chroniques comme le cancer, le diabète de type 2 et les maladies du cœur."
+  },
+  {
+    "code": "P19",
+    "categorie": "Ponctuation et typographie",
+    "sous_categorie": "P19.3",
+    "regle": "Autre erreur de ponctuation ou de typographie (à vérifier dans un ouvrage de référence).",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "S1",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S1.1",
+    "regle": "L'adverbe ne (ou n') s'emploie avec pas, plus, aucun, jamais, personne, etc. pour former une phrase négative.",
+    "exemple_fautif": "Le président a jamais cessé de se battre contre l'instauration de tarifs douaniers.",
+    "exemple_corrige": "Le président n'a jamais cessé de se battre contre l'instauration de tarifs douaniers."
+  },
+  {
+    "code": "S1",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S1.2",
+    "regle": "Au maximum deux marqueurs de négation sont utilisés dans une phrase négative.",
+    "exemple_fautif": "Il n'y a pas personne qui s'est montré intéressé par le poste de gardien de nuit.",
+    "exemple_corrige": "Il n'y a personne qui s'est montré intéressé par le poste de gardien de nuit."
+  },
+  {
+    "code": "S1",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S1.3",
+    "regle": "L'adverbe ne (ou n') est suivi de la conjonction que quand il signifie « seulement ». Déconseillé avec l'adverbe seulement (pléonasme).",
+    "exemple_fautif": "Les adeptes du crudivorisme se nourrissent que d'aliments crus.",
+    "exemple_corrige": "Les adeptes du crudivorisme ne se nourrissent que d'aliments crus."
+  },
+  {
+    "code": "S2",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S2",
+    "regle": "Phrase restrictive.",
+    "exemple_fautif": "",
+    "exemple_corrige": "Il n'y a que la prison de Roberval comme établissement de détention."
+  },
+  {
+    "code": "S3",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S3.1",
+    "regle": "La phrase complète doit contenir un verbe conjugué.",
+    "exemple_fautif": "L'art contemporain désigne l'ensemble de la production artistique produite depuis 1945. Succédant ainsi à l'art dit « moderne ».",
+    "exemple_corrige": "L'art contemporain désigne l'ensemble de la production artistique produite depuis 1945, succédant ainsi à l'art dit « moderne »."
+  },
+  {
+    "code": "S3",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S3.2",
+    "regle": "La phrase complète doit contenir un verbe principal.",
+    "exemple_fautif": "Des études récentes concluent à l'inefficacité des médicaments homéopathiques. Ce qui relance le débat.",
+    "exemple_corrige": "Des études récentes concluent à l'inefficacité des médicaments homéopathiques, ce qui relance le débat."
+  },
+  {
+    "code": "S3",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S3.3",
+    "regle": "La phrase est incomplète quand un sujet est manquant ou qu'un complément obligatoire est manquant : il faut ajouter le ou les mots manquants.",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "S4",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S4.1",
+    "regle": "La préposition doit être choisie en fonction du complément qu'elle introduit.",
+    "exemple_fautif": "Parmi le chapitre IV, plusieurs hypothèses sont avancées.",
+    "exemple_corrige": "Dans le chapitre IV, plusieurs hypothèses sont avancées."
+  },
+  {
+    "code": "S4",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S4.1",
+    "regle": "La préposition doit être choisie en fonction du complément qu'elle introduit.",
+    "exemple_fautif": "La partie a été annulée grâce au mauvais temps.",
+    "exemple_corrige": "La partie a été annulée en raison du mauvais temps."
+  },
+  {
+    "code": "S4",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S4.2",
+    "regle": "Une préposition superflue doit être enlevée.",
+    "exemple_fautif": "Des solutions ont été envisagées afin de pallier à certains problèmes.",
+    "exemple_corrige": "Des solutions ont été envisagées afin de pallier certains problèmes."
+  },
+  {
+    "code": "S4",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S4.3",
+    "regle": "Une préposition manquante doit être ajoutée.",
+    "exemple_fautif": "La consommation régulière de pornographie peut influer les comportements sexuels.",
+    "exemple_corrige": "La consommation régulière de pornographie peut influer sur les comportements sexuels."
+  },
+  {
+    "code": "S5",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S5.1",
+    "regle": "Les éléments coordonnés doivent avoir une fonction syntaxique équivalente et être compatibles du point de vue du sens.",
+    "exemple_fautif": "Tristan aime et joue au hockey depuis plusieurs années.",
+    "exemple_corrige": "Tristan aime le hockey et y joue depuis plusieurs années."
+  },
+  {
+    "code": "S5",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S5.2",
+    "regle": "Les éléments énumérés doivent être de la même catégorie grammaticale et avoir la même fonction syntaxique.",
+    "exemple_fautif": "Une phase maniaque se caractérise par l'accélération du débit de parole, l'hyperactivité ainsi qu'adopter des comportements à risque.",
+    "exemple_corrige": "Une phase maniaque se caractérise par l'accélération du débit de parole, l'hyperactivité ainsi que l'adoption de comportements à risque."
+  },
+  {
+    "code": "S5",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S5.3",
+    "regle": "Les prépositions à, de et en sont généralement répétées devant chaque élément coordonné ou juxtaposé.",
+    "exemple_fautif": "Les cours de scénarisation et écriture théâtrale seront offerts cet automne.",
+    "exemple_corrige": "Les cours de scénarisation et d'écriture théâtrale seront offerts cet automne."
+  },
+  {
+    "code": "S6",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S6.1",
+    "regle": "Le pronom utilisé doit avoir un antécédent.",
+    "exemple_fautif": "L'incendie a ravagé presque tout l'immeuble. Ils ont travaillé la nuit entière.",
+    "exemple_corrige": "L'incendie a ravagé presque tout l'immeuble. Les pompiers ont travaillé la nuit entière."
+  },
+  {
+    "code": "S6",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S6.3",
+    "regle": "Le pronom doit être assez près de son antécédent pour que ce dernier soit clairement identifiable.",
+    "exemple_fautif": "La légalisation de la prostitution ne favorise pas le bien-être des travailleuses du sexe. À la base, elle génère souvent un traumatisme.",
+    "exemple_corrige": "La légalisation de la prostitution ne favorise pas le bien-être des travailleuses du sexe. À la base, ce travail génère souvent un traumatisme."
+  },
+  {
+    "code": "S6",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S6.4",
+    "regle": "Un pronom manquant doit être ajouté.",
+    "exemple_fautif": "Sa fille lui a emprunté sa tablette et lui a remise seulement trois jours plus tard.",
+    "exemple_corrige": "Sa fille lui a emprunté sa tablette et la lui a remise seulement trois jours plus tard."
+  },
+  {
+    "code": "S6",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S6.5",
+    "regle": "Un pronom superflu doit être enlevé.",
+    "exemple_fautif": "Dans ce film, on y dresse un portrait de la France sous l'occupation nazie.",
+    "exemple_corrige": "Dans ce film, on dresse un portrait de la France sous l'occupation nazie."
+  },
+  {
+    "code": "S6",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S6.6",
+    "regle": "Le pronom relatif est choisi en fonction de son antécédent.",
+    "exemple_fautif": "Les vaccins que j'ai besoin sont en pénurie au Canada.",
+    "exemple_corrige": "Les vaccins dont j'ai besoin sont en pénurie au Canada."
+  },
+  {
+    "code": "S6",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S6.7",
+    "regle": "Le pronom personnel est choisi en fonction de son antécédent.",
+    "exemple_fautif": "La démographie du pays change et les politiques sociales doivent y tenir compte.",
+    "exemple_corrige": "La démographie du pays change et les politiques sociales doivent en tenir compte."
+  },
+  {
+    "code": "S6",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S6.8",
+    "regle": "Un verbe impersonnel commande d'écrire ce qu'il et non ce qui.",
+    "exemple_fautif": "Ce qui faut remarquer dans cet exemple, c'est l'emploi de nombreux euphémismes.",
+    "exemple_corrige": "Ce qu'il faut remarquer dans cet exemple, c'est l'emploi de nombreux euphémismes."
+  },
+  {
+    "code": "S7",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S7",
+    "regle": "Le rapport temporel entre deux propositions doit être logique.",
+    "exemple_fautif": "Si les trottoirs seraient déblayés, j'irais travailler à pied.",
+    "exemple_corrige": "Si les trottoirs étaient déblayés, j'irais travailler à pied."
+  },
+  {
+    "code": "S7",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S7",
+    "regle": "Le rapport temporel entre deux propositions doit être logique.",
+    "exemple_fautif": "Il se peut que vous avez fait confiance à un fraudeur.",
+    "exemple_corrige": "Il se peut que vous ayez fait confiance à un fraudeur."
+  },
+  {
+    "code": "S8",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S8.1",
+    "regle": "Le sujet du verbe au participe présent doit être le même que celui du verbe principal.",
+    "exemple_fautif": "Étant en rédaction depuis un an, les effets de l'hydroélectricité sont analysés dans le mémoire.",
+    "exemple_corrige": "Étant en rédaction depuis un an, j'analyse dans le mémoire les effets de l'hydroélectricité."
+  },
+  {
+    "code": "S8",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S8.2",
+    "regle": "Le sujet du verbe à l'infinitif doit être le même que celui du verbe principal.",
+    "exemple_fautif": "Après avoir déposé les enfants à la garderie, l'éducatrice m'a appelé.",
+    "exemple_corrige": "Après avoir déposé les enfants à la garderie, j'ai reçu un message de l'éducatrice."
+  },
+  {
+    "code": "S8",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S8.3",
+    "regle": "L'emploi de l'adjectif doit préserver la logique de la phrase.",
+    "exemple_fautif": "Audacieuse dans le traitement de ses thèmes, les œuvres de cette autrice sont acclamées par la critique.",
+    "exemple_corrige": "Audacieuse dans le traitement de ses thèmes, cette autrice est acclamée par la critique."
+  },
+  {
+    "code": "S9",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S9.1",
+    "regle": "Certains verbes se conjuguent avec l'auxiliaire être.",
+    "exemple_fautif": "Il y avait une dizaine de témoins, mais aucun n'a intervenu.",
+    "exemple_corrige": "Il y avait une dizaine de témoins, mais aucun n'est intervenu."
+  },
+  {
+    "code": "S9",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S9.2",
+    "regle": "Certains verbes se conjuguent avec l'auxiliaire avoir.",
+    "exemple_fautif": "Il faut qu'il est fini son devoir de physique avant demain.",
+    "exemple_corrige": "Il faut qu'il ait fini son devoir de physique avant demain."
+  },
+  {
+    "code": "S10",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S10.1",
+    "regle": "La citation doit être intégrée correctement à la phrase. Il est fautif de juxtaposer ou de coordonner deux citations en discours rapporté direct.",
+    "exemple_fautif": "De la même façon, la douleur de l'absence se fait sentir : « Je te cherche partout [...]. » et « Tu me manques terriblement. »",
+    "exemple_corrige": "De la même façon, la douleur de l'absence se fait sentir : « Je te cherche partout [...] Tu me manques terriblement. »"
+  },
+  {
+    "code": "S10",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S10.2",
+    "regle": "La coupure d'une citation doit être faite pour que la partie restante demeure une phrase complète et syntaxiquement correcte.",
+    "exemple_fautif": "",
+    "exemple_corrige": "« Voyons, un beau morceau de terrain planche, dans une vieille paroisse, du terrain sans une souche ni un creux, [...] des animaux gras [...]. »"
+  },
+  {
+    "code": "S10",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S10.3",
+    "regle": "La retranscription d'un passage cité doit reproduire fidèlement le texte original.",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "S11",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S11.1",
+    "regle": "Le déterminant possessif doit être cohérent avec le nom ou le pronom auquel il se rapporte.",
+    "exemple_fautif": "La misère de cette famille se remarque à la pauvreté de leur logement.",
+    "exemple_corrige": "La misère de cette famille se remarque à la pauvreté de son logement."
+  },
+  {
+    "code": "S11",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S11.2",
+    "regle": "Le déterminant possessif est fautif s'il y a déjà un pronom marqueur de possession dans la phrase.",
+    "exemple_fautif": "Elle s'est cassé sa jambe.",
+    "exemple_corrige": "Elle s'est cassé une jambe."
+  },
+  {
+    "code": "S11",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S11.3",
+    "regle": "Le déterminant défini désigne un objet connu, précisé et individualisé.",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "S11",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S11.4",
+    "regle": "Le déterminant démonstratif détermine un objet désigné précisément ou dont il a déjà été question.",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "S11",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S11.5",
+    "regle": "Le même déterminant est généralement répété devant tous les noms d'une énumération.",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "S11",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S11.6",
+    "regle": "Autre erreur dans le choix du déterminant (à vérifier dans un ouvrage de référence).",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "S12",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S12.1",
+    "regle": "L'ajout du mot que après où, quand, comment et pourquoi relève généralement de l'oralité.",
+    "exemple_fautif": "Le ministre a expliqué pourquoi que le centre correctionnel a été bâti à Roberval.",
+    "exemple_corrige": "Le ministre a expliqué pourquoi le centre correctionnel a été bâti à Roberval."
+  },
+  {
+    "code": "S12",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S12.2",
+    "regle": "Les mots où, quand, comment et pourquoi ne sont pas précédés d'une préposition dans la phrase.",
+    "exemple_fautif": "Nous l'avons questionné sur comment créer une entreprise dynamique en région éloignée.",
+    "exemple_corrige": "Nous l'avons questionné sur les façons de créer une entreprise dynamique en région éloignée."
+  },
+  {
+    "code": "S12",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S12.3",
+    "regle": "Les locutions qu'est-ce que et qu'est-ce qui ne sont employées que dans une phrase interrogative directe.",
+    "exemple_fautif": "Ce sera le meilleur moment pour exprimer qu'est-ce qu'on reproche au conseil d'administration.",
+    "exemple_corrige": "Ce sera le meilleur moment pour exprimer ce qu'on reproche au conseil d'administration."
+  },
+  {
+    "code": "S12",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S12.4",
+    "regle": "Les constituants de la phrase doivent s'enchaîner de façon à respecter la syntaxe française.",
+    "exemple_fautif": "Plusieurs politiques doivent impérativement être revues par le gouvernement, qui concernent les Premiers Peuples.",
+    "exemple_corrige": "Plusieurs politiques qui concernent les Premiers Peuples doivent impérativement être revues par le gouvernement."
+  },
+  {
+    "code": "S12",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S12.5",
+    "regle": "Les consonnes de liaison superflues sont à enlever.",
+    "exemple_fautif": "Selon les producteurs acéricoles du Québec, ça l'a été une bonne année pour le sirop d'érable.",
+    "exemple_corrige": "Selon les producteurs acéricoles du Québec, ça a été une bonne année pour le sirop d'érable."
+  },
+  {
+    "code": "S12",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S12.6",
+    "regle": "Les lettres euphoniques sont nécessaires pour faciliter certaines prononciations.",
+    "exemple_fautif": "Donne-en une partie à un organisme communautaire.",
+    "exemple_corrige": "Donnes-en une partie à un organisme communautaire."
+  },
+  {
+    "code": "S12",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S12.7",
+    "regle": "Une phrase contenant une tournure comparative doit mettre en relation des éléments de même nature.",
+    "exemple_fautif": "Le système de santé australien est comparable au Canada.",
+    "exemple_corrige": "Le système de santé australien est comparable à celui du Canada."
+  },
+  {
+    "code": "S12",
+    "categorie": "Syntaxe",
+    "sous_categorie": "S12.8",
+    "regle": "Dans la locution tel que, l'adjectif tel doit renvoyer à un nom ou à un pronom : c'est comme qui convient lorsque la comparaison porte sur l'ensemble de la phrase principale.",
+    "exemple_fautif": "Tel que promis, je vous envoie le lien pour accéder à la réunion.",
+    "exemple_corrige": "Comme promis, je vous envoie le lien pour accéder à la réunion."
+  },
+  {
+    "code": "U1",
+    "categorie": "Orthographe d'usage",
+    "sous_categorie": "U1",
+    "regle": "L'orthographe du mot est à vérifier dans le dictionnaire.",
+    "exemple_fautif": "Ce soir, nous sommes sensés appercevoir des aurores boréales.",
+    "exemple_corrige": "Ce soir, nous sommes censés apercevoir des aurores boréales."
+  },
+  {
+    "code": "U2",
+    "categorie": "Orthographe d'usage",
+    "sous_categorie": "U2",
+    "regle": "L'orthographe de la locution ou de l'expression est à vérifier dans le dictionnaire.",
+    "exemple_fautif": "Les goélands, les mouettes et les sternes font partis de la famille des laridés.",
+    "exemple_corrige": "Les goélands, les mouettes et les sternes font partie de la famille des laridés."
+  },
+  {
+    "code": "U3",
+    "categorie": "Orthographe d'usage",
+    "sous_categorie": "U3",
+    "regle": "Une erreur de typographie doit être corrigée.",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "V1",
+    "categorie": "Vocabulaire",
+    "sous_categorie": "V1",
+    "regle": "Un mot utilisé dans un sens inapproprié dans le contexte doit être corrigé.",
+    "exemple_fautif": "Les deux individus ont fait éruption dans le dépanneur vers 23 h 30.",
+    "exemple_corrige": "Les deux individus ont fait irruption dans le dépanneur vers 23 h 30."
+  },
+  {
+    "code": "V1",
+    "categorie": "Vocabulaire",
+    "sous_categorie": "V1",
+    "regle": "Un mot utilisé dans un sens inapproprié dans le contexte doit être corrigé.",
+    "exemple_fautif": "Le passage cité démontre une métaphore.",
+    "exemple_corrige": "Le passage cité contient une métaphore."
+  },
+  {
+    "code": "V2",
+    "categorie": "Vocabulaire",
+    "sous_categorie": "V2",
+    "regle": "Un calque de l'anglais ou un emprunt à la langue anglaise doit être corrigé.",
+    "exemple_fautif": "Il a mis l'emphase sur les réussites du modèle économique norvégien.",
+    "exemple_corrige": "Il a mis l'accent sur les réussites du modèle économique norvégien."
+  },
+  {
+    "code": "V2",
+    "categorie": "Vocabulaire",
+    "sous_categorie": "V2",
+    "regle": "Un calque de l'anglais doit être corrigé.",
+    "exemple_fautif": "Dû aux changements climatiques, la saison des fraises a été beaucoup plus courte cette année.",
+    "exemple_corrige": "En raison des changements climatiques, la saison des fraises a été beaucoup plus courte cette année."
+  },
+  {
+    "code": "V3",
+    "categorie": "Vocabulaire",
+    "sous_categorie": "V3",
+    "regle": "Un enchaînement de mots ou d'expressions qui véhiculent deux fois une même idée doit être corrigé.",
+    "exemple_fautif": "Vous devez recommencer à nouveau.",
+    "exemple_corrige": "Vous devez recommencer."
+  },
+  {
+    "code": "V3",
+    "categorie": "Vocabulaire",
+    "sous_categorie": "V3",
+    "regle": "Un pléonasme doit être corrigé.",
+    "exemple_fautif": "L'encan se tiendra ce vendredi prochain au centre communautaire.",
+    "exemple_corrige": "L'encan se tiendra ce vendredi au centre communautaire."
+  },
+  {
+    "code": "V4",
+    "categorie": "Vocabulaire",
+    "sous_categorie": "V4",
+    "regle": "La trop grande récurrence d'un mot (ou d'un groupe de mots) doit être corrigée.",
+    "exemple_fautif": "",
+    "exemple_corrige": ""
+  },
+  {
+    "code": "V5",
+    "categorie": "Vocabulaire",
+    "sous_categorie": "V5",
+    "regle": "Un barbarisme (mot ou locution existant qui est déformé ou qui n'est pas attesté en français) doit être corrigé.",
+    "exemple_fautif": "À prime abord, le tatouage des yeux est déconseillé par les professionnels de la santé oculaire.",
+    "exemple_corrige": "De prime abord, le tatouage des yeux est déconseillé par les professionnels de la santé oculaire."
+  },
+  {
+    "code": "V5",
+    "categorie": "Vocabulaire",
+    "sous_categorie": "V5",
+    "regle": "Un barbarisme doit être corrigé.",
+    "exemple_fautif": "L'hôtel a commandé 1500 têtes d'oreiller.",
+    "exemple_corrige": "L'hôtel a commandé 1500 taies d'oreiller."
+  },
+  {
+    "code": "V6",
+    "categorie": "Vocabulaire",
+    "sous_categorie": "V6.1",
+    "regle": "Les registres familier, populaire et vulgaire ne s'emploient que dans des contextes spécifiques.",
+    "exemple_fautif": "Il ne pense qu'à lui et se fout complètement de sa famille.",
+    "exemple_corrige": "Il ne pense qu'à lui et est complètement indifférent à sa famille."
+  },
+  {
+    "code": "V6",
+    "categorie": "Vocabulaire",
+    "sous_categorie": "V6.2",
+    "regle": "Le registre littéraire ne s'emploie que dans des contextes spécifiques.",
+    "exemple_fautif": "Il abhorre leur nonchalance autant que leur arrogance.",
+    "exemple_corrige": "Il déteste leur nonchalance autant que leur arrogance."
+  },
+  {
+    "code": "V6",
+    "categorie": "Vocabulaire",
+    "sous_categorie": "V6.3",
+    "regle": "Le vocabulaire spécialisé s'emploie dans des contextes spécifiques.",
+    "exemple_fautif": "Nous demandons d'éteindre les téléphones cellulaires en classe, mais les étudiants n'obtempèrent pas.",
+    "exemple_corrige": "Nous demandons d'éteindre les téléphones cellulaires en classe, mais les étudiants ne se conforment pas."
+  },
+  {
+    "code": "V7",
+    "categorie": "Vocabulaire",
+    "sous_categorie": "V7",
+    "regle": "Un archaïsme (vocabulaire appartenant à une époque antérieure) doit être corrigé.",
+    "exemple_fautif": "Les tentes et les matelas sont fournis, mais pas les couvertes.",
+    "exemple_corrige": "Les tentes et les matelas sont fournis, mais pas les couvertures."
+  }
+]
