@@ -1,0 +1,75 @@
+[
+  {
+    "code": "G4.2",
+    "titre": "Participe passé employé seul",
+    "regle": "Le participe passé employé seul s'accorde en genre et en nombre avec le mot qu'il accompagne (voir l'annexe III, p. 28).",
+    "astuce": "Pour vérifier l'accord, remplacer par « mordu ».",
+    "exemples": [
+      {
+        "incorrect": "Il sera question des produits financiers <strong>offert</strong> par les différentes institutions bancaires.",
+        "correct": "Il sera question des produits financiers <strong>offerts</strong> par les différentes institutions bancaires."
+      }
+    ]
+  },
+  {
+    "code": "G4.3",
+    "titre": "Participe passé employé avec être",
+    "regle": "Le participe passé employé avec l'auxiliaire <em>être</em> s'accorde avec le sujet du verbe (voir l'annexe III, p. 28).",
+    "astuce": "Pour trouver le sujet du verbe, on pose la question <em>« Qu'est-ce qui? »</em> / <em>« Qui est-ce qui? »</em> avant le verbe.",
+    "exemples": [
+      {
+        "incorrect": "Sorti en 1970, les films québécois <em>Deux femmes en or</em> et <em>L'Initiation</em> ont pour thème l'émancipation sexuelle des femmes.",
+        "correct": "<strong>Sortis</strong> en 1970, les films québécois <em>Deux femmes en or</em> et <em>L'Initiation</em> ont pour thème l'émancipation sexuelle des femmes."
+      }
+    ]
+  },
+  {
+    "code": "G4.4",
+    "titre": "Verbes attributifs",
+    "regle": "",
+    "astuce": "La même règle s'applique avec tous les verbes attributifs (<em>demeurer, devenir, paraître, rester, sembler</em>, etc.).",
+    "exemples": [
+      {
+        "incorrect": "Si Elvis Presley et Chuck Berry sont constamment cité comme pionniers du rock américain, d'autres semblent disparu de la mémoire collective.",
+        "correct": "Si Elvis Presley et Chuck Berry sont constamment <strong>cités</strong> comme pionniers du rock américain, d'autres semblent <strong>disparus</strong> de la mémoire collective."
+      }
+    ]
+  },
+  {
+    "code": "G4.5",
+    "titre": "Participe passé employé avec avoir",
+    "regle": "Le participe passé employé avec l'auxiliaire <em>avoir</em>...",
+    "sublist": [
+      "<strong>a)</strong> s'accorde avec le complément direct du verbe si ce dernier est placé devant le verbe;",
+      "<strong>b)</strong> demeure invariable si le complément direct est placé après le verbe;",
+      "<strong>c)</strong> demeure invariable si le verbe n'a pas de complément direct (voir l'annexe III, p. 28)."
+    ],
+    "astuce": "Pour trouver le complément direct du verbe, on pose la question <em>« Qui? »</em> / <em>« Quoi? »</em> après le verbe.",
+    "exemples": [
+      {
+        "incorrect": "La municipalité a investie massivement pour protéger les zones riveraines.",
+        "correct": "La municipalité a <strong>investi</strong> massivement pour protéger les zones riveraines."
+      },
+      {
+        "incorrect": "Les oiseaux qu'elle a vue sont probablement des aigrettes.",
+        "correct": "Les oiseaux qu'elle a <strong>vus</strong> sont probablement des aigrettes."
+      },
+      {
+        "incorrect": "Alice a parlée à Anna hier.",
+        "correct": "Alice a <strong>parlé</strong> à Anna hier."
+      }
+    ]
+  },
+  {
+    "code": "G4.6",
+    "titre": "Verbes essentiellement pronominaux",
+    "regle": "Le participe passé du verbe essentiellement pronominal s'accorde avec le sujet du verbe.",
+    "astuce": "Pour trouver le sujet du verbe, on pose la question <em>« Qu'est-ce qui? »</em> / <em>« Qui est-ce qui? »</em> avant le verbe.",
+    "exemples": [
+      {
+        "incorrect": "Vendredi après-midi, neuf étudiants se sont absenté.",
+        "correct": "Vendredi après-midi, neuf étudiants se sont <strong>absentés</strong>."
+      }
+    ]
+  }
+]

@@ -1,0 +1,146 @@
+:root {
+    --bg-color: #f8fafc;
+    --text-color: #1e293b;
+    --white: #ffffff;
+    --border: #e2e8f0;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+
+    --blue-accent: #4a90e2;
+    --blue-light: #eef6ff;
+    --green-accent: #2d6a4f;
+    --green-light: #d8f3dc;
+    --red-accent: #b5341a;
+    --red-light: #fdd5d5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.main-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.rule-card {
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.rule-header {
+    background: var(--blue-accent);
+    color: var(--white);
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.rule-code {
+    background: rgba(255, 255, 255, 0.25);
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.rule-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.rule-body {
+    padding: 1.25rem;
+}
+
+.rule-text {
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+}
+
+.rule-sublist {
+    list-style: none;
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+}
+
+.rule-sublist li {
+    font-size: 0.92rem;
+    margin-bottom: 0.3rem;
+}
+
+.rule-tip {
+    background: var(--blue-light);
+    border-left: 4px solid var(--blue-accent);
+    padding: 0.75rem 1rem;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.9rem;
+    color: #1e3a8a;
+    margin: 1rem 0;
+}
+
+.examples-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.example-item {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.92rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.example-item.incorrect {
+    background: var(--red-light);
+    color: var(--red-accent);
+    border: 1px solid rgba(181, 52, 26, 0.2);
+}
+
+.example-item.correct {
+    background: var(--green-light);
+    color: var(--green-accent);
+    border: 1px solid rgba(45, 106, 79, 0.2);
+}
+
+.example-mark {
+    font-weight: 800;
+    font-size: 1rem;
+    line-height: 1.2;
+}
+
+.example-text {
+    flex: 1;
+}
+
+@media (max-width: 600px) {
+    .main-container {
+        padding: 1rem 0.5rem;
+    }
+
+    .rule-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .example-item {
+        font-size: 0.88rem;
+        padding: 0.6rem 0.8rem;
+    }
+}

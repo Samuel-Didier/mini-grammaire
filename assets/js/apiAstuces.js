@@ -9,13 +9,11 @@ export async function getAstuces() {
         }
 
         // Conversion du texte JSON en tableau d'objets JS
-        const data = await response.json();
-
-        // Utilisation des données (ex: affichage dans la console)
-        console.log("Données reçues de l'API Astuces :", data);
+        // // Utilisation des données (ex: affichage dans la console)
+        // console.log("Données reçues de l'API Astuces :", data);
 
         // Retourne les données pour qu'elles puissent être utilisées par l'appelant
-        return data;
+        return await response.json();
 
     } catch (error) {
         console.error("Erreur lors de la récupération des astuces via l'API :", error);
