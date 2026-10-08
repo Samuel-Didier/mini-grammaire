@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/dashboard.css"/>
+
+<div class="dash-wrap">
+    <div class="dash-head">
+        <h1>Tableau de bord — Enseignant</h1>
+        <span class="dash-role">Rôle : {{ @userRole }}</span>
+    </div>
+
+
+    <include href="partials/dashboard_contenu.html"/>
+
+    <p class="dash-muted">
+        La gestion des comptes utilisateurs est réservée à l'administration.
+    </p>
+</div>

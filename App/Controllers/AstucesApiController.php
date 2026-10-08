@@ -9,7 +9,7 @@ use App\Models\Astuces;
  * Gère les requêtes API pour les astuces.
  * Renvoie les données au format JSON.
  */
-class AstucesApiController
+class AstucesApiController extends BaseController
 {
     /**
      * Récupère toutes les astuces et les renvoie au format JSON.

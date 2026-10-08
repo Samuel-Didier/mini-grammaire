@@ -1,6 +1,17 @@
 <link rel="stylesheet" href="{{ @BASE }}/assets/css/profile.css"/>
 <div class="profile-container">
- <div class="profile-header"><div class="avatar">{{ @initials }}</div><div class="user-info"><h2>{{ @client.prenom }} {{ @client.nom }}</h2><p>{{ @client.email }}</p></div></div>
+ <div class="profile-header">
+  <div class="avatar-wrap">
+    <div class="avatar avatar-display {{ @avatarEmoji ? 'avatar-emoji-mode' : '' }}">
+    <check if="{{ @avatarEmoji }}">
+     <true><span class="avatar-emoji" role="img" aria-label="Avatar de {{ @client.username }}">{{ @avatarEmoji }}</span></true>
+     <false>{{ @initials }}</false>
+    </check>
+   </div>
+   <button type="button" class="avatar-edit" id="btn-avatar" aria-label="Choisir un avatar" title="Choisir un avatar">✏️</button>
+  </div>
+  <div class="user-info"><h2>{{ @client.username }}</h2><p>{{ @client.email }}</p><button type="button" class="avatar-pick-btn" id="btn-avatar-text">🖼️ Changer mon avatar</button></div>
+ </div>
  <h3>Ma Progression</h3>
  <div class="stats-grid">
   <a href="{{ @BASE }}/mes-favoris" class="stat-card favoris-link" title="Accéder à mes favoris"><div class="card-icon">❤️</div><span class="stat-number">{{ @favorisCount }}</span><span class="stat-label">Astuces favorites</span><div class="card-arrow">→</div></a>
@@ -10,3 +21,5 @@
  </div>
  <div class="action-buttons"><a href="{{ @BASE }}/profile/edit" class="btn btn-edit">Modifier mes infos</a><a href="{{ @BASE }}/logout" class="btn btn-logout">Se déconnecter</a></div>
 </div>
+
+<include href="partials/avatar_modal.html"/>

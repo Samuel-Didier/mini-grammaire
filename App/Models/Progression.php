@@ -47,4 +47,15 @@ class Progression extends \DB\SQL\Mapper
         $this->load(['user_id = ?', $userId]);
         return $this->dry() ? null : $this->cast();
     }
+
+    /**
+     * Compte le nombre total d'enregistrements de progression (tous utilisateurs).
+     *
+     * @return int Nombre de progressions
+     */
+    public function countAll(): int
+    {
+        $rows = $this->db->exec('SELECT COUNT(*) AS c FROM progression');
+        return (int)($rows[0]['c'] ?? 0);
+    }
 }

@@ -1,0 +1,63 @@
+<!-- Page de jeu d'un quiz (test de niveau, grammaire, vocabulaire...).
+     Les questions sont chargées par assets/js/quiz.js depuis /api/quiz/questions :
+     elles sont modifiables depuis le tableau de bord, plus aucun script à retoucher. -->
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/quiz.css"/>
+
+<header>
+    <h1>🇫🇷 {{ @quiz.libelle }} — {{ @quiz.niveau_libelle }}</h1>
+    <p>{{ @quiz.questions_libelle }} à répondre</p>
+</header>
+
+<div class="container">
+    <!-- Quiz -->
+    <div id="level-test" class="card"
+         data-categorie="{{ @quiz.categorie }}"
+         data-niveau="{{ @quiz.niveau }}"
+         data-test="{{ @quiz.test ? 1 : 0 }}">
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="progress-text" id="progress-text">Chargement des questions…</div>
+        </div>
+
+        <div id="quiz-loading" class="quiz-info">
+            ⏳ Chargement des questions…
+        </div>
+
+        <div id="quiz-error" class="quiz-info error hidden">
+            <span id="quiz-error-message"></span>
+            <a href="/quiz">Retour aux quiz</a>
+        </div>
+
+        <div id="questions-container">
+            <!-- Les questions seront insérées ici par le script quiz.js -->
+        </div>
+
+        <div id="question-nav">
+            <button class="btn btn-primary" id="next-btn" disabled>Suivant</button>
+        </div>
+    </div>
+
+    <!-- Résultats -->
+    <div id="results" class="card result-container hidden">
+        <div class="result-icon">🎉</div>
+        <h2 class="result-title">Quiz terminé !</h2>
+        <div class="result-level hidden" id="result-level"></div>
+        <p class="result-score" id="result-score">Tu as obtenu -/-</p>
+
+        <div class="result-details">
+            <h3>📊 Résumé</h3>
+            <p><strong>Questions répondues :</strong> <span id="total-answered">0</span></p>
+            <p><strong>Réponses correctes :</strong> <span id="correct-count">0</span></p>
+            <p><strong>Temps total :</strong> <span id="total-time">0</span> secondes</p>
+            <p class="hidden" id="determined-level-row"><strong>Niveau déterminé :</strong> <span id="determined-level">-</span></p>
+        </div>
+
+        <div id="quiz-recap"></div>
+
+        <button class="btn btn-secondary" onclick="location.reload()">Recommencer</button>
+        <button class="btn btn-primary" id="results-primary">Voir les quiz</button>
+    </div>
+</div>

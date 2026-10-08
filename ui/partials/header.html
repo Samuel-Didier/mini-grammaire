@@ -2,9 +2,18 @@
     <a href="/" style="text-decoration: none; color: inherit;" >
         <div class="logo" style="font-size: 25px">Ma <span style="font-size: 50px">M</span>iniGrammaire</div>
     </a>
-    <a href="/profile" style="text-decoration: none; color: inherit;">
-        <div class="user-profile">
-            <span>👤 Mon Profil</span>
-        </div>
-    </a>
+    <div class="nav-profile-actions">
+        <check if="{{ isset(@canDashboard) && @canDashboard }}">
+            <a href="/dashboard" style="text-decoration: none; color: inherit;">
+                <div class="user-profile">
+                    <span>🛠 Tableau de bord</span>
+                </div>
+            </a>
+        </check>
+        <a href="/profile" style="text-decoration: none; color: inherit;">
+            <div class="user-profile">
+                <span>👤 Mon Profil</span>
+            </div>
+        </a>
+    </div>
 </nav>

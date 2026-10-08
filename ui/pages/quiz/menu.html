@@ -1,0 +1,55 @@
+<!-- Lien vers le fichier CSS externe -->
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/quiz.css"/>
+
+
+<header class="dashboard-header" >
+    <h1>📚 Choisis ton Quiz</h1>
+    <p style="color: white">Entraîne-toi sur des sujets spécifiques adaptés à ton niveau.</p>
+</header>
+<br>
+<a href="/" class="back-link" style="margin-left: 50px"><span>←</span> Retour à l'accueil</a>
+<br>
+
+<div class="container">
+    <!-- Carte principale du menu : alimentée par la base des questions de quiz -->
+    <div class="card quiz-menu active" style="display: block;">
+
+        <h2 style="text-align: center; margin-bottom: 30px;">📚 Choisis ton Quiz</h2>
+
+        <check if="{{ @userLevel }}">
+            <div style="text-align: center; margin-bottom: 20px; background: #e0e7ff; color: #4f46e5; padding: 8px 20px; border-radius: 20px; font-weight: 600; display: inline-block;">
+                Ton niveau actuel : {{ @userLevel }}
+            </div>
+        </check>
+
+        <check if="{{ !@connecte }}">
+            <div class="quiz-info">
+                🔒 Connecte-toi pour répondre aux questions et enregistrer tes résultats.
+                <a href="/login">Se connecter</a>
+            </div>
+        </check>
+
+        <repeat group="{{ @quizzes }}" value="{{ @groupe }}">
+            <div class="quiz-category">
+                <h3>{{ @groupe.icon }} {{ @groupe.libelle }}</h3>
+                <div class="quiz-buttons">
+                    <repeat group="{{ @groupe.quiz }}" value="{{ @quiz }}">
+                        <a href="/quiz/jouer/{{ @quiz.categorie }}/{{ @quiz.niveau }}" class="quiz-btn" style="text-decoration: none; color: inherit; display: block;">
+                            <div class="quiz-btn-icon">{{ @groupe.icon }}</div>
+                            <div class="quiz-btn-title">{{ @quiz.titre }}</div>
+                            <div class="quiz-btn-desc">{{ @quiz.questions_libelle }}</div>
+                        </a>
+                    </repeat>
+                </div>
+            </div>
+        </repeat>
+
+        <check if="{{ !@quizzes }}">
+            <div class="quiz-info">
+                Aucun quiz n'est disponible pour le moment.
+                <check if="{{ @canDashboard }}">Ajoute des questions depuis <a href="/dashboard/quiz">le tableau de bord</a>.</check>
+            </div>
+        </check>
+
+    </div>
+</div>

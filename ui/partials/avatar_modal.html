@@ -1,0 +1,77 @@
+<!-- Fenêtre de choix d'avatar, partagée par /profile et /profile/edit.
+     Attend : @avatars (liste d'items 'id' + 'emoji'), @csrfToken, @initials.
+     Met à jour l'affichage du profil s'il est présent et, le cas échéant,
+     le bouton radio correspondant du formulaire d'édition. -->
+<div class="avatar-modal" id="avatar-modal" hidden>
+ <div class="avatar-modal-box" role="dialog" aria-modal="true" aria-labelledby="avatar-modal-title">
+  <div class="avatar-modal-head">
+   <h3 id="avatar-modal-title">Choisir un avatar</h3>
+   <button type="button" class="avatar-modal-close" id="avatar-modal-close" aria-label="Fermer">✕</button>
+  </div>
+  <p class="avatar-modal-hint">Sélectionnez un avatar du catalogue. Il sera affiché sur votre profil.</p>
+  <div class="avatar-grid">
+   <repeat group="{{ @avatars }}" value="{{ @avatar }}">
+    <button type="button" class="avatar-choice" data-avatar="{{ @avatar.id }}" aria-label="Choisir l'avatar {{ @avatar.id }}">
+     <span class="avatar-emoji" aria-hidden="true">{{ @avatar.emoji }}</span>
+    </button>
+   </repeat>
+  </div>
+  <button type="button" class="btn btn-edit avatar-remove" id="avatar-remove">Retirer mon avatar</button>
+ </div>
+</div>
+
+<script>
+(function () {
+ 'use strict';
+ var modal = document.getElementById('avatar-modal');
+var close = document.getElementById('avatar-modal-close');
+var removeBtn = document.getElementById('avatar-remove');
+
+ if (!modal || !close || !removeBtn) return;
+
+ var CSRF_TOKEN = '{{ @csrfToken }}';
+ var BASE = '{{ @BASE }}';
+ var INITIALS = '{{ @initials }}';
+ var display = document.querySelector('.avatar-display');
+
+ function openModal() { modal.hidden = false; document.body.classList.add('avatar-modal-open'); }
+ function closeModal() { modal.hidden = true; document.body.classList.remove('avatar-modal-open'); }
+ document.querySelectorAll('#btn-avatar, #btn-avatar-text').forEach(function (b) {
+  b.addEventListener('click', openModal);
+ });
+ close.addEventListener('click', closeModal);
+ modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+ document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
+
+ function choisir(avatar) {
+  var body = new URLSearchParams();
+  body.set('avatar', avatar || '');
+  fetch(BASE + '/profile/avatar', {
+   method: 'POST',
+   headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRF-Token': CSRF_TOKEN },
+   body: body.toString()
+  }).then(function (r) { return r.json(); }).then(function (data) {
+   if (!data.success) { alert(data.message || 'Impossible de changer l\'avatar.'); return; }
+   // Affichage du profil (page /profile)
+   if (display) {
+    if (data.emoji) {
+     display.className = 'avatar avatar-display avatar-emoji-mode';
+     display.innerHTML = '<span class="avatar-emoji" role="img" aria-label="Avatar">' + data.emoji + '</span>';
+    } else {
+     display.className = 'avatar avatar-display ';
+     display.innerHTML = INITIALS;
+    }
+   }
+   // Formulaire d'édition (page /profile/edit) : on coche le bon bouton radio
+   var radio = document.querySelector('input[name="avatar"][value="' + (data.avatar || '') + '"]');
+   if (radio) radio.checked = true;
+   closeModal();
+  }).catch(function () { alert('Erreur lors de l\'enregistrement.'); });
+ }
+
+ document.querySelectorAll('.avatar-choice').forEach(function (el) {
+  el.addEventListener('click', function () { choisir(el.getAttribute('data-avatar')); });
+ });
+ removeBtn.addEventListener('click', function () { choisir(''); });
+}());
+</script>

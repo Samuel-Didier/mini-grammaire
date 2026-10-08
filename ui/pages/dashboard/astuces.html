@@ -1,0 +1,79 @@
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/dashboard.css"/>
+
+<div class="dash-wrap">
+    <a class="dash-back" href="/dashboard">← Retour au tableau de bord</a>
+
+    <div class="dash-head">
+        <h1>{{ @heading }}</h1>
+        <span class="dash-role">Rôle : {{ @userRole }}</span>
+    </div>
+
+
+    <div class="dash-section">
+        <h2>Ajouter une astuce</h2>
+        <form method="POST" action="/dashboard/astuces/create" class="dash-form">
+            <input type="hidden" name="csrf_token" value="{{ @csrfToken }}">
+            <div>
+                <label for="new_titre">Titre</label>
+                <input type="text" id="new_titre" name="titre" maxlength="200" required
+                       placeholder="Ex : Distinction a / à">
+            </div>
+            <div>
+                <label for="new_description">Description</label>
+                <textarea id="new_description" name="description" rows="3" required
+                          placeholder="Ex : 'a' sans accent est le verbe avoir…"></textarea>
+            </div>
+            <div class="dash-form-wide">
+                <button type="submit" class="dash-btn">Ajouter l'astuce</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="dash-section">
+        <h2>{{ @astuces_count }} astuce(s) en base</h2>
+        <p>Chaque ligne est modifiable directement ; la suppression est définitive.</p>
+
+        <div class="dash-scroll">
+            <table class="dash-table">
+                <thead>
+                <tr>
+                    <th style="width:22%;">Titre</th>
+                    <th style="width:52%;">Description</th>
+                    <th>Favoris</th>
+                    <th style="width:180px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <repeat group="{{ @astuces }}" value="{{ @astuce }}">
+                    <tr>
+                        <td colspan="4">
+                            <form method="POST" action="/dashboard/astuces/update/{{ @astuce.id }}" class="dash-form">
+                                <input type="hidden" name="csrf_token" value="{{ @csrfToken }}">
+                                <div>
+                                    <input type="text" name="titre" value="{{ @astuce.titre | esc }}"
+                                           maxlength="200" aria-label="Titre de l'astuce">
+                                </div>
+                                <div>
+                                    <textarea name="description" aria-label="Description de l'astuce">{{ @astuce.description | esc }}</textarea>
+                                </div>
+                                <div class="dash-form-wide dash-actions">
+                                    <button type="submit" class="dash-btn small">Enregistrer</button>
+                                    <span class="dash-muted">{{ @astuce.favoris_count }} favori(s)</span>
+                                </div>
+                            </form>
+                            <form method="POST" action="/dashboard/astuces/delete/{{ @astuce.id }}"
+                                  onsubmit="return confirm('Supprimer définitivement cette astuce ?');">
+                                <input type="hidden" name="csrf_token" value="{{ @csrfToken }}">
+                                <button type="submit" class="dash-btn small danger">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                </repeat>
+                <check if="{{ count(@astuces) == 0 }}">
+                    <tr><td colspan="4" class="dash-muted">Aucune astuce enregistrée.</td></tr>
+                </check>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/auth.css"/>
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/astuces.css"/>
+
+<div class="auth-container">
+    <div class="auth-header">
+        <h2 class="register">{{ @pageTitle }}</h2>
+        <p>{{ @pageSubtitle }}</p>
+    </div>
+
+    <form action="{{ @formAction }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ @csrfToken }}">
+
+        <div class="form-group">
+            <label for="titre">Titre de l'astuce</label>
+            <input type="text" id="titre" name="titre" value="{{ @old_titre ?: '' }}" maxlength="200" required placeholder="Ex: Distinction a / à">
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description de l'astuce</label>
+            <textarea id="description" name="description" rows="6" required placeholder="Ex: 'a' sans accent est le verbe avoir...">{{ @old_description ?: '' }}</textarea>
+        </div>
+
+        <check if="{{ isset(@errors) && count(@errors) > 0 }}">
+            <div class="form-errors">
+                <repeat group="{{ @errors }}" value="{{ @error }}">
+                    <p>{{ @error }}</p>
+                </repeat>
+            </div>
+        </check>
+
+        <button type="submit" class="btn-primary register btn-submit">{{ @submitLabel }}</button>
+    </form>
+
+    <div class="auth-footer">
+        <a href="/astuces">← Retour aux Astuces</a>
+    </div>
+</div>

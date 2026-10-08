@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Progression;
 use App\Models\MiniGrammaire;
 
-class Page {
+class Page extends BaseController {
 
     // Page d'accueil (Dashboard)
     public function home(\Base $f3)
@@ -36,19 +36,12 @@ class Page {
         echo $tpl->render('layout.html');
     }
 
-//     Page de connexion
+    //     Page de connexion
     public function testNiveau(\Base $f3)
     {
-        $tpl = \Template::instance();
-        // Vérification de l'authentification : rediriger si non connecté
-        if (!$f3->exists('SESSION.user')) {
-            $f3->reroute('/login');
-            return;
-        }
-        $content = $tpl->render('pages/test_niveau.html');
-        $f3->set('title', 'Test de Niveau');
-        $f3->set('content', $content);
-        echo $tpl->render('layout.html');
+        // Le test de niveau est un quiz comme les autres : on renvoie vers la page
+        // de jeu paramétrée, qui charge les questions depuis la base.
+        $f3->reroute('/quiz/jouer/niveau/tous');
     }
 
     // Page d'inscription
@@ -126,7 +119,8 @@ class Page {
         $f3->set('categories', $categories);
         $f3->set('allCategoryNames', array_keys($letterMap));
         $f3->set('userRole', $userRole);
-        $f3->set('canEdit', $userRole !== 'etudiant' && $userRole !== 'invite');
+        $f3->set('canEdit', in_array($userRole, BaseController::EDITOR_ROLES, true));
+        $f3->set('csrfToken', BaseController::getSessionCsrfToken($f3));
         $content = $tpl->render('pages/mini_grammaire.html');
         $f3->set('title', 'Mini-Grammaire');
         $f3->set('content', $content);
@@ -170,7 +164,8 @@ class Page {
         $f3->set('categoryName', $categoryName);
         $f3->set('categoryLetter', $letterMap[$categoryName] ?? strtolower(substr($categoryName, 0, 1)));
         $f3->set('allCategoryNames', array_keys($letterMap));
-        $f3->set('canEdit', $userRole !== 'etudiant' && $userRole !== 'invite');
+        $f3->set('canEdit', in_array($userRole, BaseController::EDITOR_ROLES, true));
+        $f3->set('csrfToken', BaseController::getSessionCsrfToken($f3));
         $content = $tpl->render('pages/mini_grammaire_detail.html');
         $f3->set('title', 'Code ' . $parent . ' — Mini-Grammaire');
         $f3->set('content', $content);
@@ -183,16 +178,6 @@ class Page {
         $tpl = \Template::instance();
         $content = $tpl->render('pages/astuces.html');
         $f3->set('title', 'Astuces de Français');
-        $f3->set('content', $content);
-        echo $tpl->render('layout.html');
-    }
-
-    // Page générique (si besoin)
-    public function quiz(\Base $f3)
-    {
-        $tpl = \Template::instance();
-        $content = $tpl->render('pages/quiz.html');
-        $f3->set('title', 'Generic');
         $f3->set('content', $content);
         echo $tpl->render('layout.html');
     }

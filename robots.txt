@@ -1,0 +1,16 @@
+# robots.txt — Ma Mini-Grammaire
+#
+# L'application est un espace privé : toutes les pages sont derrière une
+# authentification. Aucun contenu n'a vocation à être indexé par un moteur
+# de recherche, on ferme donc l'exploration à tous les robots.
+#
+# À noter : ce fichier n'est qu'une demande polie. Il dissuade les robots
+# qui le respectent (Googlebot, Bingbot, Yahoo, DuckDuckGo…) mais il n'a
+# AUCUN effet sur un robot malveillant ou un script qui l'ignore. Le
+# filtrage réel se fait au niveau du serveur (voir .htaccess) et, pour les
+# abus, au niveau de l'hébergeur.
+
+User-agent: *
+Disallow: /
+
+# Aucun sitemap : rien ne doit être déclaré comme indexable.

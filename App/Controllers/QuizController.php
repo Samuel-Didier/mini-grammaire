@@ -3,9 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\Progression;
+use App\Models\Quiz;
 use App\Models\User;
 
-class QuizController
+class QuizController extends BaseController
 {
     /**
      * Enregistre le résultat du test de niveau
@@ -44,6 +45,8 @@ class QuizController
 
     /**
      * Affiche la page principale des quiz (Menu)
+     * La liste des quiz est lue en base : le menu suit donc exactement les
+     * questions saisies dans le tableau de bord.
      * Route: GET /quiz
      */
     public function index(\Base $f3)
@@ -66,9 +69,60 @@ class QuizController
                  }
              }
          }
-        $content = $tpl->render('pages/quiz_menu.html');
+
+        $quizModel = new Quiz($f3->get('DB'));
+        $f3->set('quizzes', $quizModel->listQuizzesParCategorie());
+        $f3->set('connecte', $f3->exists('SESSION.user'));
+
+        $content = $tpl->render('pages/quiz/menu.html');
         $f3->set('title', 'Quiz & Exercices');
         $f3->set('content', $content);
+        echo $tpl->render('layout.html');
+    }
+
+    /**
+     * Affiche la page de jeu d'un quiz (identifié par sa catégorie et son niveau).
+     * Les questions sont ensuite chargées par assets/js/quiz.js depuis
+     * /api/quiz/questions, elles ne sont donc plus figées dans le JavaScript.
+     * Route: GET /quiz/jouer/@categorie/@niveau
+     */
+    public function jouer(\Base $f3, array $args = [])
+    {
+        // Vérification de l'authentification : rediriger si non connecté
+        if (!$f3->exists('SESSION.user')) {
+            $f3->reroute('/login');
+            return;
+        }
+
+        // Les tokens de la route arrivent dans le second argument (convention F3)
+        $categorie = Quiz::slugify((string)($args['categorie'] ?? 'niveau'));
+        $niveau = mb_strtolower(trim((string)($args['niveau'] ?? 'tous')));
+
+        $quizModel = new Quiz($f3->get('DB'));
+        $quizzes = $quizModel->listQuizzes();
+
+        $trouve = null;
+        foreach ($quizzes as $quiz) {
+            if ($quiz['categorie'] === $categorie && $quiz['niveau'] === $niveau) {
+                $trouve = $quiz;
+                break;
+            }
+        }
+
+        // Quiz inexistant : on renvoie l'utilisateur vers le menu plutôt que d'afficher une page vide
+        if ($trouve === null) {
+            $f3->set('SESSION.flash', [
+                'type' => 'error',
+                'message' => 'Ce quiz n\'existe pas ou ne contient aucune question.',
+            ]);
+            $f3->reroute('/quiz');
+            return;
+        }
+
+        $tpl = \Template::instance();
+        $f3->set('quiz', $trouve);
+        $f3->set('title', $trouve['libelle'] . ' ' . $trouve['niveau_libelle']);
+        $f3->set('content', $tpl->render('pages/quiz/test_niveau.html'));
         echo $tpl->render('layout.html');
     }
 }

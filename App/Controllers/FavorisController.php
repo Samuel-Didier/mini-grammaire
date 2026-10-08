@@ -3,9 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\Favori;
-use App\Models\User;
 
-class FavorisController
+class FavorisController extends BaseController
 {
     /**
      * Ajoute ou retire une astuce des favoris (Toggle)
@@ -16,9 +15,7 @@ class FavorisController
         header('Content-Type: application/json');
 
         // Vérifier si l'utilisateur est connecté
-        if (!$f3->exists('SESSION.user')) {
-//            $f3->reroute('/login');
-//            return;
+        if (!$f3->exists('SESSION.user') && !$f3->exists('SESSION.user_id')) {
             echo json_encode([
                 'success' => false,
                 'error' => 'AUTH_REQUIRED',
@@ -27,20 +24,27 @@ class FavorisController
             exit;
         }
 
+        // Protection CSRF (jeton envoyé dans l'en-tête X-CSRF-Token)
+        if (!$this->csrfValidate($f3)) {
+            echo json_encode([
+                'success' => false,
+                'error' => 'CSRF_INVALID',
+                'message' => 'Jeton de sécurité invalide.'
+            ]);
+            exit;
+        }
+
         $astuce_id = (int)$params['id'];
-        $username = $f3->get('SESSION.user');
 
-        // Récupérer l'ID de l'utilisateur via son username
-        $userModel = new User($f3->get('DB'));
-        $user = $userModel->findByUsername($username);
-
+        // L'utilisateur est déjà chargé par BaseController::beforeroute
+        $user = $f3->get('user');
         if (!$user) {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'message' => 'Utilisateur introuvable']);
             exit;
         }
 
-        $user_id = $user['id'];
+        $user_id = (int)$user['id'];
 
         // Instancier le modèle Favori
         $favoriModel = new Favori($f3->get('DB'));
@@ -67,15 +71,12 @@ class FavorisController
         $tpl = \Template::instance();
 
         // Vérification connexion
-        if (!$f3->exists('SESSION.user')) {
+        if (!$f3->exists('SESSION.user') && !$f3->exists('SESSION.user_id')) {
             $f3->reroute('/login');
             return;
         }
 
-        $username = $f3->get('SESSION.user');
-        $userModel = new User($f3->get('DB'));
-        $user = $userModel->findByUsername($username);
-
+        $user = $f3->get('user');
         if (!$user) {
             $f3->reroute('/logout');
             return;
@@ -83,7 +84,7 @@ class FavorisController
 
         // Récupérer les astuces favorites
         $favoriModel = new Favori($f3->get('DB'));
-        $favoris = $favoriModel->getFavorisByUser($user['id']);
+        $favoris = $favoriModel->getFavorisByUser((int)$user['id']);
 
         // Passer les données à la vue
         $f3->set('favoris', $favoris);

@@ -12,6 +12,9 @@
 <body class="landing is-preload">
 <div id="page-wrapper">
     <include href="partials/header.html"/>
+    <check if="{{ isset(@flash) && is_array(@flash) }}">
+        <div class="flash flash-{{ @flash.type }}">{{ @flash.message | esc }}</div>
+    </check>
     {{ @content | raw }}
     <include href="partials/footer.html"/>
 </div>

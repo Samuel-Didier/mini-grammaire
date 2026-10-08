@@ -28,6 +28,50 @@ class Favori extends \DB\SQL\Mapper
         return !$this->dry();
     }
 
+    /**
+     * Compte le nombre total de favoris enregistrés.
+     *
+     * @return int Nombre de lignes dans la table favoris
+     */
+    public function countAll(): int
+    {
+        $rows = $this->db->exec('SELECT COUNT(*) AS c FROM favoris');
+        return (int)($rows[0]['c'] ?? 0);
+    }
+
+    /**
+     * Compte le nombre d'utilisateurs ayant mis une astuce en favori.
+     *
+     * @param int $astuceId ID de l'astuce
+     * @return int Nombre de favoris
+     */
+    public function countFavorisForAstuce(int $astuceId): int
+    {
+        $rows = $this->db->exec('SELECT COUNT(*) AS c FROM favoris WHERE astuces_id = ?', [$astuceId]);
+        return (int)($rows[0]['c'] ?? 0);
+    }
+
+    /**
+     * Récupère en une seule requête tous les identifiants d'astuces favoris d'un utilisateur.
+     * Évite une requête par astuce lors de l'affichage de la liste.
+     *
+     * @param int $userId ID de l'utilisateur
+     * @return array<int> Liste des identifiants d'astuces favorites
+     */
+    public function getAstucesIdsByUser(int $userId): array
+    {
+        $rows = $this->db->exec(
+            'SELECT astuces_id FROM favoris WHERE user_id = ?',
+            [$userId]
+        );
+
+        $ids = [];
+        foreach ((array)$rows as $row) {
+            $ids[] = (int)$row['astuces_id'];
+        }
+        return $ids;
+    }
+
     public function add(int $userId, int $astuceId): bool
     {
         if ($this->isFavori($userId, $astuceId)) {
@@ -37,8 +81,13 @@ class Favori extends \DB\SQL\Mapper
         $this->reset();
         $this->user_id = $userId;
         $this->astuces_id = $astuceId;
-        $this->save();
-        return true;
+        try {
+            $this->save();
+            return true;
+        } catch (\PDOException $e) {
+            // L'index unique uq_favoris_user_astuce empêche le doublon : on reste en échec silencieux
+            return false;
+        }
     }
 
     public function remove(int $userId, int $astuceId): bool

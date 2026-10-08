@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/dashboard.css"/>
+
+<div class="dash-wrap">
+    <div class="dash-head">
+        <h1>Tableau de bord — Administration</h1>
+        <span class="dash-role">Rôle : {{ @userRole }}</span>
+    </div>
+
+
+    <include href="partials/dashboard_contenu.html"/>
+
+    <div class="dash-section">
+        <h2>Comptes utilisateurs</h2>
+        <p>
+            Modification de l'identité, du rôle et du mot de passe. Les comptes ne sont jamais
+            supprimés : ils sont désactivés puis réactivables.
+        </p>
+
+        <check if="{{ !@softDeleteSupported }}">
+            <div class="dash-flash error">
+                Suppression logique indisponible : la colonne users.deleted_at est absente.
+                Appliquez la migration migrations/2026_09_28_add_user_soft_delete.sql.
+            </div>
+        </check>
+
+        <div class="dash-scroll">
+            <table class="dash-table">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Identifiant</th>
+                    <th>Courriel</th>
+                    <th>Rôle</th>
+                    <th>Créé le</th>
+                    <th>État</th>
+                </tr>
+                </thead>
+                <tbody>
+                <repeat group="{{ @users }}" value="{{ @account }}">
+                    <tr>
+                        <td>
+                            {{ @account.prenom | esc }} {{ @account.nom | esc }}
+                            <check if="{{ isset(@account.deleted_at) }}">
+                                <div class="dash-muted">désactivé le {{ @account.deleted_at }}</div>
+                            </check>
+                        </td>
+                        <td>{{ @account.username | esc }}</td>
+                        <td>{{ @account.email | esc }}</td>
+                        <td><span class="dash-badge {{ @account.role }}">{{ @account.role }}</span></td>
+                        <td class="dash-muted">{{ @account.create_at }}</td>
+                        <td>
+                            <check if="{{ isset(@account.deleted_at) }}">
+                                <span class="dash-badge off">désactivé</span>
+                            </check>
+                            <check if="{{ !isset(@account.deleted_at) }}">
+                                <span class="dash-badge etudiant">actif</span>
+                            </check>
+                        </td>
+                    </tr>
+                </repeat>
+                </tbody>
+            </table>
+        </div>
+
+        <p style="margin-top:1rem;">
+            <a class="dash-btn" href="/dashboard/utilisateurs">Ouvrir la gestion complète des comptes</a>
+        </p>
+    </div>
+</div>

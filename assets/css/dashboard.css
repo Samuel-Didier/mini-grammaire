@@ -1,0 +1,471 @@
+.dash-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+}
+
+.dash-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.dash-head h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.dash-head .dash-role {
+    font-size: 0.9rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background: #eef4ff;
+    color: #2c3e50;
+    border: 1px solid #cfe0ff;
+}
+
+.dash-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+}
+
+.dash-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.05);
+}
+
+.dash-card .dash-card-value {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.dash-card .dash-card-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6b7a8f;
+}
+
+.dash-section {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.dash-section h2 {
+    margin: 0 0 0.35rem;
+    font-size: 1.2rem;
+}
+
+.dash-section > p {
+    margin: 0 0 1rem;
+    color: #6b7a8f;
+    font-size: 0.92rem;
+}
+
+.dash-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.dash-link {
+    display: block;
+    padding: 0.9rem 1.1rem;
+    border-radius: 12px;
+    border: 1px solid #d7e2f0;
+    background: #f7faff;
+    color: #2c3e50;
+    text-decoration: none;
+    min-width: 220px;
+    flex: 1 1 220px;
+}
+
+.dash-link:hover {
+    border-color: #4a90e2;
+    background: #eef4ff;
+}
+
+.dash-link strong {
+    display: block;
+    font-size: 1.02rem;
+    margin-bottom: 0.15rem;
+}
+
+.dash-link span {
+    font-size: 0.85rem;
+    color: #6b7a8f;
+}
+
+.dash-flash {
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    margin-bottom: 1.25rem;
+    font-weight: 600;
+}
+
+.dash-flash.success {
+    background: #e8f7ee;
+    border: 1px solid #b7e2c7;
+    color: #1c6b3d;
+}
+
+.dash-flash.error {
+    background: #fdecec;
+    border: 1px solid #f3c2c2;
+    color: #9c2b2b;
+}
+
+.dash-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.dash-table th,
+.dash-table td {
+    text-align: left;
+    padding: 0.5rem 0.45rem;
+    border-bottom: 1px solid #eef1f5;
+    vertical-align: top;
+}
+
+.dash-table th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6b7a8f;
+}
+
+.dash-table input[type="text"],
+.dash-table input[type="email"],
+.dash-table input[type="password"],
+.dash-table select,
+.dash-table textarea,
+.dash-form input[type="text"],
+.dash-form input[type="email"],
+.dash-form input[type="password"],
+.dash-form select,
+.dash-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.45rem 0.55rem;
+    border: 1px solid #d7dee8;
+    border-radius: 8px;
+    font: inherit;
+    background: #fff;
+    color: #2c3e50;
+}
+
+.dash-table textarea {
+    min-height: 60px;
+    resize: vertical;
+}
+
+.dash-table label {
+    display: block;
+    margin: 0.55rem 0 0.2rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #6b7a8f;
+}
+
+.dash-table label:first-child {
+    margin-top: 0;
+}
+
+.dash-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    white-space: nowrap;
+}
+
+.dash-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem;
+    align-items: start;
+}
+
+.dash-form label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #46586e;
+    margin-bottom: 0.25rem;
+}
+
+.dash-form .dash-form-wide {
+    grid-column: 1 / -1;
+}
+
+.dash-btn {
+    display: inline-block;
+    padding: 0.5rem 0.95rem;
+    border-radius: 8px;
+    border: 1px solid #4a90e2;
+    background: #4a90e2;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.dash-btn:hover {
+    background: #3a7ec4;
+}
+
+.dash-btn.secondary {
+    background: #fff;
+    color: #2c3e50;
+    border-color: #cfd8e3;
+}
+
+.dash-btn.danger {
+    background: #fff;
+    color: #9c2b2b;
+    border-color: #e6b3b3;
+}
+
+.dash-btn.danger:hover {
+    background: #fdecec;
+}
+
+.dash-btn.small {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.8rem;
+}
+
+.dash-filter {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.dash-filter input[type="text"] {
+    flex: 1 1 260px;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid #d7dee8;
+    border-radius: 8px;
+    font: inherit;
+}
+
+.dash-badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: #eef1f5;
+    color: #46586e;
+}
+
+.dash-badge.admin {
+    background: #f3e8ff;
+    color: #6b21a8;
+}
+
+.dash-badge.enseignant {
+    background: #e8f0fe;
+    color: #1d4ed8;
+}
+
+.dash-badge.etudiant {
+    background: #e8f7ee;
+    color: #1c6b3d;
+}
+
+.dash-badge.off {
+    background: #fdecec;
+    color: #9c2b2b;
+}
+
+.dash-row-off td {
+    background: #fdf6f6;
+    color: #8a6a6a;
+}
+
+.dash-muted {
+    color: #8a97a8;
+    font-size: 0.85rem;
+}
+
+.dash-back {
+    display: inline-block;
+    margin-bottom: 0.9rem;
+    color: #4a90e2;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.dash-scroll {
+    overflow-x: auto;
+}
+
+.dash-pagination {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+@media (max-width: 700px) {
+    .dash-head h1 {
+        font-size: 1.4rem;
+    }
+
+    .dash-table {
+        font-size: 0.82rem;
+    }
+}
+
+/* Gestion des quiz : carte d'une question, édition repliable, propositions */
+.dash-quiz-card {
+    margin-bottom: 1rem;
+}
+
+.dash-card-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-bottom: 0.6rem;
+}
+
+.dash-card-head .dash-badge {
+    margin-right: 0.3rem;
+}
+
+.dash-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.dash-card-actions form {
+    display: inline;
+}
+
+.dash-card-title {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.35rem;
+}
+
+.dash-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #46586e;
+    margin-bottom: 0.3rem;
+}
+
+/* Libellé d'une rangée de filtres : reste sur la même ligne que le champ */
+.dash-label.inline {
+    display: inline-block;
+    align-self: center;
+    margin-bottom: 0;
+    white-space: nowrap;
+}
+
+.dash-edit {
+    margin-top: 0.7rem;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 0.6rem;
+}
+
+.dash-edit summary {
+    cursor: pointer;
+    color: #4a90e2;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.dash-edit summary:hover {
+    text-decoration: underline;
+}
+
+/* Un bloc par libellé de catégorie : espace, filet et bandeau pour retrouver
+   d'un coup d'œil à quel quiz appartient chaque question. */
+.quiz-groupe {
+    margin: 0 0 2rem;
+    padding: 0 0 0.5rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.quiz-groupe + .quiz-groupe {
+    margin-top: 2.5rem;
+}
+
+.quiz-groupe-titre {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin: 0 0 0.9rem;
+    padding: 0 0 0.45rem;
+    border-bottom: 2px solid #4a90e2;
+}
+
+.quiz-groupe-nom {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1f3350;
+}
+
+.quiz-groupe-compte {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #5b6b7f;
+    background: #eef1f5;
+    border-radius: 999px;
+    padding: 0.1rem 0.55rem;
+}
+
+.quiz-groupe .dash-quiz-card + .dash-quiz-card {
+    margin-top: 0.8rem;
+}
+
+.quiz-props {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.quiz-prop {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quiz-prop input[type="text"] {
+    flex: 1;
+}
+
+.quiz-prop-reponse {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: 3.2rem;
+    font-weight: 700;
+    color: #46586e;
+    cursor: pointer;
+}

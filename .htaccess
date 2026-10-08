@@ -1,3 +1,59 @@
+# ---------------------------------------------------------------------------
+# 1. Filtrage des robots et scanners  (avant tout le reste)
+# ---------------------------------------------------------------------------
+# robots.txt ne dissuade que les robots « corrects ». Cette section fait
+# vraiment sortir les robots d'indexation, les aspirateurs de contenu et les
+# scanners les plus courants.
+#
+# ⚠️ `curl` et `wget` sont volontairement ABSENTS de la liste : ce sont des
+# outils d'admin légitimes, et sur DDEV le healthcheck du conteneur
+# (/healthcheck.sh) envoie « User-Agent: curl/8.x » — les bloquer rendrait le
+# conteneur unhealthy et interromprait les redémarrages.
+#
+# ⚠️ Cette section suppose qu'Apache est bien le serveur (cas de la prod) et
+# que mod_rewrite est chargé. Sous nginx (DDEV), les .htaccess sont ignorés :
+# l'équivalent est dans .ddev/nginx/anti-robots.conf.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Signature de robot ou de scanner
+  RewriteCond %{HTTP_USER_AGENT} -i(bot|crawl|spider|slurp|archiver|scrap|scraper|python-requests|httpclient|libwww|nutch|phpspy|nikto|sqlmap|havij|nmap|masscan|acunzoix|dirbuster|gobuster|wpscan|nessus|zgrab|dataprovider|facebookexternalhit|feedfetcher|mediapartners|whatsapp|telegrambot|discordbot|applebot|semrush|ahrefs|mj12|dotbot|petalbot|bytespider|gptbot|claudeai|ccbot|perplexity|amazonbot) [NC]
+  RewriteRule ^ - [F,L]
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 2. Code source, gabarits et fichiers sensibles : accès direct interdit
+# ---------------------------------------------------------------------------
+# Doit rester AVANT la réécriture d'URL : sinon le « RewriteRule ^ - [L] »
+# ci-dessous court-circuiterait ces règles pour tout fichier existant.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Dossiers de code et gabarits. Sans cette règle, /App/Models/User.php est
+  # exécuté par Apache et renvoie une FATAL error en clair, et
+  # /ui/pages/*.html est servi tel quel : un robot pouvait aspirer la logique
+  # applicative et les textes des pages sans passer par le routage.
+  # Seuls /assets/ (css, js, images) et robots.txt restent lisibles.
+  RewriteRule ^(App|ui|vendor|migrations|tmp|phpmyadmin_secret_xyz)(/|$) - [F,L]
+
+  # Fichiers de configuration, dumps SQL et fichiers de sauvegarde
+  RewriteRule ^(composer\.json|composer\.lock|package\.json|.*\.sql|\.env.*|.*\.(bak|old|orig|swp|log|ini))$ - [F,L]
+
+  # Empêche de lister le contenu d'un dossier
+  Options -Indexes
+</IfModule>
+
+# Un .php hors de /App ne doit jamais être exécuté directement : seul
+# index.php est un point d'entrée.
+<FilesMatch "\.php$">
+  <If "%{REQUEST_URI} != '/index.php'">
+    Require all denied
+  </If>
+</FilesMatch>
+
+# ---------------------------------------------------------------------------
+# 3. Routage : tout le reste passe par index.php
+# ---------------------------------------------------------------------------
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
@@ -5,4 +61,22 @@
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
   RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 4. En-têtes de sécurité
+# ---------------------------------------------------------------------------
+<IfModule mod_headers.c>
+  # Empêche l'indexation même si robots.txt serait ignoré
+  Header always set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet, noimageindex"
+
+  # Interdit l'affichage du site dans une iframe (clickjacking)
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Content-Security-Policy "frame-ancestors 'self'"
+
+  # Empêche le navigateur de deviner le type MIME
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Ne laisse pas fuir les URL internes
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>

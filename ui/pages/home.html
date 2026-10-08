@@ -19,7 +19,7 @@
     <check if="{{ isset(@etudiant) && @etudiant }}">
 
       <true>
-        <h1>Bienvenue, {{ @etudiant.prenom }} {{ @etudiant.nom ?: @user }}  ! 👋</h1>
+        <h1>Bienvenue, {{ @etudiant.username ?: @user }}  ! 👋</h1>
       </true>
       <false>
         <h1>Bienvenue ! 👋</h1>
@@ -34,7 +34,7 @@
       <h3>💡 Astuce du jour : </h3>
       <p id="tip-text">Chargement de l'astuce...</p>
       <button onclick="newTip()" id="btn-refresh-tip" class="refresh-tip" title="Nouvelle astuce">🔄</button>
-<!--      <button  id="btn-refresh-tip" class="refresh-tip" title="Nouvelle astuce">🔄</button>-->
+      <!--      <button  id="btn-refresh-tip" class="refresh-tip" title="Nouvelle astuce">🔄</button>-->
     </div>
   </section>
 

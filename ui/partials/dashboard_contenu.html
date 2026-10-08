@@ -1,0 +1,65 @@
+<div class="dash-cards">
+    <div class="dash-card">
+        <div class="dash-card-value">{{ @stats.astuces }}</div>
+        <div class="dash-card-label">Astuces</div>
+    </div>
+    <div class="dash-card">
+        <div class="dash-card-value">{{ @stats.codes }}</div>
+        <div class="dash-card-label">Fiches mini-grammaire</div>
+    </div>
+    <div class="dash-card">
+        <div class="dash-card-value">{{ @stats.quiz }}</div>
+        <div class="dash-card-label">Questions de quiz</div>
+    </div>
+    <check if="{{ @canUsers }}">
+        <div class="dash-card">
+            <div class="dash-card-value">{{ @stats.users.total }}</div>
+            <div class="dash-card-label">Comptes utilisateurs</div>
+        </div>
+        <div class="dash-card">
+            <div class="dash-card-value">{{ @stats.users.desactives }}</div>
+            <div class="dash-card-label">Comptes désactivés</div>
+        </div>
+        <div class="dash-card">
+            <div class="dash-card-value">{{ @stats.favoris }}</div>
+            <div class="dash-card-label">Favoris enregistrés</div>
+        </div>
+        <div class="dash-card">
+            <div class="dash-card-value">{{ @stats.progressions }}</div>
+            <div class="dash-card-label">Tests de niveau</div>
+        </div>
+        <div class="dash-card">
+            <div class="dash-card-value">{{ @stats.logs }}</div>
+            <div class="dash-card-label">Requêtes journalisées</div>
+        </div>
+    </check>
+</div>
+
+<div class="dash-section">
+    <h2>Contenu pédagogique</h2>
+    <p>Ajout, modification et suppression des données de la base, pour les enseignants comme pour l'administration.</p>
+    <div class="dash-links">
+        <a class="dash-link" href="/dashboard/astuces">
+            <strong>Gérer les astuces</strong>
+            <span>{{ @stats.astuces }} astuce(s) — créer, modifier, supprimer</span>
+        </a>
+        <a class="dash-link" href="/dashboard/codes">
+            <strong>Gérer les codes de mini-grammaire</strong>
+            <span>{{ @stats.codes }} fiche(s) — créer, modifier, supprimer</span>
+        </a>
+        <a class="dash-link" href="/dashboard/quiz">
+            <strong>Gérer les quiz</strong>
+            <span>{{ @stats.quiz }} question(s) — test de niveau, grammaire, vocabulaire…</span>
+        </a>
+        <check if="{{ @canUsers }}">
+            <a class="dash-link" href="/dashboard/utilisateurs">
+                <strong>Gérer les utilisateurs</strong>
+                <span>{{ @stats.users.total }} compte(s) — identité, rôle, activation</span>
+            </a>
+            <a class="dash-link" href="/dashboard/logs">
+                <strong>Consulter le journal des requêtes</strong>
+                <span>{{ @stats.logs }} requête(s) — qui fait quoi, quand et avec quel résultat</span>
+            </a>
+        </check>
+    </div>
+</div>

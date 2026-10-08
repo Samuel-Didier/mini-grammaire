@@ -63,7 +63,8 @@ async function saveDetail(e, element) {
         const response = await fetch('/update-field', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': CSRF_TOKEN
             },
             body: JSON.stringify({
                 id: codeId,
@@ -156,7 +157,7 @@ async function saveParentEdit(e, element) {
     try {
         const response = await fetch('/update-parent-code', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF_TOKEN },
             body: JSON.stringify({ oldParent, newParent, newCategory })
         });
         const data = await response.json();
@@ -224,7 +225,7 @@ async function saveEntryEdit(e, element) {
     try {
         const response = await fetch('/update-code-entry', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF_TOKEN },
             body: JSON.stringify({ id, code, description })
         });
         const data = await response.json();

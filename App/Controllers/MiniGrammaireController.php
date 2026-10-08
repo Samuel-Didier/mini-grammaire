@@ -22,14 +22,16 @@ class MiniGrammaireController extends BaseController
     {
         header('Content-Type: application/json');
 
-        // 1. Vérifier l'authentification et les permissions via BaseController
-        // Seuls les rôles différents de 'etudiant' peuvent modifier (ex: 'admin', 'professeur')
-        // On suppose ici que le rôle requis est 'admin' ou qu'on utilise requireRole pour bloquer les étudiants.
-        // Puisque BaseController::requireRole redirige, et que c'est une requête AJAX, 
-        // nous allons plutôt utiliser le hive F3 set par beforeroute.
-        
-        if ($f3->get('userRole') === 'etudiant' || $f3->get('userRole') === 'invite') {
+        // 1. Accès réservé aux rôles éditeurs (admin, enseignant) — liste blanche stricte
+        // Un rôle inconnu ou erroné (ex: 'enseignent') est refusé.
+        if (!in_array($f3->get('userRole'), BaseController::EDITOR_ROLES, true)) {
             echo json_encode(['success' => false, 'message' => 'Permission refusée.']);
+            exit;
+        }
+
+        // 1bis. Protection CSRF (jeton envoyé par le JavaScript dans l'en-tête X-CSRF-Token)
+        if (!$this->csrfValidate($f3)) {
+            echo json_encode(['success' => false, 'error' => 'CSRF_INVALID', 'message' => 'Jeton de sécurité invalide.']);
             exit;
         }
 
@@ -68,8 +70,13 @@ class MiniGrammaireController extends BaseController
     {
         header('Content-Type: application/json');
 
-        if ($f3->get('userRole') === 'etudiant' || $f3->get('userRole') === 'invite') {
+        if (!in_array($f3->get('userRole'), BaseController::EDITOR_ROLES, true)) {
             echo json_encode(['success' => false, 'message' => 'Permission refusée.']);
+            exit;
+        }
+
+        if (!$this->csrfValidate($f3)) {
+            echo json_encode(['success' => false, 'error' => 'CSRF_INVALID', 'message' => 'Jeton de sécurité invalide.']);
             exit;
         }
 
@@ -104,8 +111,13 @@ class MiniGrammaireController extends BaseController
     {
         header('Content-Type: application/json');
 
-        if ($f3->get('userRole') === 'etudiant' || $f3->get('userRole') === 'invite') {
+        if (!in_array($f3->get('userRole'), BaseController::EDITOR_ROLES, true)) {
             echo json_encode(['success' => false, 'message' => 'Permission refusée.']);
+            exit;
+        }
+
+        if (!$this->csrfValidate($f3)) {
+            echo json_encode(['success' => false, 'error' => 'CSRF_INVALID', 'message' => 'Jeton de sécurité invalide.']);
             exit;
         }
 

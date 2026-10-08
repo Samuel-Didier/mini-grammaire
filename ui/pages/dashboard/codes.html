@@ -1,0 +1,123 @@
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/dashboard.css"/>
+
+<div class="dash-wrap">
+    <a class="dash-back" href="/dashboard">← Retour au tableau de bord</a>
+
+    <div class="dash-head">
+        <h1>{{ @heading }}</h1>
+        <span class="dash-role">Rôle : {{ @userRole }}</span>
+    </div>
+
+
+    <div class="dash-section">
+        <h2>Créer une fiche</h2>
+        <p>Le code peut être partagé par plusieurs fiches (une règle par catégorie). Formats acceptés : <code>G1</code>, <code>G1.1</code>, <code>P1-Virgule fautive</code>.</p>
+        <form method="POST" action="/dashboard/codes/create" class="dash-form">
+            <input type="hidden" name="csrf_token" value="{{ @csrfToken }}">
+            <div>
+                <label for="new_code">Code</label>
+                <input type="text" id="new_code" name="code" maxlength="20" required placeholder="G1.1">
+            </div>
+            <div>
+                <label for="new_category">Catégorie</label>
+                <select id="new_category" name="category" required>
+                    <repeat group="{{ @categories }}" value="{{ @category }}">
+                        <option value="{{ @category | esc }}">{{ @category | esc }}</option>
+                    </repeat>
+                </select>
+            </div>
+            <div class="dash-form-wide">
+                <label for="new_description">Règle (description)</label>
+                <textarea id="new_description" name="description" rows="3" required
+                          placeholder="Ex : L'accord du participe passé…"></textarea>
+            </div>
+            <div>
+                <label for="new_detail">Détail (facultatif)</label>
+                <textarea id="new_detail" name="detail" rows="2"></textarea>
+            </div>
+            <div>
+                <label for="new_example">Exemple (facultatif)</label>
+                <textarea id="new_example" name="example" rows="2"></textarea>
+            </div>
+            <div class="dash-form-wide">
+                <button type="submit" class="dash-btn">Créer la fiche</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="dash-section">
+        <h2>{{ @codes_count }} fiche(s)</h2>
+
+        <form method="GET" action="/dashboard/codes" class="dash-filter">
+            <input type="text" name="q" value="{{ @recherche | esc }}"
+                   placeholder="Filtrer par code, catégorie ou règle…">
+            <button type="submit" class="dash-btn secondary">Filtrer</button>
+            <check if="{{ @recherche }}">
+                <a class="dash-btn secondary" href="/dashboard/codes">Réinitialiser</a>
+            </check>
+        </form>
+
+        <div class="dash-scroll">
+            <table class="dash-table">
+                <thead>
+                <tr>
+                    <th style="width:11%;">Code</th>
+                    <th style="width:15%;">Catégorie</th>
+                    <th style="width:26%;">Règle</th>
+                    <th style="width:20%;">Détail</th>
+                    <th style="width:20%;">Exemple</th>
+                    <th style="width:150px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <repeat group="{{ @codes_list }}" value="{{ @fiche }}">
+                    <tr>
+                        <td colspan="6">
+                            <form method="POST" action="/dashboard/codes/update/{{ @fiche.id }}" class="dash-form">
+                                <input type="hidden" name="csrf_token" value="{{ @csrfToken }}">
+                                <div>
+                                    <input type="text" name="code" value="{{ @fiche.code | esc }}"
+                                           maxlength="20" aria-label="Code">
+                                </div>
+                                <div>
+                                    <select name="category" aria-label="Catégorie">
+                                        <repeat group="{{ @categories }}" value="{{ @category }}">
+                                            <check if="{{ @category == @fiche.category }}">
+                                                <option value="{{ @category | esc }}" selected>{{ @category | esc }}</option>
+                                            </check>
+                                            <check if="{{ @category != @fiche.category }}">
+                                                <option value="{{ @category | esc }}">{{ @category | esc }}</option>
+                                            </check>
+                                        </repeat>
+                                    </select>
+                                </div>
+                                <div>
+                                    <textarea name="description" aria-label="Règle">{{ @fiche.description | esc }}</textarea>
+                                </div>
+                                <div>
+                                    <textarea name="detail" aria-label="Détail">{{ @fiche.detail | esc }}</textarea>
+                                </div>
+                                <div>
+                                    <textarea name="example" aria-label="Exemple">{{ @fiche.example | esc }}</textarea>
+                                </div>
+                                <div class="dash-form-wide dash-actions">
+                                    <button type="submit" class="dash-btn small">Enregistrer</button>
+                                    <a class="dash-btn small secondary" href="/mini_grammaire/{{ @fiche.code }}">Voir</a>
+                                </div>
+                            </form>
+                            <form method="POST" action="/dashboard/codes/delete/{{ @fiche.id }}"
+                                  onsubmit="return confirm('Supprimer définitivement cette fiche ?');">
+                                <input type="hidden" name="csrf_token" value="{{ @csrfToken }}">
+                                <button type="submit" class="dash-btn small danger">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                </repeat>
+                <check if="{{ count(@codes_list) == 0 }}">
+                    <tr><td colspan="6" class="dash-muted">Aucune fiche ne correspond à ce filtre.</td></tr>
+                </check>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

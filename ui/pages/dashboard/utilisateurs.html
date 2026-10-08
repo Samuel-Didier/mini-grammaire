@@ -1,0 +1,101 @@
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/dashboard.css"/>
+
+<div class="dash-wrap">
+    <a class="dash-back" href="/dashboard">← Retour au tableau de bord</a>
+
+    <div class="dash-head">
+        <h1>{{ @heading }}</h1>
+        <span class="dash-role">Rôle : {{ @userRole }}</span>
+    </div>
+
+    <check if="{{ !@soft_delete_supported }}">
+        <div class="dash-flash error">
+            Suppression logique indisponible : la colonne users.deleted_at est absente.
+            Appliquez la migration migrations/2026_09_28_add_user_soft_delete.sql
+            pour pouvoir désactiver et réactiver les comptes.
+        </div>
+    </check>
+
+    <div class="dash-section">
+        <p>
+            Modifiez l'identité, le rôle et, si nécessaire, le mot de passe d'un compte.
+            La désactivation conserve la ligne en base : l'utilisateur ne peut plus se connecter,
+            mais toutes ses données (favoris, progression) sont préservées.
+        </p>
+
+        <div class="dash-scroll">
+            <table class="dash-table">
+                <thead>
+                <tr>
+                    <th style="width:26%;">Identité</th>
+                    <th style="width:18%;">Contact</th>
+                    <th style="width:12%;">Rôle</th>
+                    <th style="width:18%;">Mot de passe</th>
+                    <th style="width:11%;">État</th>
+                    <th style="width:15%;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <repeat group="{{ @users }}" value="{{ @account }}">
+                    <tr class="{{ @account.row_class }}">
+                        <td>
+                            <form id="user-update-{{ @account.id }}" method="POST" action="/dashboard/utilisateurs/update/{{ @account.id }}">
+                                <input type="hidden" name="csrf_token" value="{{ @csrfToken }}">
+                            </form>
+                            <label for="user-prenom-{{ @account.id }}">Prénom</label>
+                            <input form="user-update-{{ @account.id }}" id="user-prenom-{{ @account.id }}" type="text" name="prenom" value="{{ @account.prenom | esc }}">
+                            <label for="user-nom-{{ @account.id }}">Nom</label>
+                            <input form="user-update-{{ @account.id }}" id="user-nom-{{ @account.id }}" type="text" name="nom" value="{{ @account.nom | esc }}">
+                            <label for="user-username-{{ @account.id }}">Identifiant</label>
+                            <input form="user-update-{{ @account.id }}" id="user-username-{{ @account.id }}" type="text" name="username" value="{{ @account.username | esc }}">
+                        </td>
+                        <td>
+                            <label for="user-email-{{ @account.id }}">Courriel</label>
+                            <input form="user-update-{{ @account.id }}" id="user-email-{{ @account.id }}" type="email" name="email" value="{{ @account.email | esc }}">
+                        </td>
+                        <td>
+                            <label for="user-role-{{ @account.id }}">Rôle</label>
+                            <select form="user-update-{{ @account.id }}" id="user-role-{{ @account.id }}" name="role">
+                                <repeat group="{{ @roles }}" value="{{ @role }}">
+                                    <option value="{{ @role }}"{{ @role == @account.role ? ' selected' : '' }}>{{ @role }}</option>
+                                </repeat>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="user-password-{{ @account.id }}">Nouveau mot de passe</label>
+                            <input form="user-update-{{ @account.id }}" id="user-password-{{ @account.id }}" type="password" name="password" placeholder="8 caractères minimum" autocomplete="new-password">
+                            <label for="user-confirm-{{ @account.id }}">Confirmation</label>
+                            <input form="user-update-{{ @account.id }}" id="user-confirm-{{ @account.id }}" type="password" name="confirm_password" placeholder="Répétez le mot de passe" autocomplete="new-password">
+                        </td>
+                        <td>
+                            <span class="dash-badge {{ @account.state_class }}">{{ @account.state_label }}</span>
+                            <div class="dash-muted">{{ @account.state_date }}</div>
+                            <div class="dash-muted">créé le {{ @account.create_at }}</div>
+                            <check if="{{ @account.is_self }}">
+                                <span class="dash-badge admin">votre compte</span>
+                            </check>
+                        </td>
+                        <td>
+                            <form id="user-toggle-{{ @account.id }}" method="POST" action="/dashboard/utilisateurs/toggle/{{ @account.id }}" onsubmit="return confirm('{{ @account.toggle_confirm | esc }}');">
+                                <input type="hidden" name="csrf_token" value="{{ @csrfToken }}">
+                            </form>
+                            <button form="user-update-{{ @account.id }}" type="submit" class="dash-btn small">Enregistrer</button>
+                            <check if="{{ @account.is_self }}">
+                                <div class="dash-muted">Impossible à désactiver votre propre compte.</div>
+                            </check>
+                            <check if="{{ !@account.is_self }}">
+                                <button form="user-toggle-{{ @account.id }}" type="submit" class="dash-btn small {{ @account.toggle_class }}">{{ @account.toggle_label }}</button>
+                            </check>
+                        </td>
+                    </tr>
+                </repeat>
+                <check if="{{ count(@users) == 0 }}">
+                    <tr>
+                        <td colspan="6" class="dash-muted">Aucun compte enregistré.</td>
+                    </tr>
+                </check>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

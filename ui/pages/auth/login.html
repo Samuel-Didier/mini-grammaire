@@ -98,6 +98,28 @@
         .form-hidden {
             display: none;
         }
+
+        /* -------------------------- */
+        /* Case « Se souvenir de moi » */
+        .souvenir-check {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 44px;
+        }
+
+        .souvenir-check .form-check-input {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            flex: 0 0 auto;
+            cursor: pointer;
+        }
+
+        .souvenir-check .form-check-label {
+            margin: 0;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -147,6 +169,13 @@
                                         <span style="color: red">{{ @err }}</span> <br>
                                     </repeat>
                                 </ul>
+                            </check>
+
+                            <check if="{{ @souvenirDispo }}">
+                                <div class="form-check mb-3 souvenir-check">
+                                    <input class="form-check-input" type="checkbox" id="souvenir" name="souvenir" value="1">
+                                    <label class="form-check-label" for="souvenir">Se souvenir de moi</label>
+                                </div>
                             </check>
 
                             <button type="submit" class="btn btn-primary w-100 mt-3">Se connecter</button>

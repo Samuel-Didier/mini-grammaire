@@ -73,6 +73,24 @@ body {
     gap: 15px;
 }
 
+/* Groupe des liens de droite du header (Tableau de bord / Mon Profil) */
+.nav-profile-actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 25px;
+}
+
+/* Les deux liens restent toujours sur une seule ligne, meme quand le navbar
+   passe en colonne sur petit ecran, et sans decalage vertical entre eux. */
+.nav-profile-actions a {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    white-space: nowrap;
+}
+
 .user-profile-btn {
     display: flex;
     align-items: center;
@@ -378,4 +396,24 @@ footer {
     .feature-card p {
         font-size: 0.8rem;
     }
+}
+/* Message flash global (consommé une seule fois par requête, affiché par le layout) */
+.flash {
+    max-width: 1100px;
+    margin: 1.2rem auto;
+    padding: 0.9rem 1.3rem;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 1rem;
+    line-height: 1.45;
+}
+.flash-success {
+    background: #e8f6ed;
+    border-color: #b3dfc4;
+    color: #14532d;
+}
+.flash-error {
+    background: #fdeaea;
+    border-color: #f2b3b3;
+    color: #7f1d1d;
 }

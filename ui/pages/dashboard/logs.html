@@ -1,0 +1,167 @@
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/dashboard.css"/>
+
+<div class="dash-wrap">
+    <a class="dash-back" href="/dashboard">← Retour au tableau de bord</a>
+
+    <div class="dash-head">
+        <h1>{{ @heading }}</h1>
+        <span class="dash-role">Rôle : {{ @userRole }}</span>
+    </div>
+
+    <check if="{{ !@logs_table }}">
+        <div class="dash-flash error">
+            Journal indisponible : la table <code>request_logs</code> est absente.
+            Appliquez la migration migrations/2026_09_29_add_request_logs.sql
+            pour enregistrer les requêtes. L'application fonctionne sans elle.
+        </div>
+    </check>
+
+    <div class="dash-section">
+        <h2>{{ @logs_stats_titre }}</h2>
+        <p>
+            Une ligne par requête traitée par l'application : qui (utilisateur et rôle),
+            quoi (méthode et chemin), avec quel résultat (statut HTTP et durée) et depuis quelle
+            adresse IP. Les formulaires envoyés ne sont jamais journalisés, donc aucun mot de passe
+            n'est enregistré. Les entrées de plus de {{ @logs_retencion }} jours sont supprimées
+            automatiquement.
+        </p>
+
+        <div class="dash-cards">
+            <div class="dash-card">
+                <div class="dash-card-value">{{ @logs_stats.total }}</div>
+                <div class="dash-card-label">Requêtes au total</div>
+            </div>
+            <div class="dash-card">
+                <div class="dash-card-value">{{ @logs_stats.aujourdhui }}</div>
+                <div class="dash-card-label">Requêtes aujourd'hui</div>
+            </div>
+            <div class="dash-card">
+                <div class="dash-card-value">{{ @logs_stats.utilisateurs }}</div>
+                <div class="dash-card-label">Utilisateurs journalisés</div>
+            </div>
+            <div class="dash-card">
+                <div class="dash-card-value">{{ @logs_stats.erreurs }}</div>
+                <div class="dash-card-label">Erreurs serveur (5xx)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dash-section">
+        <h2>{{ @logs_total_titre }}</h2>
+
+        <form method="GET" action="/dashboard/logs" class="dash-filter">
+            <input type="text" name="q" value="{{ @logs_filtres.recherche | esc }}"
+                   placeholder="Chemin, identifiant…">
+
+            <select name="user_id" aria-label="Filtrer par utilisateur">
+                <option value="0">Tous les utilisateurs</option>
+                <repeat group="{{ @logs_utilisateurs }}" value="{{ @user }}">
+                    <option value="{{ @user.id }}"{{ @user.id == @logs_filtres.user_id ? ' selected' : '' }}>
+                        {{ @user.username | esc }} ({{ @user.requetes }})
+                    </option>
+                </repeat>
+            </select>
+
+            <select name="statut" aria-label="Filtrer par statut">
+                <option value=""{{ @logs_filtres.statut == '' ? ' selected' : '' }}>Tous les statuts</option>
+                <option value="400"{{ @logs_filtres.statut == '400' ? ' selected' : '' }}>Erreurs client (4xx)</option>
+                <option value="500"{{ @logs_filtres.statut == '500' ? ' selected' : '' }}>Erreurs 5xx</option>
+            </select>
+
+            <label class="dash-label inline" for="logs_depuis">Du</label>
+            <input type="date" id="logs_depuis" name="depuis" value="{{ @logs_filtres.depuis }}">
+
+            <label class="dash-label inline" for="logs_jusqua">Au</label>
+            <input type="date" id="logs_jusqua" name="jusqua" value="{{ @logs_filtres.jusqua }}">
+
+            <button type="submit" class="dash-btn secondary">Filtrer</button>
+            <check if="{{ @logs_filtre_actif }}">
+                <a class="dash-btn secondary" href="{{ @logs_reinitialiser }}">Réinitialiser</a>
+            </check>
+        </form>
+
+        <div class="dash-scroll">
+            <table class="dash-table">
+                <thead>
+                <tr>
+                    <th>Date et heure</th>
+                    <th>Utilisateur</th>
+                    <th>Méthode</th>
+                    <th>Requête</th>
+                    <th>Statut</th>
+                    <th>Durée</th>
+                    <th>Adresse IP</th>
+                </tr>
+                </thead>
+                <tbody>
+                <repeat group="{{ @logs_lignes }}" value="{{ @log }}">
+                    <tr>
+                        <td class="dash-muted">{{ @log.date_libelle }}</td>
+                        <td>
+                            <span class="dash-badge {{ @log.role_libelle }}">{{ @log.utilisateur_libelle | esc }}</span>
+                            <check if="{{ @log.role_libelle != 'invite' }}">
+                                <div class="dash-muted">{{ @log.role_libelle }}</div>
+                            </check>
+                        </td>
+                        <td>{{ @log.methode }}</td>
+                        <td title="{{ @log.uri_libelle | esc }}">
+                            {{ @log.chemin_libelle | esc }}
+                            <check if="{{ @log.referer_libelle }}">
+                                <div class="dash-muted">depuis {{ @log.referer_libelle | esc }}</div>
+                            </check>
+                            <check if="{{ @log.agent_libelle }}">
+                                <div class="dash-muted">{{ @log.agent_libelle | esc }}</div>
+                            </check>
+                        </td>
+                        <td><span class="dash-badge {{ @log.statut_class }}">{{ @log.statut_libelle }}</span></td>
+                        <td class="dash-muted">{{ @log.duree_libelle }}</td>
+                        <td class="dash-muted">{{ @log.ip | esc }}</td>
+                    </tr>
+                </repeat>
+                <check if="{{ count(@logs_lignes) == 0 }}">
+                    <tr>
+                        <td colspan="7" class="dash-muted">
+                            Aucune requête ne correspond à ce filtre.
+                        </td>
+                    </tr>
+                </check>
+                </tbody>
+            </table>
+        </div>
+
+        <check if="{{ @logs_pages > 1 }}">
+            <div class="dash-pagination">
+                <check if="{{ @logs_page > 1 }}">
+                    <a class="dash-btn small secondary" href="{{ @logs_page_precedente | esc }}">← Précédent</a>
+                </check>
+                <span class="dash-muted">
+                    Page {{ @logs_page }} sur {{ @logs_pages }} ({{ @logs_par_page }} lignes par page)
+                </span>
+                <check if="{{ @logs_page < @logs_pages }}">
+                    <a class="dash-btn small secondary" href="{{ @logs_page_suivante | esc }}">Suivant →</a>
+                </check>
+            </div>
+        </check>
+    </div>
+
+    <div class="dash-section">
+        <h2>Purge du journal</h2>
+        <p>
+            Les requêtes les plus anciennes peuvent être supprimées pour garder la base légère.
+            Le journal enregistre aussi les pages de consultation, qui sont les plus nombreuses.
+        </p>
+        <form method="POST" action="/dashboard/logs/purge" class="dash-filter"
+              onsubmit="return confirm('Confirmer la suppression des entrées sélectionnées ?');">
+            <input type="hidden" name="csrf_token" value="{{ @csrfToken }}">
+            <label class="dash-label inline" for="logs_jours">Supprimer les entrées de plus de</label>
+            <select id="logs_jours" name="jours">
+                <option value="7">7 jours</option>
+                <option value="30" selected>30 jours</option>
+                <option value="90">90 jours</option>
+                <option value="365">1 an</option>
+                <option value="0">tout le journal</option>
+            </select>
+            <button type="submit" class="dash-btn small danger">Purger</button>
+        </form>
+    </div>
+</div>

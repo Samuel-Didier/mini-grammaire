@@ -1,0 +1,252 @@
+<link rel="stylesheet" href="{{ @BASE }}/assets/css/dashboard.css"/>
+<script src="{{ @BASE }}/assets/js/quiz_admin.js"></script>
+
+<div class="dash-wrap">
+    <a class="dash-back" href="/dashboard">← Retour au tableau de bord</a>
+
+    <div class="dash-head">
+        <h1>{{ @heading }}</h1>
+        <span class="dash-role">Rôle : {{ @userRole }}</span>
+    </div>
+
+    <div class="dash-section">
+        <h2>Ajouter une question</h2>
+        <p>
+            Une question appartient à un quiz identifié par sa <strong>catégorie</strong> et son
+            <strong>niveau</strong>. Le nombre de propositions se choisit ici (de
+            {{ @quiz_min_propositions }} à {{ @quiz_max_propositions }}).
+            Pour le test de niveau, laissez le niveau du quiz sur « Tous niveaux » et indiquez le
+            niveau réel de chaque question : c'est lui qui sert à déterminer le niveau de l'élève.
+        </p>
+        <datalist id="quiz-categories">
+            <repeat group="{{ @quiz_categories }}" value="{{ @categorie }}">
+                <option value="{{ @categorie.libelle | esc }}"></option>
+            </repeat>
+        </datalist>
+
+        <form method="POST" action="/dashboard/quiz/create" class="dash-form">
+            <input type="hidden" name="csrf_token" value="{{ @csrfToken }}">
+
+            <div>
+                <label for="new_libelle_categorie">Catégorie</label>
+                <input type="text" id="new_libelle_categorie" name="libelle_categorie" list="quiz-categories"
+                       maxlength="100" required placeholder="Grammaire, Vocabulaire, Compréhension orale…">
+            </div>
+
+            <div>
+                <label for="new_niveau">Niveau du quiz</label>
+                <select id="new_niveau" name="niveau" required>
+                    <repeat group="{{ @quiz_niveaux }}" value="{{ @niveau }}">
+                        <option value="{{ @niveau.valeur | esc }}"{{ @niveau.valeur == 'a1' ? ' selected' : '' }}>
+                            {{ @niveau.libelle | esc }}
+                        </option>
+                    </repeat>
+                </select>
+            </div>
+
+            <div>
+                <label for="new_difficulte">Niveau de la question</label>
+                <select id="new_difficulte" name="difficulte" required>
+                    <repeat group="{{ @quiz_difficultes }}" value="{{ @niveau }}">
+                        <option value="{{ @niveau.valeur | esc }}"{{ @niveau.valeur == 'a1' ? ' selected' : '' }}>
+                            {{ @niveau.libelle | esc }}
+                        </option>
+                    </repeat>
+                </select>
+            </div>
+
+            <div class="dash-form-wide">
+                <label for="new_question">Énoncé</label>
+                <textarea id="new_question" name="question" rows="2" required
+                          placeholder="Ex : Complétez : « Je ___ français. »"></textarea>
+            </div>
+
+            <div>
+                <label for="new_nb_propositions">Nombre de propositions</label>
+                <select id="new_nb_propositions" class="js-nb-props" data-cible="props-create" required>
+                    <repeat group="{{ @quiz_nombres_propositions }}" value="{{ @nb }}">
+                        <option value="{{ @nb.valeur }}"{{ @nb.valeur == 4 ? ' selected' : '' }}>
+                            {{ @nb.libelle | esc }}
+                        </option>
+                    </repeat>
+                </select>
+            </div>
+
+            <div class="dash-form-wide">
+                <span class="dash-label">Propositions (coche la bonne réponse)</span>
+                <div class="quiz-props" id="props-create">
+                    <repeat group="{{ @quiz_props_initiales }}" value="{{ @prop }}">
+                        <div class="quiz-prop">
+                            <label class="quiz-prop-reponse" title="Cocher si c'est la bonne réponse">
+                                <input type="radio" name="correct" value="{{ @prop.index }}"
+                                       {{ @prop.index == 0 ? ' checked' : '' }}{{ @prop.index == 0 ? ' required' : '' }}>
+                                <span>{{ @prop.lettre }}</span>
+                            </label>
+                            <input type="text" name="propositions[]" maxlength="255"
+                                   placeholder="Proposition {{ @prop.lettre }}" aria-label="Proposition {{ @prop.lettre }}">
+                        </div>
+                    </repeat>
+                </div>
+            </div>
+
+            <div class="dash-form-wide">
+                <label for="new_explication">Explication affichée après le quiz (facultatif)</label>
+                <textarea id="new_explication" name="explication" rows="2" maxlength="500"
+                          placeholder="Ex : On utilise « suis » avec le verbe être à la première personne."></textarea>
+            </div>
+
+            <div class="dash-form-wide">
+                <button type="submit" class="dash-btn">Ajouter la question</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="dash-section">
+        <h2>{{ @quiz_count_label }} sur {{ @quiz_total_label }} au total</h2>
+
+        <form method="GET" action="/dashboard/quiz" class="dash-filter">
+            <select name="categorie" aria-label="Filtrer par catégorie">
+                <option value="">Toutes les catégories</option>
+                <repeat group="{{ @quiz_categories }}" value="{{ @categorie }}">
+                    <option value="{{ @categorie.categorie | esc }}"{{ @categorie.categorie == @quiz_filter_categorie ? ' selected' : '' }}>
+                        {{ @categorie.libelle | esc }} ({{ @categorie.questions }})
+                    </option>
+                </repeat>
+            </select>
+
+            <select name="niveau" aria-label="Filtrer par niveau">
+                <option value="">Tous les niveaux</option>
+                <repeat group="{{ @quiz_niveaux }}" value="{{ @niveau }}">
+                    <option value="{{ @niveau.valeur | esc }}"{{ @niveau.valeur == @quiz_filter_niveau ? ' selected' : '' }}>
+                        {{ @niveau.libelle | esc }}
+                    </option>
+                </repeat>
+            </select>
+
+            <input type="text" name="q" value="{{ @quiz_recherche | esc }}" placeholder="Filtrer par énoncé…">
+            <button type="submit" class="dash-btn secondary">Filtrer</button>
+            <check if="{{ @quiz_filter_categorie || @quiz_filter_niveau || @quiz_recherche }}">
+                <a class="dash-btn secondary" href="/dashboard/quiz">Réinitialiser</a>
+            </check>
+        </form>
+
+        <repeat group="{{ @quiz_groupes }}" value="{{ @groupe }}">
+            <section class="quiz-groupe" id="cat-{{ @groupe.categorie }}">
+                <h3 class="quiz-groupe-titre">
+                    <span class="quiz-groupe-nom">{{ @groupe.libelle | esc }}</span>
+                    <span class="quiz-groupe-compte">{{ @groupe.libelle_questions | esc }}</span>
+                </h3>
+
+                <repeat group="{{ @groupe.questions }}" value="{{ @question }}">
+                    <div class="dash-card dash-quiz-card">
+                        <div class="dash-card-head">
+                            <div>
+                                <span class="dash-badge">{{ @question.quiz_titre | esc }}</span>
+                                <span class="dash-badge">niveau de la question : {{ @question.difficulte_libelle | esc }}</span>
+                                <span class="dash-badge">{{ @question.nb_propositions }} propositions</span>
+                            </div>
+                            <div class="dash-card-actions">
+                                <a class="dash-btn small secondary" target="_blank"
+                                   href="/quiz/jouer/{{ @question.categorie }}/{{ @question.niveau }}">Voir</a>
+                                <form method="POST" action="/dashboard/quiz/delete/{{ @question.id }}"
+                                      onsubmit="return confirm('Supprimer définitivement cette question ?');">
+                                    <input type="hidden" name="csrf_token" value="{{ @csrfToken }}">
+                                    <button type="submit" class="dash-btn small danger">Supprimer</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <p class="dash-card-title">{{ @question.question | esc }}</p>
+                        <p class="dash-muted">{{ @question.resume_propositions | esc }}</p>
+                        <check if="{{ @question.explication }}">
+                            <p class="dash-muted">💡 {{ @question.explication | esc }}</p>
+                        </check>
+
+                        <details class="dash-edit">
+                            <summary>Modifier</summary>
+                            <form method="POST" action="/dashboard/quiz/update/{{ @question.id }}" class="dash-form">
+                                <input type="hidden" name="csrf_token" value="{{ @csrfToken }}">
+                                <input type="hidden" name="categorie" value="{{ @question.categorie | esc }}">
+
+                                <div>
+                                    <label>Catégorie</label>
+                                    <input type="text" name="libelle_categorie" value="{{ @question.libelle_categorie | esc }}"
+                                           maxlength="100" required list="quiz-categories">
+                                </div>
+
+                                <div>
+                                    <label>Niveau du quiz</label>
+                                    <select name="niveau" required>
+                                        <repeat group="{{ @quiz_niveaux }}" value="{{ @niveau }}">
+                                            <option value="{{ @niveau.valeur | esc }}"{{ @niveau.valeur == @question.niveau ? ' selected' : '' }}>
+                                                {{ @niveau.libelle | esc }}
+                                            </option>
+                                        </repeat>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label>Niveau de la question</label>
+                                    <select name="difficulte" required>
+                                        <repeat group="{{ @quiz_difficultes }}" value="{{ @niveau }}">
+                                            <option value="{{ @niveau.valeur | esc }}"{{ @niveau.valeur == @question.difficulte ? ' selected' : '' }}>
+                                                {{ @niveau.libelle | esc }}
+                                            </option>
+                                        </repeat>
+                                    </select>
+                                </div>
+
+                                <div class="dash-form-wide">
+                                    <label>Énoncé</label>
+                                    <textarea name="question" rows="2" required>{{ @question.question | esc }}</textarea>
+                                </div>
+
+                                <div>
+                                    <label>Nombre de propositions</label>
+                                    <select class="js-nb-props" data-cible="props-{{ @question.id }}" required>
+                                        <repeat group="{{ @quiz_nombres_propositions }}" value="{{ @nb }}">
+                                            <option value="{{ @nb.valeur }}"{{ @nb.valeur == @question.nb_propositions ? ' selected' : '' }}>
+                                                {{ @nb.libelle | esc }}
+                                            </option>
+                                        </repeat>
+                                    </select>
+                                </div>
+
+                                <div class="dash-form-wide">
+                                    <span class="dash-label">Propositions (coche la bonne réponse)</span>
+                                    <div class="quiz-props" id="props-{{ @question.id }}">
+                                        <repeat group="{{ @question.propositions_affichees }}" value="{{ @prop }}">
+                                            <div class="quiz-prop">
+                                                <label class="quiz-prop-reponse" title="Cocher si c'est la bonne réponse">
+                                                    <input type="radio" name="correct" value="{{ @prop.index }}"
+                                                           {{ @prop.correct ? ' checked' : '' }}
+                                                           {{ @prop.lettre == 'A' ? ' required' : '' }}>
+                                                    <span>{{ @prop.lettre }}</span>
+                                                </label>
+                                                <input type="text" name="propositions[]" value="{{ @prop.libelle | esc }}"
+                                                       maxlength="255" aria-label="Proposition {{ @prop.lettre }}">
+                                            </div>
+                                        </repeat>
+                                    </div>
+                                </div>
+
+                                <div class="dash-form-wide">
+                                    <label>Explication (facultatif)</label>
+                                    <textarea name="explication" rows="2" maxlength="500">{{ @question.explication | esc }}</textarea>
+                                </div>
+
+                                <div class="dash-form-wide dash-actions">
+                                    <button type="submit" class="dash-btn small">Enregistrer</button>
+                                </div>
+                                </form>
+                            </details>
+                    </div>
+                </repeat>
+            </section>
+        </repeat>
+
+        <check if="{{ count(@quiz_questions) == 0 }}">
+            <p class="dash-muted">Aucune question ne correspond à ce filtre.</p>
+        </check>
+    </div>
+</div>

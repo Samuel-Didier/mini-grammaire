@@ -1,113 +1,97 @@
 /**
- * GESTION DU QUIZ ET DU TEST DE NIVEAU
- * Ce script gère l'affichage des questions, la progression,
- * le calcul du score et l'envoi des résultats au serveur.
+ * GESTION DU JEU DES QUIZ
+ * Ce script charge les questions depuis l'API (/api/quiz/questions), affiche les
+ * propositions, puis calcule le score. Les questions ne sont plus écrites ici :
+ * elles sont gérées depuis le tableau de bord (/dashboard/quiz).
+ *
+ * La page décrit le quiz à jouer avec les attributs data-* de #level-test :
+ *   data-categorie : slug de la catégorie (ex : grammaire)
+ *   data-niveau    : niveau du quiz (a1, a2, b1, b2, c1, c2 ou tous)
+ *   data-test      : 1 pour le test de niveau (le résultat détermine un niveau CECRL)
  */
 
 // ==========================================
 // DONNÉES DU QUIZ
 // ==========================================
 
-// Questions pour le test de niveau initial
-const levelTestQuestions = [
-    // A1 Level (Questions 1-2)
-    {
-        level: 'a1',
-        question: "Comment dit-on 'Hello' en français ?",
-        options: ["Bonjour", "Au revoir", "Merci", "Bonsoir"],
-        correct: 0
-    },
-    {
-        level: 'a1',
-        question: "Complètez : 'Je ___ français.'",
-        options: ["suis", "es", "sommes", "êtes"],
-        correct: 0
-    },
-    // A2 Level (Questions 3-4)
-    {
-        level: 'a2',
-        question: "Quel temps fait-il ? 'Il ___ beaucoup.'",
-        options: ["fait", "fait beau", "pleut", "y a"],
-        correct: 2
-    },
-    {
-        level: 'a2',
-        question: "Complétez : 'Nous ___ aller au cinéma ce soir.'",
-        options: ["allons", "aller", "allez", "va"],
-        correct: 0
-    },
-    // B1 Level (Questions 5-6)
-    {
-        level: 'b1',
-        question: "Complétez : 'Si tu ___ riche, tu voyagerais.'",
-        options: ["es", "serais", "étais", "seras"],
-        correct: 2
-    },
-    {
-        level: 'b1',
-        question: "Quel est le participe passé de 'finir' ?",
-        options: ["finissant", "fini", "finie", "finirez"],
-        correct: 1
-    },
-    // B2 Level (Questions 7-8)
-    {
-        level: 'b2',
-        question: "Choisissez le subjonctif : 'Il faut que tu ___ ton travail.'",
-        options: ["fais", "fasses", "fait", "faire"],
-        correct: 1
-    },
-    {
-        level: 'b2',
-        question: "Identifiez le mode verbal : 'Pourvu qu'il vienne!'",
-        options: ["Indicatif", "Subjonctif", "Conditionnel", "Impératif"],
-        correct: 1
-    },
-    // C1 Level (Questions 9-10)
-    {
-        level: 'c1',
-        question: "Identifiez la figure de style : 'La nuit, les chats sont gris.'",
-        options: ["Métaphore", "Personnification", "Oxymore", "Euphémisme"],
-        correct: 2
-    },
-    {
-        level: 'c1',
-        question: "Choisissez le bon registre : 'Je t'aime' (registre littéraire)",
-        options: ["Je t'affectionne", "Je t'adore", "Mon cœur palpite pour toi", "Je te suis attaché"],
-        correct: 2
-    }
-];
-
-// ==========================================
-// ÉTAT DE L'APPLICATION
-// ==========================================
 let currentQuestion = 0;
 let answers = [];
 let startTime = null;
+let quizQuestions = [];
+let quizTest = false;
+let quizLabel = 'ce quiz';
 
-// Éléments du DOM
+// ==========================================
+// ÉLÉMENTS DU DOM
+// ==========================================
+
 const levelTest = document.getElementById('level-test');
 const questionsContainer = document.getElementById('questions-container');
 const progressFill = document.getElementById('progress-fill');
 const progressText = document.getElementById('progress-text');
 const nextBtn = document.getElementById('next-btn');
 const results = document.getElementById('results');
-
-// ==========================================
-// FONCTIONS PRINCIPALES
-// ==========================================
+const quizLoading = document.getElementById('quiz-loading');
+const quizError = document.getElementById('quiz-error');
+const quizErrorMessage = document.getElementById('quiz-error-message');
+const quizRecap = document.getElementById('quiz-recap');
+const resultsPrimary = document.getElementById('results-primary');
 
 /**
- * Initialise le quiz si les éléments sont présents sur la page.
+ * Affiche un message à la place du quiz (quiz vide, erreur réseau, non connecté).
+ * @param {string} message Message affiché à l'utilisateur.
  */
-function initQuiz() {
-    if (!levelTest) return; // Ne rien faire si on n'est pas sur la page du quiz
+function showQuizError(message) {
+    if (quizLoading) quizLoading.classList.add('hidden');
+    if (questionsContainer) questionsContainer.innerHTML = '';
+    if (nextBtn) nextBtn.disabled = true;
+    if (!quizError) return;
+    quizErrorMessage.textContent = message;
+    quizError.classList.remove('hidden');
+}
+
+/**
+ * Demande les questions du quiz à l'API puis lance le jeu.
+ */
+function loadQuestions() {
+    const categorie = levelTest.dataset.categorie;
+    const niveau = levelTest.dataset.niveau;
+    quizTest = levelTest.dataset.test === '1';
+
+    const url = `/api/quiz/questions?categorie=${encodeURIComponent(categorie)}&niveau=${encodeURIComponent(niveau)}`;
+
+    fetch(url, { headers: { 'Accept': 'application/json' } })
+        .then(response => response.json()
+            .catch(() => ({ success: false, message: 'Réponse illisible du serveur (' + response.status + ').' })))
+        .then(data => {
+            if (!data.success) {
+                showQuizError(data.message || 'Impossible de charger ce quiz.');
+                return;
+            }
+            if (!data.questions || data.questions.length === 0) {
+                showQuizError('Ce quiz ne contient aucune question pour le moment.');
+                return;
+            }
+
+            quizQuestions = data.questions;
+            quizLabel = data.quiz || 'ce quiz';
+            startQuiz();
+        })
+        .catch(() => showQuizError('Erreur de communication avec le serveur.'));
+}
+
+/**
+ * Initialise le jeu une fois les questions chargées.
+ */
+function startQuiz() {
+    if (quizLoading) quizLoading.classList.add('hidden');
 
     startTime = Date.now();
-    answers = new Array(levelTestQuestions.length).fill(null);
+    answers = new Array(quizQuestions.length).fill(null);
     showQuestion();
 
     nextBtn.addEventListener('click', () => {
-        if (currentQuestion < levelTestQuestions.length - 1) {
+        if (currentQuestion < quizQuestions.length - 1) {
             currentQuestion++;
             showQuestion();
             nextBtn.disabled = true;
@@ -118,24 +102,35 @@ function initQuiz() {
 }
 
 /**
- * Affiche la question actuelle et ses options.
+ * Échappe un texte avant de l'injecter en HTML.
+ * @param {string} texte Texte à afficher.
+ * @returns {string}
+ */
+function escapeHtml(texte) {
+    const div = document.createElement('div');
+    div.textContent = texte == null ? '' : String(texte);
+    return div.innerHTML;
+}
+
+/**
+ * Affiche la question actuelle et ses propositions.
  */
 function showQuestion() {
-    const q = levelTestQuestions[currentQuestion];
-    const letters = ['A', 'B', 'C', 'D'];
+    const q = quizQuestions[currentQuestion];
+    const lettres = ['A', 'B', 'C', 'D', 'E', 'F'];
 
     let html = `
         <div class="question-container active">
             <div class="question-number">Question ${currentQuestion + 1}</div>
-            <div class="question-text">${q.question}</div>
+            <div class="question-text">${escapeHtml(q.question)}</div>
             <div class="options">
     `;
 
     q.options.forEach((option, index) => {
         html += `
             <div class="option" data-index="${index}" onclick="selectOption(${index})">
-                <span class="option-letter">${letters[index]}</span>
-                <span>${option}</span>
+                <span class="option-letter">${lettres[index]}</span>
+                <span>${escapeHtml(option)}</span>
             </div>
         `;
     });
@@ -149,9 +144,9 @@ function showQuestion() {
  * Met à jour la barre de progression visuelle.
  */
 function updateProgress() {
-    const progress = ((currentQuestion + 1) / levelTestQuestions.length) * 100;
-    progressFill.style.width = `${progress}%`;
-    progressText.textContent = `Question ${currentQuestion + 1} sur ${levelTestQuestions.length}`;
+    const total = quizQuestions.length;
+    progressFill.style.width = `${((currentQuestion + 1) / total) * 100}%`;
+    progressText.textContent = `Question ${currentQuestion + 1} sur ${total}`;
 }
 
 /**
@@ -167,6 +162,51 @@ function selectOption(index) {
 }
 
 /**
+ * Détermine le niveau CECRL à partir du nombre de bonnes réponses par niveau.
+ * Utilisé uniquement par le test de niveau.
+ * @param {object} scores Répartition des bonnes réponses par niveau.
+ * @returns {string} Niveau déterminé (ex : 'B1').
+ */
+function determineLevel(scores) {
+    const maxScore = Math.max(...Object.values(scores));
+    const niveaux = ['c1', 'b2', 'b1', 'a2'];
+
+    for (const niveau of niveaux) {
+        if ((scores[niveau] || 0) >= 2 && maxScore >= scores[niveau]) {
+            return niveau.toUpperCase();
+        }
+    }
+    return 'A1';
+}
+
+/**
+ * Construit le récapitulatif question par question.
+ * @param {number} correctCount Nombre total de bonnes réponses.
+ * @returns {string} HTML du récapitulatif.
+ */
+function buildRecap(correctCount) {
+    let html = '<div class="recap"><h3>📝 Tes réponses</h3>';
+
+    quizQuestions.forEach((q, i) => {
+        const choisi = answers[i];
+        const juste = choisi === q.correct;
+        const bonne = q.options[q.correct];
+
+        html += `
+            <div class="recap-item ${juste ? 'ok' : 'ko'}">
+                <div class="recap-question">${i + 1}. ${escapeHtml(q.question)}</div>
+                <div class="recap-reponse">Ta réponse : ${choisi === null || choisi === undefined ? 'aucune' : escapeHtml(q.options[choisi])}</div>
+                <div class="recap-bonne">Bonne réponse : ${escapeHtml(bonne)}</div>
+                ${q.explication ? `<div class="recap-explication">💡 ${escapeHtml(q.explication)}</div>` : ''}
+            </div>
+        `;
+    });
+
+    html += `</div>`;
+    return html;
+}
+
+/**
  * Calcule les résultats, affiche le résumé et prépare l'envoi au serveur.
  */
 function showResults() {
@@ -174,53 +214,53 @@ function showResults() {
     const timeTaken = Math.round((endTime - startTime) / 1000);
 
     let correctCount = 0;
-    let levelScores = { a1: 0, a2: 0, b1: 0, b2: 0, c1: 0 };
+    const scores = {};
 
-    levelTestQuestions.forEach((q, i) => {
+    quizQuestions.forEach((q, i) => {
         if (answers[i] === q.correct) {
             correctCount++;
-            levelScores[q.level]++;
+            scores[q.level] = (scores[q.level] || 0) + 1;
         }
     });
 
-    // Algorithme de détermination du niveau
-    let determinedLevel = 'A1';
-    const maxScore = Math.max(...Object.values(levelScores));
+    const total = quizQuestions.length;
+    const niveau = quizTest ? determineLevel(scores) : null;
 
-    if (levelScores.c1 >= 2 && maxScore >= levelScores.c1) determinedLevel = 'C1';
-    else if (levelScores.b2 >= 2 && maxScore >= levelScores.b2) determinedLevel = 'B2';
-    else if (levelScores.b1 >= 2 && maxScore >= levelScores.b1) determinedLevel = 'B1';
-    else if (levelScores.a2 >= 2 && maxScore >= levelScores.a2) determinedLevel = 'A2';
-
-    const questions = levelTestQuestions.length;
-
-    // Afficher les résultats à l'utilisateur
-    document.getElementById('result-level').textContent = `Niveau ${determinedLevel}`;
-    document.getElementById('result-score').textContent = `Tu as obtenu ${correctCount}/${questions}`;
-    document.getElementById('total-answered').textContent = questions;
+    document.getElementById('result-score').textContent = `Tu as obtenu ${correctCount}/${total}`;
+    document.getElementById('total-answered').textContent = total;
     document.getElementById('correct-count').textContent = correctCount;
     document.getElementById('total-time').textContent = timeTaken;
-    document.getElementById('determined-level').textContent = determinedLevel;
 
-    // Modifier le bouton pour enregistrer et continuer
-    const resultsButton = document.querySelector('#results .btn-primary');
-    resultsButton.textContent = 'Enregistrer et voir les quiz';
-    resultsButton.onclick = () => saveAndContinue(determinedLevel, correctCount);
+    if (quizTest) {
+        document.getElementById('result-level').textContent = `Niveau ${niveau}`;
+        document.getElementById('result-level').classList.remove('hidden');
+        document.getElementById('determined-level').textContent = niveau;
+        document.getElementById('determined-level-row').classList.remove('hidden');
+        resultsPrimary.textContent = 'Enregistrer et voir les quiz';
+        resultsPrimary.onclick = () => saveAndContinue(niveau, correctCount);
+    } else {
+        document.getElementById('result-level').classList.add('hidden');
+        document.getElementById('determined-level-row').classList.add('hidden');
+        resultsPrimary.textContent = 'Voir les quiz';
+        resultsPrimary.onclick = () => { window.location.href = '/quiz'; };
+    }
+
+    quizRecap.innerHTML = buildRecap(correctCount);
 
     levelTest.classList.add('hidden');
     results.classList.remove('hidden');
     results.classList.add('active');
+    results.scrollIntoView({ behavior: 'smooth' });
 }
 
 /**
- * Envoie les résultats au serveur via AJAX et redirige l'utilisateur.
- * @param {string} level - Le niveau déterminé (ex: 'B1').
+ * Envoie le résultat du test de niveau au serveur via AJAX.
+ * @param {string} level - Le niveau déterminé (ex : 'B1').
  * @param {number} score - Le nombre de bonnes réponses.
  */
 function saveAndContinue(level, score) {
-    const resultsButton = document.querySelector('#results .btn-primary');
-    resultsButton.disabled = true;
-    resultsButton.textContent = 'Enregistrement...';
+    resultsPrimary.disabled = true;
+    resultsPrimary.textContent = 'Enregistrement...';
 
     fetch('/quiz/save-level', {
         method: 'POST',
@@ -232,21 +272,22 @@ function saveAndContinue(level, score) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Redirection vers la page des quiz
             window.location.href = '/quiz';
         } else {
             alert(data.message || 'Une erreur est survenue.');
-            resultsButton.disabled = false;
-            resultsButton.textContent = 'Enregistrer et voir les quiz';
+            resultsPrimary.disabled = false;
+            resultsPrimary.textContent = 'Enregistrer et voir les quiz';
         }
     })
-    .catch(error => {
-        console.error('Erreur:', error);
+    .catch(() => {
         alert('Erreur de communication avec le serveur.');
-        resultsButton.disabled = false;
-        resultsButton.textContent = 'Enregistrer et voir les quiz';
+        resultsPrimary.disabled = false;
+        resultsPrimary.textContent = 'Enregistrer et voir les quiz';
     });
 }
 
 // Lancement au chargement de la page
-document.addEventListener('DOMContentLoaded', initQuiz);
+document.addEventListener('DOMContentLoaded', () => {
+    if (!levelTest) return; // Ne rien faire si on n'est pas sur la page d'un quiz
+    loadQuestions();
+});
